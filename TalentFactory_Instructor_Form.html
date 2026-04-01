@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talent Factory — Instructor Application</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --black: #0A0A0A;
+      --off: #F0F5F2;
+      --warm: #E4EDE8;
+      --green: #1B4D3E;
+      --green-l: #2A7A5E;
+      --green-pale: #E8F5EF;
+      --gold: #D4A017;
+      --gold-l: #F0C040;
+      --muted: #5A6B62;
+      --white: #fff;
+      --red: #C0392B;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--off);
+      color: var(--black);
+      min-height: 100vh
+    }
+
+    .topbar {
+      background: var(--green);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none
+    }
+
+    .logo-box {
+      width: 30px;
+      height: 30px;
+      background: var(--gold);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--black)
+    }
+
+    .logo-name {
+      font-family: 'Fraunces', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--white)
+    }
+
+    .logo-name span {
+      color: var(--gold)
+    }
+
+    .back-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.45);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .back-link:hover {
+      color: var(--gold)
+    }
+
+    .form-hero {
+      background: var(--green);
+      padding: 60px 40px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: var(--off);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .fh-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(212, 160, 23, 0.8);
+      margin-bottom: 14px
+    }
+
+    .fh-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 16px
+    }
+
+    .fh-title em {
+      font-style: italic;
+      color: var(--gold)
+    }
+
+    .fh-sub {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.55);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.7
+    }
+
+    .progress-wrap {
+      max-width: 680px;
+      margin: 48px auto 0;
+      padding: 0 20px
+    }
+
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 10px
+    }
+
+    .ps {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      position: relative
+    }
+
+    .ps-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.35);
+      transition: all .4s;
+      z-index: 2
+    }
+
+    .ps.done .ps-dot {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--black)
+    }
+
+    .ps.active .ps-dot {
+      background: var(--white);
+      border-color: var(--white);
+      color: var(--green)
+    }
+
+    .ps-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: rgba(255, 255, 255, 0.25);
+      margin-top: 8px;
+      text-align: center
+    }
+
+    .ps.done .ps-label,
+    .ps.active .ps-label {
+      color: rgba(255, 255, 255, 0.65)
+    }
+
+    .ps-line {
+      flex: 1;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.1);
+      margin-top: -18px;
+      transition: background .4s
+    }
+
+    .ps-line.done {
+      background: var(--gold)
+    }
+
+    .form-shell {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 20px 80px
+    }
+
+    .form-section {
+      display: none;
+      animation: fadeIn .4s ease
+    }
+
+    .form-section.active {
+      display: block
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .section-header {
+      margin-bottom: 36px
+    }
+
+    .section-num {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--green-l);
+      margin-bottom: 10px
+    }
+
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 8px
+    }
+
+    .section-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--muted)
+    }
+
+    .field {
+      margin-bottom: 28px
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 8px;
+      letter-spacing: 0.2px
+    }
+
+    .field label .req {
+      color: var(--green-l);
+      margin-left: 2px
+    }
+
+    .field .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 400
+    }
+
+    input[type=text],
+    input[type=email],
+    input[type=tel],
+    input[type=url],
+    input[type=number],
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 6px;
+      border: 2px solid rgba(10, 10, 10, 0.1);
+      background: var(--white);
+      font-size: 14px;
+      font-family: 'Syne', sans-serif;
+      color: var(--black);
+      outline: none;
+      transition: border .2s, box-shadow .2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--green-l);
+      box-shadow: 0 0 0 4px rgba(42, 122, 94, 0.1);
+      appearance: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.6
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A6B62' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 44px;
+      cursor: pointer
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px
+    }
+
+    .opts {
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .opts.inline {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .opt-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 2px solid rgba(10, 10, 10, 0.08);
+      background: var(--white);
+      cursor: pointer;
+      transition: all .2s;
+      user-select: none
+    }
+
+    .opt-item:hover {
+      border-color: rgba(42, 122, 94, 0.35);
+      background: var(--green-pale)
+    }
+
+    .opt-item.selected {
+      border-color: var(--green-l);
+      background: var(--green-pale)
+    }
+
+    .opt-item input[type=radio],
+    .opt-item input[type=checkbox] {
+      display: none
+    }
+
+    .opt-circle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(10, 10, 10, 0.2);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s
+    }
+
+    .opt-item.selected .opt-circle {
+      background: var(--green-l);
+      border-color: var(--green-l)
+    }
+
+    .opt-circle::after {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--white);
+      opacity: 0;
+      transition: opacity .2s
+    }
+
+    .opt-item.selected .opt-circle::after {
+      opacity: 1
+    }
+
+    .opt-sq {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 2px solid rgba(10, 10, 10, 0.2);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s
+    }
+
+    .opt-item.selected .opt-sq {
+      background: var(--green-l);
+      border-color: var(--green-l)
+    }
+
+    .opt-sq::after {
+      content: '✓';
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--white);
+      opacity: 0;
+      transition: opacity .2s
+    }
+
+    .opt-item.selected .opt-sq::after {
+      opacity: 1
+    }
+
+    .opt-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--black);
+      line-height: 1.4
+    }
+
+    .opt-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px
+    }
+
+    .rating-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .rating-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      border: 2px solid rgba(10, 10, 10, 0.1);
+      background: var(--white);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .rating-btn:hover {
+      border-color: var(--green-l);
+      color: var(--green-l)
+    }
+
+    .rating-btn.sel {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--white)
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(10, 10, 10, 0.08);
+      margin: 36px 0
+    }
+
+    .highlight-box {
+      background: var(--green-pale);
+      border: 1.5px solid rgba(42, 122, 94, 0.25);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 28px
+    }
+
+    .highlight-box p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--green);
+      font-weight: 500
+    }
+
+    .highlight-box strong {
+      font-weight: 700
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      gap: 16px
+    }
+
+    .btn-back {
+      padding: 14px 28px;
+      border: 2px solid rgba(10, 10, 10, 0.15);
+      border-radius: 6px;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .btn-back:hover {
+      border-color: var(--black);
+      color: var(--black)
+    }
+
+    .btn-next {
+      padding: 14px 36px;
+      border: none;
+      border-radius: 6px;
+      background: var(--green);
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      color: var(--white);
+      cursor: pointer;
+      transition: all .2s;
+      margin-left: auto
+    }
+
+    .btn-next:hover {
+      background: var(--green-l);
+      transform: translateY(-2px)
+    }
+
+    .btn-submit {
+      padding: 16px 48px;
+      border: none;
+      border-radius: 6px;
+      background: var(--gold);
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      color: var(--black);
+      cursor: pointer;
+      transition: all .2s;
+      margin-left: auto
+    }
+
+    .btn-submit:hover {
+      background: var(--gold-l);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(212, 160, 23, 0.35)
+    }
+
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 80px 20px
+    }
+
+    .success-screen.active {
+      display: block;
+      animation: fadeIn .5s ease
+    }
+
+    .success-icon {
+      font-size: 72px;
+      margin-bottom: 24px
+    }
+
+    .success-h {
+      font-family: 'Fraunces', serif;
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 16px
+    }
+
+    .success-h em {
+      font-style: italic;
+      color: var(--green-l)
+    }
+
+    .success-p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto 36px
+    }
+
+    .success-note {
+      display: inline-block;
+      padding: 14px 24px;
+      background: var(--green-pale);
+      border: 1.5px solid rgba(42, 122, 94, 0.3);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green)
+    }
+
+    .err-msg {
+      font-size: 12px;
+      color: var(--red);
+      margin-top: 6px;
+      font-weight: 600;
+      display: none
+    }
+
+    .err-msg.show {
+      display: block
+    }
+
+    @media(max-width:600px) {
+      .field-row {
+        grid-template-columns: 1fr
+      }
+
+      .topbar {
+        padding: 14px 20px
+      }
+
+      .form-hero {
+        padding: 40px 20px 70px
+      }
+
+      .form-shell {
+        padding: 36px 16px 60px
+      }
+
+      .btn-row {
+        flex-wrap: wrap
+      }
+
+      .btn-back,
+      .btn-next,
+      .btn-submit {
+        width: 100%;
+        text-align: center;
+        margin-left: 0
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <a href="index.html" class="logo">
+      <div class="logo-box">TF</div>
+      <div class="logo-name">Talent<span>Factory</span></div>
+    </a>
+    <a href="index.html" class="back-link">← Back to website</a>
+  </div>
+
+  <div class="form-hero">
+    <div class="fh-eyebrow">Instructor Applications — Cohort 1</div>
+    <h1 class="fh-title">Teach at Talent <em>Factory</em></h1>
+    <p class="fh-sub">We're looking for Nigeria's finest HR practitioners to shape the next generation. If you have the
+      experience, the passion, and the desire to teach — we want to hear from you.</p>
+
+    <div class="progress-wrap">
+      <div class="progress-steps">
+        <div class="ps active" id="ps1">
+          <div class="ps-dot">1</div>
+          <div class="ps-label">Profile</div>
+        </div>
+        <div class="ps-line" id="pl1"></div>
+        <div class="ps" id="ps2">
+          <div class="ps-dot">2</div>
+          <div class="ps-label">Experience</div>
+        </div>
+        <div class="ps-line" id="pl2"></div>
+        <div class="ps" id="ps3">
+          <div class="ps-dot">3</div>
+          <div class="ps-label">Teaching</div>
+        </div>
+        <div class="ps-line" id="pl3"></div>
+        <div class="ps" id="ps4">
+          <div class="ps-dot">4</div>
+          <div class="ps-label">Availability</div>
+        </div>
+        <div class="ps-line" id="pl4"></div>
+        <div class="ps" id="ps5">
+          <div class="ps-dot">5</div>
+          <div class="ps-label">Final</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-shell">
+
+    <!-- SECTION 1: PERSONAL PROFILE -->
+    <div class="form-section active" id="sec1">
+      <div class="section-header">
+        <div class="section-num">Section 1 of 5</div>
+        <div class="section-title">Your Professional Profile</div>
+        <div class="section-desc">Start with the basics. This is what we'll use to build your instructor profile on the
+          Talent Factory platform.</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="firstName" placeholder="e.g. Chidi" />
+          <div class="err-msg" id="err-firstName">Please enter your first name.</div>
+        </div>
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="lastName" placeholder="e.g. Nwosu" />
+          <div class="err-msg" id="err-lastName">Please enter your last name.</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email Address <span class="req">*</span></label>
+        <div class="hint">We'll use this for all communications and payment processing.</div>
+        <input type="email" id="email" placeholder="e.g. chidi@company.com" />
+        <div class="err-msg" id="err-email">Please enter a valid email address.</div>
+      </div>
+
+      <div class="field">
+        <label>Phone Number <span class="req">*</span></label>
+        <input type="tel" id="phone" placeholder="+234 810 000 0000" />
+        <div class="err-msg" id="err-phone">Please enter your phone number.</div>
+      </div>
+
+      <div class="field">
+        <label>Professional Title / Designation <span class="req">*</span></label>
+        <div class="hint">As it appears on your LinkedIn or email signature.</div>
+        <input type="text" id="proTitle" placeholder="e.g. Head of People, Flutterwave" />
+        <div class="err-msg" id="err-proTitle">Please enter your professional title.</div>
+      </div>
+
+      <div class="field">
+        <label>Current Employer / Organisation <span class="req">*</span></label>
+        <input type="text" id="employer" placeholder="e.g. Kuda Bank, Deloitte Nigeria, MTN Nigeria" />
+        <div class="err-msg" id="err-employer">Please enter your current employer.</div>
+      </div>
+
+      <div class="field">
+        <label>Industry / Sector <span class="req">*</span></label>
+        <select id="industry">
+          <option value="">Select your industry</option>
+          <option>Banking & Financial Services</option>
+          <option>Fintech</option>
+          <option>Technology / Software</option>
+          <option>eCommerce / Retail</option>
+          <option>FMCG / Consumer Goods</option>
+          <option>Oil & Gas / Energy</option>
+          <option>Healthcare / Pharmaceuticals</option>
+          <option>Consulting / Professional Services</option>
+          <option>Telecommunications</option>
+          <option>Education / EdTech</option>
+          <option>Media & Entertainment</option>
+          <option>Government / Public Sector</option>
+          <option>NGO / Non-profit</option>
+          <option>Real Estate</option>
+          <option>Manufacturing</option>
+          <option>Legal</option>
+          <option>Logistics & Supply Chain</option>
+          <option>Other</option>
+        </select>
+        <div class="err-msg" id="err-industry">Please select your industry.</div>
+      </div>
+
+      <div class="field">
+        <label>LinkedIn Profile URL <span class="req">*</span></label>
+        <div class="hint">Required — we use this to verify your professional background before reviewing your
+          application.</div>
+        <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourname" />
+        <div class="err-msg" id="err-linkedin">Please enter your LinkedIn profile URL.</div>
+      </div>
+
+      <div class="field">
+        <label>State / Location <span class="req">*</span></label>
+        <select id="state">
+          <option value="">Select your state</option>
+          <option>FCT — Abuja</option>
+          <option>Lagos</option>
+          <option>Rivers</option>
+          <option>Oyo</option>
+          <option>Kano</option>
+          <option>Kaduna</option>
+          <option>Delta</option>
+          <option>Ogun</option>
+          <option>Enugu</option>
+          <option>Anambra</option>
+          <option>Edo</option>
+          <option>Imo</option>
+          <option>Abia</option>
+          <option>Adamawa</option>
+          <option>Akwa Ibom</option>
+          <option>Bauchi</option>
+          <option>Bayelsa</option>
+          <option>Benue</option>
+          <option>Borno</option>
+          <option>Cross River</option>
+          <option>Ebonyi</option>
+          <option>Ekiti</option>
+          <option>Gombe</option>
+          <option>Jigawa</option>
+          <option>Katsina</option>
+          <option>Kebbi</option>
+          <option>Kogi</option>
+          <option>Kwara</option>
+          <option>Nasarawa</option>
+          <option>Niger</option>
+          <option>Ondo</option>
+          <option>Osun</option>
+          <option>Plateau</option>
+          <option>Sokoto</option>
+          <option>Taraba</option>
+          <option>Yobe</option>
+          <option>Zamfara</option>
+          <option>Outside Nigeria</option>
+        </select>
+        <div class="err-msg" id="err-state">Please select your state.</div>
+      </div>
+
+      <div class="field">
+        <label>How did you hear about Talent Factory? <span class="req">*</span></label>
+        <select id="referral">
+          <option value="">Select one</option>
+          <option>LinkedIn</option>
+          <option>Instagram</option>
+          <option>A colleague or friend</option>
+          <option>Invitation from Talent Factory team</option>
+          <option>WhatsApp (forwarded)</option>
+          <option>Event or webinar</option>
+          <option>Other</option>
+        </select>
+        <div class="err-msg" id="err-referral">Please select how you heard about us.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-next" onclick="goTo(2)">Next: Your Experience →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 2: PROFESSIONAL EXPERIENCE -->
+    <div class="form-section" id="sec2">
+      <div class="section-header">
+        <div class="section-num">Section 2 of 5</div>
+        <div class="section-title">Professional Experience</div>
+        <div class="section-desc">We require a minimum of 7 years of active HR or senior business experience. Help us
+          understand the depth and breadth of your career.</div>
+      </div>
+
+      <div class="field">
+        <label>Total Years of Professional Experience <span class="req">*</span></label>
+        <div class="opts inline" id="totalYears">
+          <div class="opt-item" data-val="5–7 years"><input type="radio" name="tyrs" />
+            <div class="opt-circle"></div><span class="opt-text">5–7 years</span>
+          </div>
+          <div class="opt-item" data-val="8–10 years"><input type="radio" name="tyrs" />
+            <div class="opt-circle"></div><span class="opt-text">8–10 years</span>
+          </div>
+          <div class="opt-item" data-val="11–15 years"><input type="radio" name="tyrs" />
+            <div class="opt-circle"></div><span class="opt-text">11–15 years</span>
+          </div>
+          <div class="opt-item" data-val="15+ years"><input type="radio" name="tyrs" />
+            <div class="opt-circle"></div><span class="opt-text">15+ years</span>
+          </div>
+        </div>
+        <div class="err-msg" id="err-totalYears">Please select your years of experience.</div>
+      </div>
+
+      <div class="field">
+        <label>Total Years Specifically in HR <span class="req">*</span></label>
+        <div class="opts inline" id="hrYears">
+          <div class="opt-item" data-val="3–5 years HR"><input type="radio" name="hryrs" />
+            <div class="opt-circle"></div><span class="opt-text">3–5 years</span>
+          </div>
+          <div class="opt-item" data-val="6–8 years HR"><input type="radio" name="hryrs" />
+            <div class="opt-circle"></div><span class="opt-text">6–8 years</span>
+          </div>
+          <div class="opt-item" data-val="9–12 years HR"><input type="radio" name="hryrs" />
+            <div class="opt-circle"></div><span class="opt-text">9–12 years</span>
+          </div>
+          <div class="opt-item" data-val="12+ years HR"><input type="radio" name="hryrs" />
+            <div class="opt-circle"></div><span class="opt-text">12+ years</span>
+          </div>
+          <div class="opt-item" data-val="Not HR-specific but relevant"><input type="radio" name="hryrs" />
+            <div class="opt-circle"></div><span class="opt-text">Not HR-specific but highly relevant</span>
+          </div>
+        </div>
+        <div class="err-msg" id="err-hrYears">Please select your HR-specific experience.</div>
+      </div>
+
+      <div class="field">
+        <label>Seniority Level of Your Current Role <span class="req">*</span></label>
+        <div class="opts" id="seniority">
+          <div class="opt-item" data-val="Senior Manager"><input type="radio" name="sen" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Senior Manager</span>
+              <div class="opt-sub">e.g. Senior HR Manager, Senior HRBP</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="Head of Department"><input type="radio" name="sen" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Head of Department / Function</span>
+              <div class="opt-sub">e.g. Head of HR, Head of Talent, Head of People</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="Director"><input type="radio" name="sen" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Director</span>
+              <div class="opt-sub">e.g. HR Director, People Director</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="VP / Chief People Officer"><input type="radio" name="sen" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">VP / Chief People Officer / CHRO</span></div>
+          </div>
+          <div class="opt-item" data-val="C-Suite (CEO/COO/MD)"><input type="radio" name="sen" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">C-Suite (CEO / COO / MD)</span></div>
+          </div>
+          <div class="opt-item" data-val="Consultant / Independent Practitioner"><input type="radio" name="sen" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Consultant / Independent HR Practitioner</span></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-seniority">Please select your seniority level.</div>
+      </div>
+
+      <div class="field">
+        <label>List up to 3 notable organisations you've worked at <span class="req">*</span></label>
+        <div class="hint">Include your most recognisable employers — this helps students connect with your credibility.
+        </div>
+        <textarea id="notableOrgs"
+          placeholder="e.g.&#10;1. Flutterwave — Head of People (2021–2023)&#10;2. Access Bank — Senior HR Business Partner (2018–2021)&#10;3. PwC Nigeria — HR Consultant (2015–2018)"></textarea>
+        <div class="err-msg" id="err-notableOrgs">Please list your notable organisations.</div>
+      </div>
+
+      <div class="field">
+        <label>HR Certifications or Qualifications (if any)</label>
+        <div class="opts" id="certs">
+          <div class="opt-item cb" data-val="PHRi"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">PHRi (Professional in Human Resources —
+              International)</span>
+          </div>
+          <div class="opt-item cb" data-val="SPHR"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">SPHR / PHR (HRCI Certified)</span>
+          </div>
+          <div class="opt-item cb" data-val="SHRM-CP/SCP"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">SHRM-CP / SHRM-SCP</span>
+          </div>
+          <div class="opt-item cb" data-val="CIPM"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">CIPM (Chartered Institute of Personnel Management
+              Nigeria)</span>
+          </div>
+          <div class="opt-item cb" data-val="CIPD"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">CIPD (Chartered Institute of Personnel and
+              Development)</span>
+          </div>
+          <div class="opt-item cb" data-val="MBA"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">MBA with HR focus</span>
+          </div>
+          <div class="opt-item cb" data-val="Other certification"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Other relevant certification</span>
+          </div>
+          <div class="opt-item cb" data-val="No formal certification"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">No formal certification — experience-based expertise</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Briefly describe your biggest professional achievement in HR <span class="req">*</span></label>
+        <div class="hint">This is your chance to give us a flavour of what you've actually built or changed.</div>
+        <textarea id="achievement"
+          placeholder="e.g. Built the HR function from scratch at a fintech startup that scaled from 10 to 200 employees in 18 months, including designing onboarding, performance management, and compensation frameworks..."></textarea>
+        <div class="err-msg" id="err-achievement">Please share one significant achievement.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(1)">← Back</button>
+        <button class="btn-next" onclick="goTo(3)">Next: Teaching Preferences →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 3: TEACHING -->
+    <div class="form-section" id="sec3">
+      <div class="section-header">
+        <div class="section-num">Section 3 of 5</div>
+        <div class="section-title">Your Teaching Preferences</div>
+        <div class="section-desc">Tell us what you want to teach and how confident you are. One expert per module —
+          we'll match you to the topic you can teach best.</div>
+      </div>
+
+      <div class="field">
+        <label>Which modules would you be best qualified to teach? <span class="req">*</span></label>
+        <div class="hint">Select all that genuinely match your deep expertise — not just areas you're familiar with.
+        </div>
+        <div class="opts" id="teachModules">
+          <div class="opt-item cb" data-val="The HR Landscape & Career Paths in Nigeria"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">The HR Landscape & Career Paths in Nigeria</span>
+              <div class="opt-sub">Week 1 — Overview & orientation</div>
+            </div>
+          </div>
+          <div class="opt-item cb" data-val="Recruitment, Talent Acquisition & Interviewing"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">Recruitment, Talent Acquisition & Interviewing</span>
+              <div class="opt-sub">Week 2 — Sourcing, JDs, interview design</div>
+            </div>
+          </div>
+          <div class="opt-item cb" data-val="Onboarding, EVP & Employee Experience"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">Onboarding, EVP & Employee Experience Design</span>
+              <div class="opt-sub">Week 3 — 30/60/90 plans, experience mapping</div>
+            </div>
+          </div>
+          <div class="opt-item cb" data-val="HR Operations, Policies & Labour Law"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">HR Operations, Policies & Labour Law Compliance</span>
+              <div class="opt-sub">Week 4 — NSITF, ITF, Nigerian Labour Act</div>
+            </div>
+          </div>
+          <div class="opt-item cb" data-val="Performance Management"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">Performance Management Frameworks</span>
+              <div class="opt-sub">Week 5 — Goal setting, KPIs, feedback cultures, PIPs</div>
+            </div>
+          </div>
+          <div class="opt-item cb" data-val="Compensation, Benefits & Total Rewards"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">Compensation, Benefits & Total Rewards Design</span>
+              <div class="opt-sub">Week 6 — Pay structures, benchmarking, benefits</div>
+            </div>
+          </div>
+          <div class="opt-item cb" data-val="Learning & Development Strategy"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">Learning & Development Strategy</span>
+              <div class="opt-sub">Week 7 — TNA, L&D frameworks, LMS tools</div>
+            </div>
+          </div>
+          <div class="opt-item cb" data-val="Employee Relations & Conflict Resolution"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">Employee Relations & Conflict Resolution</span>
+              <div class="opt-sub">Week 8 — Grievances, disciplinary, difficult conversations</div>
+            </div>
+          </div>
+          <div class="opt-item cb" data-val="People Analytics & HR Metrics"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">People Analytics & HR Metrics</span>
+              <div class="opt-sub">Week 9 — Dashboards, data storytelling, KPIs</div>
+            </div>
+          </div>
+          <div class="opt-item cb" data-val="Strategic HR Business Partnering"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">Strategic HR Business Partnering</span>
+              <div class="opt-sub">Week 10 — HRBP mindset, CEO partnership, OKRs</div>
+            </div>
+          </div>
+          <div class="opt-item cb" data-val="Scaling HR in Startups"><input type="checkbox" />
+            <div class="opt-sq"></div>
+            <div><span class="opt-text">Scaling HR in Startups & Growing Companies</span>
+              <div class="opt-sub">Week 11 — Building from zero, playbooks, SOPs</div>
+            </div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-teachModules">Please select at least one module you can teach.</div>
+      </div>
+
+      <div class="field">
+        <label>Which single module would you most want to teach? <span class="req">*</span></label>
+        <div class="hint">If you could only teach one — which would it be? This helps us make the best match.</div>
+        <input type="text" id="topModule" placeholder="e.g. Compensation & Benefits Design" />
+        <div class="err-msg" id="err-topModule">Please name your preferred module.</div>
+      </div>
+
+      <div class="field">
+        <label>Have you taught, trained, or facilitated before? <span class="req">*</span></label>
+        <div class="opts" id="taughtBefore">
+          <div class="opt-item" data-val="Yes — frequently (workshops, training, speaking)"><input type="radio"
+              name="taught" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Yes — frequently</span>
+              <div class="opt-sub">I regularly run workshops, training sessions, or speak at events</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="Yes — occasionally"><input type="radio" name="taught" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Yes — occasionally</span>
+              <div class="opt-sub">I've done it before but not as a regular activity</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="Internally only — to my team or colleagues"><input type="radio"
+              name="taught" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Internally only — to my team or colleagues</span></div>
+          </div>
+          <div class="opt-item" data-val="Not formally, but comfortable doing so"><input type="radio" name="taught" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Not formally, but I'm confident I can</span></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-taughtBefore">Please select your teaching experience.</div>
+      </div>
+
+      <div class="field">
+        <label>Briefly describe your proposed approach to teaching your module <span class="req">*</span></label>
+        <div class="hint">How would you structure a 2-hour session? What would students walk away able to do?</div>
+        <textarea id="teachingApproach"
+          placeholder="e.g. I would open with a real case study from my time at [company], then walk students through the actual framework we used, demonstrate it live, and end with a group exercise where they apply it to a fictional company scenario..."></textarea>
+        <div class="err-msg" id="err-teachingApproach">Please describe your teaching approach.</div>
+      </div>
+
+      <div class="field">
+        <label>Rate your confidence as a facilitator / trainer <span class="req">*</span></label>
+        <div class="hint">1 = Very nervous about it, 10 = Highly experienced and comfortable</div>
+        <div class="rating-row" id="confidence">
+          <button type="button" class="rating-btn" data-val="1">1</button>
+          <button type="button" class="rating-btn" data-val="2">2</button>
+          <button type="button" class="rating-btn" data-val="3">3</button>
+          <button type="button" class="rating-btn" data-val="4">4</button>
+          <button type="button" class="rating-btn" data-val="5">5</button>
+          <button type="button" class="rating-btn" data-val="6">6</button>
+          <button type="button" class="rating-btn" data-val="7">7</button>
+          <button type="button" class="rating-btn" data-val="8">8</button>
+          <button type="button" class="rating-btn" data-val="9">9</button>
+          <button type="button" class="rating-btn" data-val="10">10</button>
+        </div>
+        <div class="err-msg" id="err-confidence">Please rate your facilitation confidence.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(2)">← Back</button>
+        <button class="btn-next" onclick="goTo(4)">Next: Availability →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 4: AVAILABILITY & LOGISTICS -->
+    <div class="form-section" id="sec4">
+      <div class="section-header">
+        <div class="section-num">Section 4 of 5</div>
+        <div class="section-title">Availability & Logistics</div>
+        <div class="section-desc">Help us plan the cohort schedule around you. Classes are held online via Zoom — so no
+          travel required.</div>
+      </div>
+
+      <div class="highlight-box">
+        <p>📋 <strong>Format reminder:</strong> All Talent Factory classes are delivered online via Zoom. Sessions are 2
+          hours long. Each instructor typically teaches 1–2 sessions per cohort. All sessions are recorded for students
+          to rewatch.</p>
+      </div>
+
+      <div class="field">
+        <label>Which time slots work best for you? <span class="req">*</span></label>
+        <div class="hint">Select all that apply — we'll match you to available slots.</div>
+        <div class="opts" id="timeSlots">
+          <div class="opt-item cb" data-val="Weekday evenings (7PM–9PM)"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Weekday evenings — 7:00PM to 9:00PM</span>
+          </div>
+          <div class="opt-item cb" data-val="Saturday mornings (9AM–12PM)"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Saturday mornings — 9:00AM to 12:00PM</span>
+          </div>
+          <div class="opt-item cb" data-val="Saturday afternoons (12PM–3PM)"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Saturday afternoons — 12:00PM to 3:00PM</span>
+          </div>
+          <div class="opt-item cb" data-val="Sunday mornings"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Sunday mornings</span>
+          </div>
+          <div class="opt-item cb" data-val="Flexible — any time works"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Flexible — any of the above works for me</span>
+          </div>
+        </div>
+        <div class="err-msg" id="err-timeSlots">Please select at least one available time slot.</div>
+      </div>
+
+      <div class="field">
+        <label>How many sessions are you willing to teach per cohort? <span class="req">*</span></label>
+        <div class="opts" id="sessionCount">
+          <div class="opt-item" data-val="1 session only"><input type="radio" name="sessCnt" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">1 session only</span>
+              <div class="opt-sub">A single 2-hour class</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="1–2 sessions"><input type="radio" name="sessCnt" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">1–2 sessions</span>
+              <div class="opt-sub">Flexible based on need</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="2–3 sessions"><input type="radio" name="sessCnt" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">2–3 sessions across the cohort</span></div>
+          </div>
+          <div class="opt-item" data-val="Open to more if needed"><input type="radio" name="sessCnt" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Open to more — whatever the program needs</span></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-sessionCount">Please select how many sessions you can teach.</div>
+      </div>
+
+      <div class="field">
+        <label>Are you willing to be on call as a backup instructor if another is unavailable?</label>
+        <div class="opts" id="backup">
+          <div class="opt-item" data-val="Yes — happy to be a backup"><input type="radio" name="bkup" />
+            <div class="opt-circle"></div><span class="opt-text">Yes — I'm happy to serve as a backup</span>
+          </div>
+          <div class="opt-item" data-val="Maybe — depends on the module"><input type="radio" name="bkup" />
+            <div class="opt-circle"></div><span class="opt-text">Maybe — depends on the topic and notice given</span>
+          </div>
+          <div class="opt-item" data-val="No — my assigned sessions only"><input type="radio" name="bkup" />
+            <div class="opt-circle"></div><span class="opt-text">No — I can only commit to my assigned sessions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Cancellation Policy Acknowledgement <span class="req">*</span></label>
+        <div class="hint">We require a minimum of 14 days notice if you need to cancel a confirmed session.</div>
+        <div class="opts" id="cancelPolicy">
+          <div class="opt-item" data-val="Yes — I understand and agree"><input type="radio" name="cancel" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Yes — I understand and agree to the 14-day cancellation policy</span></div>
+          </div>
+          <div class="opt-item" data-val="I may need flexibility"><input type="radio" name="cancel" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I may need some flexibility — I'd like to discuss</span></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-cancelPolicy">Please indicate your agreement to our cancellation policy.</div>
+      </div>
+
+      <div class="field">
+        <label>Bank Name (for payment processing) <span class="req">*</span></label>
+        <div class="hint">Instructors are paid per session via bank transfer. We'll confirm exact rates upon acceptance.
+        </div>
+        <input type="text" id="bankName" placeholder="e.g. GTBank, Zenith Bank, Access Bank" />
+        <div class="err-msg" id="err-bankName">Please enter your bank name.</div>
+      </div>
+
+      <div class="field">
+        <label>Account Name <span class="req">*</span></label>
+        <input type="text" id="accountName" placeholder="Name on your bank account" />
+        <div class="err-msg" id="err-accountName">Please enter your account name.</div>
+      </div>
+
+      <div class="field">
+        <label>Account Number <span class="req">*</span></label>
+        <input type="text" id="accountNumber" placeholder="10-digit account number" />
+        <div class="err-msg" id="err-accountNumber">Please enter your account number.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(3)">← Back</button>
+        <button class="btn-next" onclick="goTo(5)">Next: Final Step →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 5: FINAL -->
+    <div class="form-section" id="sec5">
+      <div class="section-header">
+        <div class="section-num">Section 5 of 5</div>
+        <div class="section-title">Your Motivation & Final Submission</div>
+        <div class="section-desc">Last section — and the most personal one. Tell us why you want to teach.</div>
+      </div>
+
+      <div class="field">
+        <label>Why do you want to teach at Talent Factory? <span class="req">*</span></label>
+        <div class="hint">Be genuine. We want to understand what drives your desire to invest your time in the next
+          generation of HR professionals.</div>
+        <textarea id="whyTeach"
+          placeholder="Tell us what excites you about this opportunity, what you believe the next generation of HR professionals in Nigeria needs most, and what you specifically want them to walk away with from your session..."></textarea>
+        <div class="err-msg" id="err-whyTeach">Please tell us why you want to teach here.</div>
+      </div>
+
+      <div class="field">
+        <label>What is one thing you wish someone had taught you earlier in your HR career?</label>
+        <div class="hint">Optional — but we love this question. It often becomes a powerful part of how our instructors
+          teach.</div>
+        <textarea id="wishKnown"
+          placeholder="e.g. I wish someone had told me earlier that HR's power comes from being a business partner, not a support function. Everything changed when I started learning the numbers..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Do you have a short bio (2–3 sentences) we could use on your instructor profile?</label>
+        <div class="hint">Optional — we'll write one for you if not. But yours is always better.</div>
+        <textarea id="bio"
+          placeholder="e.g. Chidi Nwosu is the Head of People at Kuda Bank with over 10 years of HR experience across fintech, banking, and consulting. He has built HR functions from the ground up and is passionate about helping the next generation of HR professionals in Nigeria develop with both strategy and empathy..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Is there anything else you'd like us to know? Additional context or questions?</label>
+        <textarea id="additionalInfo"
+          placeholder="Optional — any other information, questions, or context you'd like to share..."></textarea>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="field">
+        <div class="opts">
+          <div class="opt-item cb" id="consentItem" data-val="yes">
+            <input type="checkbox" />
+            <div class="opt-sq" id="consentSq"></div>
+            <span class="opt-text" style="font-size:13px">I confirm that all information provided in this application is
+              accurate. I understand that Talent Factory will contact me using the details above and that my session fee
+              will be communicated and agreed upon before any teaching commitment is confirmed. <span
+                class="req">*</span></span>
+          </div>
+        </div>
+        <div class="err-msg" id="err-consent">You must confirm this to submit your application.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(4)">← Back</button>
+        <button class="btn-submit" onclick="submitForm()">Submit Instructor Application ✓</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">🏆</div>
+      <h2 class="success-h">Application <em>Submitted!</em></h2>
+      <p class="success-p">Thank you for your interest in teaching at Talent Factory. We are honoured that you want to
+        invest your time and expertise in the next generation of Nigerian HR professionals. Our team will review your
+        application and reach out within <strong>10 working days</strong>.</p>
+      <div class="success-note">📧 We'll be in touch at the email address you provided. Check your spam folder too!
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentStep = 1;
+    const totalSteps = 5;
+
+    document.querySelectorAll('.opts .opt-item:not(.cb)').forEach(item => {
+      item.addEventListener('click', () => {
+        const group = item.closest('.opts');
+        group.querySelectorAll('.opt-item:not(.cb)').forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+        if (group.id) clearErr(group.id);
+      });
+    });
+
+    document.querySelectorAll('.opt-item.cb').forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('selected');
+        const group = item.closest('.opts');
+        if (group && group.id) clearErr(group.id);
+      });
+    });
+
+    document.querySelectorAll('.rating-row .rating-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('.rating-row');
+        row.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+        if (row.id) clearErr(row.id);
+      });
+    });
+
+    function clearErr(id) { const el = document.getElementById('err-' + id); if (el) el.classList.remove('show'); }
+    function showErr(id) { const el = document.getElementById('err-' + id); if (el) { el.classList.add('show'); return true; } return false; }
+    function getRadioVal(gid) { const s = document.querySelector(`#${gid} .opt-item.selected`); return s ? s.dataset.val : ''; }
+    function getCBVals(gid) { return [...document.querySelectorAll(`#${gid} .opt-item.selected`)].map(i => i.dataset.val); }
+    function getRatingVal(rid) { const s = document.querySelector(`#${rid} .rating-btn.sel`); return s ? s.dataset.val : ''; }
+
+    function validateSection(n) {
+      let ok = true;
+      const req = (id) => { const v = document.getElementById(id)?.value.trim(); if (!v) { showErr(id); ok = false; } else clearErr(id); };
+      const reqR = (gid) => { if (!getRadioVal(gid)) { showErr(gid); ok = false; } else clearErr(gid); };
+      const reqCB = (gid) => { if (getCBVals(gid).length === 0) { showErr(gid); ok = false; } else clearErr(gid); };
+      const reqRating = (rid) => { if (!getRatingVal(rid)) { showErr(rid); ok = false; } else clearErr(rid); };
+
+      if (n === 1) {
+        req('firstName'); req('lastName');
+        const em = document.getElementById('email').value.trim();
+        if (!em || !em.includes('@')) { showErr('email'); ok = false; } else clearErr('email');
+        req('phone'); req('proTitle'); req('employer');
+        if (!document.getElementById('industry').value) { showErr('industry'); ok = false; } else clearErr('industry');
+        const li = document.getElementById('linkedin').value.trim();
+        if (!li || !li.includes('linkedin')) { showErr('linkedin'); ok = false; } else clearErr('linkedin');
+        if (!document.getElementById('state').value) { showErr('state'); ok = false; } else clearErr('state');
+        if (!document.getElementById('referral').value) { showErr('referral'); ok = false; } else clearErr('referral');
+      }
+      if (n === 2) { reqR('totalYears'); reqR('hrYears'); reqR('seniority'); req('notableOrgs'); req('achievement'); }
+      if (n === 3) { reqCB('teachModules'); req('topModule'); reqR('taughtBefore'); req('teachingApproach'); reqRating('confidence'); }
+      if (n === 4) {
+        reqCB('timeSlots'); reqR('sessionCount'); reqR('cancelPolicy');
+        req('bankName'); req('accountName'); req('accountNumber');
+      }
+      if (n === 5) {
+        req('whyTeach');
+        if (!document.getElementById('consentItem').classList.contains('selected')) { showErr('consent'); ok = false; } else clearErr('consent');
+      }
+      return ok;
+    }
+
+    function goTo(n) {
+      if (n > currentStep && !validateSection(currentStep)) {
+        window.scrollTo({ top: document.querySelector('.form-shell').offsetTop - 20, behavior: 'smooth' });
+        return;
+      }
+      document.getElementById('sec' + currentStep).classList.remove('active');
+      currentStep = n;
+      for (let i = 1; i <= totalSteps; i++) {
+        const dot = document.getElementById('ps' + i);
+        const line = document.getElementById('pl' + i);
+        dot.classList.remove('active', 'done');
+        if (line) line.classList.remove('done');
+        if (i < currentStep) { dot.classList.add('done'); if (line) line.classList.add('done'); }
+        if (i === currentStep) dot.classList.add('active');
+      }
+      document.getElementById('sec' + currentStep).classList.add('active');
+      window.scrollTo({ top: document.querySelector('.form-hero').offsetTop, behavior: 'smooth' });
+    }
+
+    function submitForm() {
+      if (!validateSection(5)) {
+        window.scrollTo({ top: document.querySelector('.form-shell').offsetTop - 20, behavior: 'smooth' });
+        return;
+      }
+
+      const btn = document.querySelector('.btn-submit');
+      btn.innerText = 'Submitting...';
+      btn.disabled = true;
+
+      // Pure frontend: Simulate total submission success
+      setTimeout(() => {
+        document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+        for (let i = 1; i <= totalSteps; i++) {
+          document.getElementById('ps' + i).classList.remove('active');
+          document.getElementById('ps' + i).classList.add('done');
+          const l = document.getElementById('pl' + i);
+          if (l) l.classList.add('done');
+        }
+        document.getElementById('successScreen').classList.add('active');
+        window.scrollTo({ top: document.querySelector('.form-hero').offsetTop, behavior: 'smooth' });
+      }, 800);
+    }
+  </script>
+</body>
+
+</html>

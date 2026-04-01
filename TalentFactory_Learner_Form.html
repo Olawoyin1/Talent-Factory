@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talent Factory — Learner Application</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --black: #0A0A0A;
+      --off: #F5F0E8;
+      --warm: #EDE4D4;
+      --gold: #D4A017;
+      --gold-l: #F0C040;
+      --gold-pale: #FBF5E0;
+      --green: #1B4D3E;
+      --muted: #6B6050;
+      --white: #fff;
+      --red: #C0392B;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--off);
+      color: var(--black);
+      min-height: 100vh
+    }
+
+    /* ── NAV ── */
+    .topbar {
+      background: var(--black);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none
+    }
+
+    .logo-box {
+      width: 30px;
+      height: 30px;
+      background: var(--gold);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--black)
+    }
+
+    .logo-name {
+      font-family: 'Fraunces', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--white)
+    }
+
+    .logo-name span {
+      color: var(--gold)
+    }
+
+    .back-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.45);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .back-link:hover {
+      color: var(--gold)
+    }
+
+    /* ── HERO STRIP ── */
+    .form-hero {
+      background: var(--black);
+      padding: 60px 40px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: var(--off);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .fh-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(212, 160, 23, 0.7);
+      margin-bottom: 14px
+    }
+
+    .fh-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 16px
+    }
+
+    .fh-title em {
+      font-style: italic;
+      color: var(--gold)
+    }
+
+    .fh-sub {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.5);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.7
+    }
+
+    /* ── PROGRESS ── */
+    .progress-wrap {
+      max-width: 680px;
+      margin: 48px auto 0;
+      padding: 0 20px
+    }
+
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 10px
+    }
+
+    .ps {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      position: relative
+    }
+
+    .ps-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.3);
+      transition: all .4s;
+      z-index: 2;
+      position: relative;
+    }
+
+    .ps.done .ps-dot {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--white)
+    }
+
+    .ps.active .ps-dot {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--black)
+    }
+
+    .ps-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: rgba(255, 255, 255, 0.25);
+      margin-top: 8px;
+      text-align: center
+    }
+
+    .ps.done .ps-label,
+    .ps.active .ps-label {
+      color: rgba(255, 255, 255, 0.6)
+    }
+
+    .ps-line {
+      flex: 1;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.08);
+      margin-top: -18px;
+      transition: background .4s
+    }
+
+    .ps-line.done {
+      background: var(--green)
+    }
+
+    /* ── FORM SHELL ── */
+    .form-shell {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 20px 80px
+    }
+
+    .form-section {
+      display: none;
+      animation: fadeIn .4s ease
+    }
+
+    .form-section.active {
+      display: block
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .section-header {
+      margin-bottom: 36px
+    }
+
+    .section-num {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 10px
+    }
+
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 8px
+    }
+
+    .section-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--muted)
+    }
+
+    /* ── FIELDS ── */
+    .field {
+      margin-bottom: 28px
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 8px;
+      letter-spacing: 0.2px
+    }
+
+    .field label .req {
+      color: var(--gold);
+      margin-left: 2px
+    }
+
+    .field .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 400
+    }
+
+    input[type=text],
+    input[type=email],
+    input[type=tel],
+    input[type=url],
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 6px;
+      border: 2px solid rgba(10, 10, 10, 0.12);
+      background: var(--white);
+      font-size: 14px;
+      font-family: 'Syne', sans-serif;
+      color: var(--black);
+      outline: none;
+      transition: border .2s, box-shadow .2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(212, 160, 23, 0.1);
+      appearance: none;
+    }
+
+    input.error,
+    select.error,
+    textarea.error {
+      border-color: var(--red)
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.6
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6050' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 44px;
+      cursor: pointer
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px
+    }
+
+    /* radio/checkbox group */
+    .opts {
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .opts.inline {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .opt-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 2px solid rgba(10, 10, 10, 0.1);
+      background: var(--white);
+      cursor: pointer;
+      transition: all .2s;
+      user-select: none
+    }
+
+    .opt-item:hover {
+      border-color: rgba(212, 160, 23, 0.4);
+      background: var(--gold-pale)
+    }
+
+    .opt-item.selected {
+      border-color: var(--gold);
+      background: var(--gold-pale)
+    }
+
+    .opt-item input[type=radio],
+    .opt-item input[type=checkbox] {
+      display: none
+    }
+
+    .opt-circle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(10, 10, 10, 0.2);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s
+    }
+
+    .opt-item.selected .opt-circle {
+      background: var(--gold);
+      border-color: var(--gold)
+    }
+
+    .opt-circle::after {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--white);
+      opacity: 0;
+      transition: opacity .2s
+    }
+
+    .opt-item.selected .opt-circle::after {
+      opacity: 1
+    }
+
+    .opt-sq {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 2px solid rgba(10, 10, 10, 0.2);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s
+    }
+
+    .opt-item.selected .opt-sq {
+      background: var(--gold);
+      border-color: var(--gold)
+    }
+
+    .opt-sq::after {
+      content: '✓';
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--white);
+      opacity: 0;
+      transition: opacity .2s
+    }
+
+    .opt-item.selected .opt-sq::after {
+      opacity: 1
+    }
+
+    .opt-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--black);
+      line-height: 1.4
+    }
+
+    .opt-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px
+    }
+
+    /* rating */
+    .rating-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .rating-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      border: 2px solid rgba(10, 10, 10, 0.12);
+      background: var(--white);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rating-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold)
+    }
+
+    .rating-btn.sel {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--black)
+    }
+
+    /* divider */
+    .divider {
+      height: 1px;
+      background: rgba(10, 10, 10, 0.08);
+      margin: 36px 0
+    }
+
+    /* ── BUTTONS ── */
+    .btn-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      gap: 16px
+    }
+
+    .btn-back {
+      padding: 14px 28px;
+      border: 2px solid rgba(10, 10, 10, 0.15);
+      border-radius: 6px;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .btn-back:hover {
+      border-color: var(--black);
+      color: var(--black)
+    }
+
+    .btn-next {
+      padding: 14px 36px;
+      border: none;
+      border-radius: 6px;
+      background: var(--black);
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      color: var(--white);
+      cursor: pointer;
+      transition: all .2s;
+      margin-left: auto
+    }
+
+    .btn-next:hover {
+      background: var(--gold);
+      color: var(--black);
+      transform: translateY(-2px)
+    }
+
+    .btn-submit {
+      padding: 16px 48px;
+      border: none;
+      border-radius: 6px;
+      background: var(--green);
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      color: var(--white);
+      cursor: pointer;
+      transition: all .2s;
+      margin-left: auto
+    }
+
+    .btn-submit:hover {
+      background: #145c3a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(27, 77, 62, 0.3)
+    }
+
+    /* ── SUCCESS ── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 80px 20px
+    }
+
+    .success-screen.active {
+      display: block;
+      animation: fadeIn .5s ease
+    }
+
+    .success-icon {
+      font-size: 72px;
+      margin-bottom: 24px
+    }
+
+    .success-h {
+      font-family: 'Fraunces', serif;
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 16px
+    }
+
+    .success-h em {
+      font-style: italic;
+      color: var(--gold)
+    }
+
+    .success-p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 36px
+    }
+
+    .success-note {
+      display: inline-block;
+      padding: 14px 24px;
+      background: var(--gold-pale);
+      border: 1.5px solid rgba(212, 160, 23, 0.3);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black)
+    }
+
+    /* ── ERROR MSG ── */
+    .err-msg {
+      font-size: 12px;
+      color: var(--red);
+      margin-top: 6px;
+      font-weight: 600;
+      display: none
+    }
+
+    .err-msg.show {
+      display: block
+    }
+
+    @media(max-width:600px) {
+      .field-row {
+        grid-template-columns: 1fr
+      }
+
+      .topbar {
+        padding: 14px 20px
+      }
+
+      .form-hero {
+        padding: 40px 20px 70px
+      }
+
+      .form-shell {
+        padding: 36px 16px 60px
+      }
+
+      .btn-row {
+        flex-wrap: wrap
+      }
+
+      .btn-back {
+        width: 100%;
+        text-align: center
+      }
+
+      .btn-next,
+      .btn-submit {
+        width: 100%;
+        text-align: center;
+        margin-left: 0
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <a href="index.html" class="logo">
+      <div class="logo-box">TF</div>
+      <div class="logo-name">Talent<span>Factory</span></div>
+    </a>
+    <a href="index.html" class="back-link">← Back to website</a>
+  </div>
+
+  <div class="form-hero">
+    <div class="fh-eyebrow">Cohort 1 — Applications Open</div>
+    <h1 class="fh-title">Learner <em>Application</em> Form</h1>
+    <p class="fh-sub">Complete all sections honestly and thoughtfully. We review every application personally. You'll
+      hear from us within 7 working days.</p>
+
+    <div class="progress-wrap">
+      <div class="progress-steps">
+        <div class="ps active" id="ps1">
+          <div class="ps-dot">1</div>
+          <div class="ps-label">Personal</div>
+        </div>
+        <div class="ps-line" id="pl1"></div>
+        <div class="ps" id="ps2">
+          <div class="ps-dot">2</div>
+          <div class="ps-label">Background</div>
+        </div>
+        <div class="ps-line" id="pl2"></div>
+        <div class="ps" id="ps3">
+          <div class="ps-dot">3</div>
+          <div class="ps-label">Motivation</div>
+        </div>
+        <div class="ps-line" id="pl3"></div>
+        <div class="ps" id="ps4">
+          <div class="ps-dot">4</div>
+          <div class="ps-label">Program</div>
+        </div>
+        <div class="ps-line" id="pl4"></div>
+        <div class="ps" id="ps5">
+          <div class="ps-dot">5</div>
+          <div class="ps-label">Final</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-shell">
+
+    <!-- SECTION 1: PERSONAL INFO -->
+    <div class="form-section active" id="sec1">
+      <div class="section-header">
+        <div class="section-num">Section 1 of 5</div>
+        <div class="section-title">Personal Information</div>
+        <div class="section-desc">Tell us the basics about you. All information is kept confidential and used only for
+          application review purposes.</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="firstName" placeholder="e.g. Amina" />
+          <div class="err-msg" id="err-firstName">Please enter your first name.</div>
+        </div>
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="lastName" placeholder="e.g. Fawaz" />
+          <div class="err-msg" id="err-lastName">Please enter your last name.</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email Address <span class="req">*</span></label>
+        <div class="hint">This is the email we'll use to contact you about your application.</div>
+        <input type="email" id="email" placeholder="e.g. amina@gmail.com" />
+        <div class="err-msg" id="err-email">Please enter a valid email address.</div>
+      </div>
+
+      <div class="field">
+        <label>Phone Number <span class="req">*</span></label>
+        <div class="hint">Include your country code. e.g. +234 810 000 0000</div>
+        <input type="tel" id="phone" placeholder="+234 810 000 0000" />
+        <div class="err-msg" id="err-phone">Please enter your phone number.</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>State of Residence <span class="req">*</span></label>
+          <select id="state">
+            <option value="">Select your state</option>
+            <option>Abia</option>
+            <option>Adamawa</option>
+            <option>Akwa Ibom</option>
+            <option>Anambra</option>
+            <option>Bauchi</option>
+            <option>Bayelsa</option>
+            <option>Benue</option>
+            <option>Borno</option>
+            <option>Cross River</option>
+            <option>Delta</option>
+            <option>Ebonyi</option>
+            <option>Edo</option>
+            <option>Ekiti</option>
+            <option>Enugu</option>
+            <option>FCT — Abuja</option>
+            <option>Gombe</option>
+            <option>Imo</option>
+            <option>Jigawa</option>
+            <option>Kaduna</option>
+            <option>Kano</option>
+            <option>Katsina</option>
+            <option>Kebbi</option>
+            <option>Kogi</option>
+            <option>Kwara</option>
+            <option>Lagos</option>
+            <option>Nasarawa</option>
+            <option>Niger</option>
+            <option>Ogun</option>
+            <option>Ondo</option>
+            <option>Osun</option>
+            <option>Oyo</option>
+            <option>Plateau</option>
+            <option>Rivers</option>
+            <option>Sokoto</option>
+            <option>Taraba</option>
+            <option>Yobe</option>
+            <option>Zamfara</option>
+            <option>Outside Nigeria</option>
+          </select>
+          <div class="err-msg" id="err-state">Please select your state.</div>
+        </div>
+        <div class="field">
+          <label>Gender <span class="req">*</span></label>
+          <select id="gender">
+            <option value="">Select</option>
+            <option>Female</option>
+            <option>Male</option>
+            <option>Prefer not to say</option>
+          </select>
+          <div class="err-msg" id="err-gender">Please select your gender.</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Age Range <span class="req">*</span></label>
+        <div class="opts inline" id="ageRange">
+          <div class="opt-item" data-val="18–24"><input type="radio" name="age" />
+            <div class="opt-circle"></div><span class="opt-text">18–24</span>
+          </div>
+          <div class="opt-item" data-val="25–30"><input type="radio" name="age" />
+            <div class="opt-circle"></div><span class="opt-text">25–30</span>
+          </div>
+          <div class="opt-item" data-val="31–35"><input type="radio" name="age" />
+            <div class="opt-circle"></div><span class="opt-text">31–35</span>
+          </div>
+          <div class="opt-item" data-val="36–40"><input type="radio" name="age" />
+            <div class="opt-circle"></div><span class="opt-text">36–40</span>
+          </div>
+          <div class="opt-item" data-val="40+"><input type="radio" name="age" />
+            <div class="opt-circle"></div><span class="opt-text">40+</span>
+          </div>
+        </div>
+        <div class="err-msg" id="err-ageRange">Please select your age range.</div>
+      </div>
+
+      <div class="field">
+        <label>How did you hear about Talent Factory? <span class="req">*</span></label>
+        <select id="referral">
+          <option value="">Select one</option>
+          <option>LinkedIn</option>
+          <option>Instagram</option>
+          <option>Twitter / X</option>
+          <option>Facebook</option>
+          <option>WhatsApp (forwarded)</option>
+          <option>A friend or colleague</option>
+          <option>Google Search</option>
+          <option>Email Newsletter</option>
+          <option>Event or webinar</option>
+          <option>Other</option>
+        </select>
+        <div class="err-msg" id="err-referral">Please select how you heard about us.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-next" onclick="goTo(2)">Next: Background →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 2: BACKGROUND -->
+    <div class="form-section" id="sec2">
+      <div class="section-header">
+        <div class="section-num">Section 2 of 5</div>
+        <div class="section-title">Educational & Professional Background</div>
+        <div class="section-desc">Help us understand where you're coming from. There's no wrong answer — we welcome all
+          starting points.</div>
+      </div>
+
+      <div class="field">
+        <label>Highest Level of Education Completed <span class="req">*</span></label>
+        <div class="opts" id="education">
+          <div class="opt-item" data-val="Secondary School (WAEC/NECO)"><input type="radio" name="edu" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Secondary School (WAEC/NECO)</span></div>
+          </div>
+          <div class="opt-item" data-val="OND / NCE"><input type="radio" name="edu" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">OND / NCE</span></div>
+          </div>
+          <div class="opt-item" data-val="HND"><input type="radio" name="edu" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">HND</span></div>
+          </div>
+          <div class="opt-item" data-val="Bachelor's Degree (B.Sc / B.A / B.Ed)"><input type="radio" name="edu" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Bachelor's Degree (B.Sc / B.A / B.Ed)</span></div>
+          </div>
+          <div class="opt-item" data-val="Currently in University"><input type="radio" name="edu" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Currently in University (undergraduate)</span></div>
+          </div>
+          <div class="opt-item" data-val="Postgraduate (MBA / MSc / PhD)"><input type="radio" name="edu" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Postgraduate (MBA / MSc / PhD)</span></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-education">Please select your education level.</div>
+      </div>
+
+      <div class="field">
+        <label>Field of Study or Degree (if applicable)</label>
+        <input type="text" id="fieldOfStudy" placeholder="e.g. Human Resource Management, Business Admin, Law" />
+      </div>
+
+      <div class="field">
+        <label>Current Employment Status <span class="req">*</span></label>
+        <div class="opts" id="employment">
+          <div class="opt-item" data-val="Employed full-time"><input type="radio" name="emp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Employed full-time</span>
+              <div class="opt-sub">Working in a company or organisation</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="Employed part-time"><input type="radio" name="emp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Employed part-time</span>
+              <div class="opt-sub">Working but not full-time</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="Self-employed / Freelance"><input type="radio" name="emp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Self-employed / Freelance</span></div>
+          </div>
+          <div class="opt-item" data-val="Student (full-time)"><input type="radio" name="emp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Student (full-time)</span></div>
+          </div>
+          <div class="opt-item" data-val="Unemployed — actively job searching"><input type="radio" name="emp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Unemployed — actively job searching</span></div>
+          </div>
+          <div class="opt-item" data-val="Unemployed — not currently searching"><input type="radio" name="emp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Unemployed — not currently searching</span></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-employment">Please select your employment status.</div>
+      </div>
+
+      <div class="field">
+        <label>Current or Most Recent Job Title</label>
+        <div class="hint">Leave blank if not applicable.</div>
+        <input type="text" id="jobTitle" placeholder="e.g. Customer Success Associate, Admin Officer" />
+      </div>
+
+      <div class="field">
+        <label>Current or Most Recent Industry</label>
+        <select id="industry">
+          <option value="">Select if applicable</option>
+          <option>Banking & Finance</option>
+          <option>Fintech</option>
+          <option>Technology / Software</option>
+          <option>eCommerce / Retail</option>
+          <option>Human Resources</option>
+          <option>Marketing & Advertising</option>
+          <option>Oil & Gas / Energy</option>
+          <option>Healthcare / Pharmaceuticals</option>
+          <option>Education</option>
+          <option>Consulting</option>
+          <option>FMCG / Consumer Goods</option>
+          <option>Telecommunications</option>
+          <option>Legal</option>
+          <option>Government / Public Sector</option>
+          <option>Media & Entertainment</option>
+          <option>Real Estate</option>
+          <option>Logistics & Supply Chain</option>
+          <option>NGO / Non-profit</option>
+          <option>Other</option>
+          <option>Not applicable (student / unemployed)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Do you have any prior HR experience? <span class="req">*</span></label>
+        <div class="opts" id="hrExp">
+          <div class="opt-item" data-val="No HR experience at all"><input type="radio" name="hrexp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">No HR experience at all</span>
+              <div class="opt-sub">I'm completely new to HR</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="Less than 1 year"><input type="radio" name="hrexp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Less than 1 year</span>
+              <div class="opt-sub">Some exposure but very limited</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="1–2 years"><input type="radio" name="hrexp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">1–2 years</span></div>
+          </div>
+          <div class="opt-item" data-val="3–5 years"><input type="radio" name="hrexp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">3–5 years</span></div>
+          </div>
+          <div class="opt-item" data-val="5+ years"><input type="radio" name="hrexp" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">5+ years</span></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-hrExp">Please select your HR experience level.</div>
+      </div>
+
+      <div class="field">
+        <label>LinkedIn Profile URL</label>
+        <div class="hint">Optional but recommended — helps us learn more about your background.</div>
+        <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourname" />
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(1)">← Back</button>
+        <button class="btn-next" onclick="goTo(3)">Next: Motivation →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 3: MOTIVATION -->
+    <div class="form-section" id="sec3">
+      <div class="section-header">
+        <div class="section-num">Section 3 of 5</div>
+        <div class="section-title">Your Motivation</div>
+        <div class="section-desc">This is the most important section. We want to understand why you want this, not just
+          what you want. Be genuine — we read every answer.</div>
+      </div>
+
+      <div class="field">
+        <label>Which best describes your reason for applying? <span class="req">*</span></label>
+        <div class="opts" id="applyReason">
+          <div class="opt-item" data-val="I want to transition into HR from another field"><input type="radio"
+              name="reason" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I want to transition into HR from another field</span></div>
+          </div>
+          <div class="opt-item" data-val="I'm a student wanting practical HR experience"><input type="radio"
+              name="reason" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I'm a student wanting practical HR experience</span></div>
+          </div>
+          <div class="opt-item" data-val="I'm already in HR and want to level up fast"><input type="radio"
+              name="reason" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I'm already in HR and want to level up fast</span></div>
+          </div>
+          <div class="opt-item" data-val="I'm exploring HR as a possible career path"><input type="radio"
+              name="reason" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I'm exploring HR as a possible career path</span></div>
+          </div>
+          <div class="opt-item" data-val="I want structured mentorship from senior practitioners"><input type="radio"
+              name="reason" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I want structured mentorship from senior practitioners</span></div>
+          </div>
+          <div class="opt-item" data-val="I need the internship placement to build my CV"><input type="radio"
+              name="reason" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I need the internship placement to build my CV</span></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-applyReason">Please select your main reason for applying.</div>
+      </div>
+
+      <div class="field">
+        <label>In your own words, why do you want to join Talent Factory? <span class="req">*</span></label>
+        <div class="hint">Minimum 100 words. Tell us your story — what brought you here, what you're hoping for, and
+          what you're committed to putting in.</div>
+        <textarea id="whyJoin"
+          placeholder="Write your answer here. Be honest, be specific, and be yourself. This is your chance to speak directly to us..."></textarea>
+        <div class="err-msg" id="err-whyJoin">Please write at least 50 characters about your motivation.</div>
+      </div>
+
+      <div class="field">
+        <label>Where do you see yourself in HR in 2 years? <span class="req">*</span></label>
+        <div class="hint">This helps us understand your ambition and how Talent Factory fits into your bigger career
+          picture.</div>
+        <textarea id="twoYears"
+          placeholder="Describe the role, level, or impact you want to have in HR within 2 years of completing this program..."></textarea>
+        <div class="err-msg" id="err-twoYears">Please describe your 2-year goals.</div>
+      </div>
+
+      <div class="field">
+        <label>What is the biggest challenge you've faced in building your HR career so far?</label>
+        <div class="hint">Optional — but very helpful for us to understand.</div>
+        <textarea id="biggestChallenge"
+          placeholder="e.g. No clear pathway, lack of mentors, couldn't get internships, didn't know where to start..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(2)">← Back</button>
+        <button class="btn-next" onclick="goTo(4)">Next: Program Details →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 4: PROGRAM PREFERENCES -->
+    <div class="form-section" id="sec4">
+      <div class="section-header">
+        <div class="section-num">Section 4 of 5</div>
+        <div class="section-title">Program & Scheduling Preferences</div>
+        <div class="section-desc">Help us understand your availability and what you're hoping to get out of the program
+          so we can plan cohort schedules effectively.</div>
+      </div>
+
+      <div class="field">
+        <label>Which class schedule works best for you? <span class="req">*</span></label>
+        <div class="opts" id="schedule">
+          <div class="opt-item" data-val="Weekday evenings (7PM–9PM)"><input type="radio" name="sched" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Weekday evenings (7PM–9PM)</span></div>
+          </div>
+          <div class="opt-item" data-val="Saturday mornings (9AM–12PM)"><input type="radio" name="sched" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Saturday mornings (9AM–12PM)</span></div>
+          </div>
+          <div class="opt-item" data-val="Either works for me"><input type="radio" name="sched" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Either works for me</span></div>
+          </div>
+          <div class="opt-item" data-val="I can only do weekday evenings"><input type="radio" name="sched" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I can only do weekday evenings</span></div>
+          </div>
+          <div class="opt-item" data-val="I can only do weekends"><input type="radio" name="sched" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I can only do weekends only</span></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-schedule">Please select your preferred schedule.</div>
+      </div>
+
+      <div class="field">
+        <label>Which modules are you most excited about? <span class="req">*</span></label>
+        <div class="hint">Select all that apply.</div>
+        <div class="opts" id="modules">
+          <div class="opt-item cb" data-val="Recruitment & Talent Acquisition"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Recruitment & Talent Acquisition</span>
+          </div>
+          <div class="opt-item cb" data-val="Onboarding & Employee Experience"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Onboarding & Employee Experience</span>
+          </div>
+          <div class="opt-item cb" data-val="HR Operations & Labour Law"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">HR Operations & Labour Law Compliance</span>
+          </div>
+          <div class="opt-item cb" data-val="Performance Management"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Performance Management</span>
+          </div>
+          <div class="opt-item cb" data-val="Compensation & Benefits"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Compensation & Total Rewards</span>
+          </div>
+          <div class="opt-item cb" data-val="Learning & Development"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Learning & Development Strategy</span>
+          </div>
+          <div class="opt-item cb" data-val="People Analytics"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">People Analytics & HR Metrics</span>
+          </div>
+          <div class="opt-item cb" data-val="Strategic HRBP"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Strategic HR Business Partnering</span>
+          </div>
+          <div class="opt-item cb" data-val="HR in Startups"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Scaling HR in Startups</span>
+          </div>
+          <div class="opt-item cb" data-val="Employee Relations"><input type="checkbox" />
+            <div class="opt-sq"></div><span class="opt-text">Employee Relations & Conflict Resolution</span>
+          </div>
+        </div>
+        <div class="err-msg" id="err-modules">Please select at least one module you're excited about.</div>
+      </div>
+
+      <div class="field">
+        <label>For the internship placement, do you have a preferred industry? <span class="req">*</span></label>
+        <select id="internIndustry">
+          <option value="">Select a preference</option>
+          <option>No preference — place me where it's the best fit</option>
+          <option>Fintech / Financial Services</option>
+          <option>Technology / Software</option>
+          <option>eCommerce / Retail</option>
+          <option>Healthcare / Pharmaceuticals</option>
+          <option>FMCG / Consumer Goods</option>
+          <option>Education / EdTech</option>
+          <option>Media & Entertainment</option>
+          <option>NGO / Non-profit</option>
+          <option>Consulting</option>
+          <option>Manufacturing</option>
+          <option>Other</option>
+        </select>
+        <div class="err-msg" id="err-internIndustry">Please select your internship preference.</div>
+      </div>
+
+      <div class="field">
+        <label>How would you rate your current HR knowledge? <span class="req">*</span></label>
+        <div class="hint">1 = Complete beginner, 10 = Advanced practitioner</div>
+        <div class="rating-row" id="hrKnowledge">
+          <button type="button" class="rating-btn" data-val="1">1</button>
+          <button type="button" class="rating-btn" data-val="2">2</button>
+          <button type="button" class="rating-btn" data-val="3">3</button>
+          <button type="button" class="rating-btn" data-val="4">4</button>
+          <button type="button" class="rating-btn" data-val="5">5</button>
+          <button type="button" class="rating-btn" data-val="6">6</button>
+          <button type="button" class="rating-btn" data-val="7">7</button>
+          <button type="button" class="rating-btn" data-val="8">8</button>
+          <button type="button" class="rating-btn" data-val="9">9</button>
+          <button type="button" class="rating-btn" data-val="10">10</button>
+        </div>
+        <div class="err-msg" id="err-hrKnowledge">Please rate your current HR knowledge.</div>
+      </div>
+
+      <div class="field">
+        <label>How did you hear about this program? Any specific person who referred you?</label>
+        <input type="text" id="referredBy"
+          placeholder="e.g. Referred by Taiwo Ogundimu, saw a LinkedIn post by Elizabeth Odetokun" />
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(3)">← Back</button>
+        <button class="btn-next" onclick="goTo(5)">Next: Final Step →</button>
+      </div>
+    </div>
+
+    <!-- SECTION 5: FINAL -->
+    <div class="form-section" id="sec5">
+      <div class="section-header">
+        <div class="section-num">Section 5 of 5</div>
+        <div class="section-title">Almost There — Final Details</div>
+        <div class="section-desc">Last few questions. You're doing great.</div>
+      </div>
+
+      <div class="field">
+        <label>Payment Preference <span class="req">*</span></label>
+        <div class="hint">This does not commit you to anything — it helps us plan cohort payment schedules.</div>
+        <div class="opts" id="payment">
+          <div class="opt-item" data-val="Full payment (₦150,000)"><input type="radio" name="pay" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Full payment upfront — ₦150,000</span>
+              <div class="opt-sub">Paid in one go upon acceptance</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="Instalment plan (₦50,000 × 3)"><input type="radio" name="pay" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Instalment plan — ₦50,000 × 3 monthly payments</span>
+              <div class="opt-sub">Same access, spread over 3 months</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="Company-sponsored"><input type="radio" name="pay" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Company-sponsored / employer is paying</span>
+              <div class="opt-sub">We'll send an invoice to your employer</div>
+            </div>
+          </div>
+          <div class="opt-item" data-val="Need scholarship / financial aid"><input type="radio" name="pay" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I'd like to apply for a scholarship or financial aid</span>
+              <div class="opt-sub">We have limited scholarship spots — include details in comments below</div>
+            </div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-payment">Please select your payment preference.</div>
+      </div>
+
+      <div class="field">
+        <label>Do you have a laptop/computer with stable internet access? <span class="req">*</span></label>
+        <div class="opts" id="techAccess">
+          <div class="opt-item" data-val="Yes — reliable laptop and internet"><input type="radio" name="tech" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">Yes — I have a reliable laptop and stable internet</span></div>
+          </div>
+          <div class="opt-item" data-val="Laptop yes, internet sometimes unstable"><input type="radio" name="tech" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I have a laptop but my internet is sometimes unstable</span></div>
+          </div>
+          <div class="opt-item" data-val="I use my phone primarily"><input type="radio" name="tech" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I mostly use my phone (smartphone)</span></div>
+          </div>
+          <div class="opt-item" data-val="Limited access — would need support"><input type="radio" name="tech" />
+            <div class="opt-circle"></div>
+            <div><span class="opt-text">I have limited access and may need support</span></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-techAccess">Please select your technology access.</div>
+      </div>
+
+      <div class="field">
+        <label>Is there anything else you'd like us to know about your application?</label>
+        <div class="hint">Additional context, special circumstances, or anything that didn't fit elsewhere.</div>
+        <textarea id="additionalInfo" placeholder="Optional — but we read everything you write..."></textarea>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="field">
+        <div class="opts">
+          <div class="opt-item cb" id="consentItem" data-val="yes">
+            <input type="checkbox" />
+            <div class="opt-sq" id="consentSq"></div>
+            <span class="opt-text" style="font-size:13px">I confirm that the information I have provided is accurate and
+              truthful. I understand that Talent Factory will contact me via the email and phone number I've provided to
+              discuss my application. <span class="req">*</span></span>
+          </div>
+        </div>
+        <div class="err-msg" id="err-consent">You must confirm this to submit your application.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goTo(4)">← Back</button>
+        <button class="btn-submit" onclick="submitForm()">Submit Application ✓</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">🎉</div>
+      <h2 class="success-h">Application <em>Received!</em></h2>
+      <p class="success-p">Thank you for applying to Talent Factory Cohort 1. We've received your application and our
+        team will review it personally. You'll hear from us within <strong>7 working days</strong> with a decision.</p>
+      <div class="success-note">📧 Keep an eye on your inbox — and check your spam folder just in case.</div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentStep = 1;
+    const totalSteps = 5;
+
+    // Radio single-select
+    document.querySelectorAll('.opts:not([id="modules"]) .opt-item:not(.cb)').forEach(item => {
+      item.addEventListener('click', () => {
+        const group = item.closest('.opts');
+        group.querySelectorAll('.opt-item').forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+        clearErr(group.id);
+      });
+    });
+
+    // Checkbox multi-select
+    document.querySelectorAll('.opt-item.cb').forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('selected');
+      });
+    });
+
+    // Rating buttons
+    document.querySelectorAll('.rating-row .rating-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('.rating-row');
+        row.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+        clearErr(row.id);
+      });
+    });
+
+    function clearErr(id) {
+      const el = document.getElementById('err-' + id);
+      if (el) { el.classList.remove('show'); }
+    }
+
+    function showErr(id) {
+      const el = document.getElementById('err-' + id);
+      if (el) { el.classList.add('show'); return true; }
+      return false;
+    }
+
+    function getRadioVal(groupId) {
+      const sel = document.querySelector(`#${groupId} .opt-item.selected`);
+      return sel ? sel.dataset.val : '';
+    }
+
+    function getCheckboxVals(groupId) {
+      return [...document.querySelectorAll(`#${groupId} .opt-item.selected`)].map(i => i.dataset.val);
+    }
+
+    function getRatingVal(rowId) {
+      const sel = document.querySelector(`#${rowId} .rating-btn.sel`);
+      return sel ? sel.dataset.val : '';
+    }
+
+    function validateSection(n) {
+      let valid = true;
+      if (n === 1) {
+        if (!document.getElementById('firstName').value.trim()) { showErr('firstName'); valid = false; } else clearErr('firstName');
+        if (!document.getElementById('lastName').value.trim()) { showErr('lastName'); valid = false; } else clearErr('lastName');
+        const em = document.getElementById('email').value.trim();
+        if (!em || !em.includes('@')) { showErr('email'); valid = false; } else clearErr('email');
+        if (!document.getElementById('phone').value.trim()) { showErr('phone'); valid = false; } else clearErr('phone');
+        if (!document.getElementById('state').value) { showErr('state'); valid = false; } else clearErr('state');
+        if (!document.getElementById('gender').value) { showErr('gender'); valid = false; } else clearErr('gender');
+        if (!getRadioVal('ageRange')) { showErr('ageRange'); valid = false; } else clearErr('ageRange');
+        if (!document.getElementById('referral').value) { showErr('referral'); valid = false; } else clearErr('referral');
+      }
+      if (n === 2) {
+        if (!getRadioVal('education')) { showErr('education'); valid = false; } else clearErr('education');
+        if (!getRadioVal('employment')) { showErr('employment'); valid = false; } else clearErr('employment');
+        if (!getRadioVal('hrExp')) { showErr('hrExp'); valid = false; } else clearErr('hrExp');
+      }
+      if (n === 3) {
+        if (!getRadioVal('applyReason')) { showErr('applyReason'); valid = false; } else clearErr('applyReason');
+        if (document.getElementById('whyJoin').value.trim().length < 50) { showErr('whyJoin'); valid = false; } else clearErr('whyJoin');
+        if (!document.getElementById('twoYears').value.trim()) { showErr('twoYears'); valid = false; } else clearErr('twoYears');
+      }
+      if (n === 4) {
+        if (!getRadioVal('schedule')) { showErr('schedule'); valid = false; } else clearErr('schedule');
+        if (getCheckboxVals('modules').length === 0) { showErr('modules'); valid = false; } else clearErr('modules');
+        if (!document.getElementById('internIndustry').value) { showErr('internIndustry'); valid = false; } else clearErr('internIndustry');
+        if (!getRatingVal('hrKnowledge')) { showErr('hrKnowledge'); valid = false; } else clearErr('hrKnowledge');
+      }
+      if (n === 5) {
+        if (!getRadioVal('payment')) { showErr('payment'); valid = false; } else clearErr('payment');
+        if (!getRadioVal('techAccess')) { showErr('techAccess'); valid = false; } else clearErr('techAccess');
+        if (!document.getElementById('consentItem').classList.contains('selected')) { showErr('consent'); valid = false; } else clearErr('consent');
+      }
+      return valid;
+    }
+
+    function goTo(n) {
+      if (n > currentStep && !validateSection(currentStep)) {
+        window.scrollTo({ top: document.querySelector('.form-shell').offsetTop - 20, behavior: 'smooth' });
+        return;
+      }
+      document.getElementById('sec' + currentStep).classList.remove('active');
+      // update progress dots
+      const prev = currentStep;
+      currentStep = n;
+
+      for (let i = 1; i <= totalSteps; i++) {
+        const dot = document.getElementById('ps' + i);
+        const line = document.getElementById('pl' + i);
+        dot.classList.remove('active', 'done');
+        if (line) line.classList.remove('done');
+        if (i < currentStep) { dot.classList.add('done'); if (line) line.classList.add('done'); }
+        if (i === currentStep) dot.classList.add('active');
+      }
+
+      document.getElementById('sec' + currentStep).classList.add('active');
+      window.scrollTo({ top: document.querySelector('.form-hero').offsetTop, behavior: 'smooth' });
+    }
+
+    function submitForm() {
+      if (!validateSection(5)) {
+        window.scrollTo({ top: document.querySelector('.form-shell').offsetTop - 20, behavior: 'smooth' });
+        return;
+      }
+
+      const btn = document.querySelector('.btn-submit');
+      btn.innerText = 'Submitting...';
+      btn.disabled = true;
+
+      // Pure frontend: Simulate total submission success
+      setTimeout(() => {
+        document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+        for (let i = 1; i <= totalSteps; i++) {
+          document.getElementById('ps' + i).classList.remove('active');
+          document.getElementById('ps' + i).classList.add('done');
+          const l = document.getElementById('pl' + i);
+          if (l) l.classList.add('done');
+        }
+        document.getElementById('successScreen').classList.add('active');
+        window.scrollTo({ top: document.querySelector('.form-hero').offsetTop, behavior: 'smooth' });
+      }, 800);
+    }
+  </script>
+</body>
+
+</html>
