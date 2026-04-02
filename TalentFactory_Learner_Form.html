@@ -8,6 +8,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;500;600;700&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <style>
     *,
     *::before,
@@ -1326,6 +1327,7 @@
 
   </div>
 
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script>
     let currentStep = 1;
     const totalSteps = 5;
@@ -1452,18 +1454,80 @@
       btn.innerText = 'Submitting...';
       btn.disabled = true;
 
-      // Pure frontend: Simulate total submission success
-      setTimeout(() => {
-        document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-        for (let i = 1; i <= totalSteps; i++) {
-          document.getElementById('ps' + i).classList.remove('active');
-          document.getElementById('ps' + i).classList.add('done');
-          const l = document.getElementById('pl' + i);
-          if (l) l.classList.add('done');
-        }
-        document.getElementById('successScreen').classList.add('active');
-        window.scrollTo({ top: document.querySelector('.form-hero').offsetTop, behavior: 'smooth' });
-      }, 800);
+      const payload = {
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        state: document.getElementById('state').value,
+        gender: document.getElementById('gender').value,
+        ageRange: getRadioVal('ageRange'),
+        referral: document.getElementById('referral').value,
+        education: getRadioVal('education'),
+        fieldOfStudy: document.getElementById('fieldOfStudy') ? document.getElementById('fieldOfStudy').value.trim() : "",
+        employment: getRadioVal('employment'),
+        jobTitle: document.getElementById('jobTitle') ? document.getElementById('jobTitle').value.trim() : "",
+        industry: document.getElementById('industry') ? document.getElementById('industry').value : "",
+        hrExp: getRadioVal('hrExp'),
+        linkedin: document.getElementById('linkedin') ? document.getElementById('linkedin').value.trim() : "",
+        applyReason: getRadioVal('applyReason'),
+        whyJoin: document.getElementById('whyJoin').value.trim(),
+        twoYears: document.getElementById('twoYears').value.trim(),
+        biggestChallenge: document.getElementById('biggestChallenge') ? document.getElementById('biggestChallenge').value.trim() : "",
+        schedule: getRadioVal('schedule'),
+        modules: getCheckboxVals('modules'),
+        internIndustry: document.getElementById('internIndustry').value,
+        hrKnowledge: getRatingVal('hrKnowledge'),
+        referredBy: document.getElementById('referredBy') ? document.getElementById('referredBy').value.trim() : "",
+        payment: getRadioVal('payment'),
+        techAccess: getRadioVal('techAccess'),
+        additionalInfo: document.getElementById('additionalInfo') ? document.getElementById('additionalInfo').value.trim() : "",
+        type: "Learner Application"
+      };
+
+      fetch('https://genzform.onrender.com/api/learners', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            Toastify({
+              text: 'Submission failed: ' + (data.message || 'Please review your inputs.'),
+              duration: 4000,
+              close: true,
+              gravity: "top",
+              position: "right",
+              style: { background: "#C0392B" }
+            }).showToast();
+            btn.innerText = 'Submit Application ✓';
+            btn.disabled = false;
+          } else {
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            for (let i = 1; i <= totalSteps; i++) {
+              document.getElementById('ps' + i).classList.remove('active');
+              document.getElementById('ps' + i).classList.add('done');
+              const l = document.getElementById('pl' + i);
+              if (l) l.classList.add('done');
+            }
+            document.getElementById('successScreen').classList.add('active');
+            window.scrollTo({ top: document.querySelector('.form-hero').offsetTop, behavior: 'smooth' });
+          }
+        })
+        .catch(err => {
+          console.error('Submission error:', err);
+          Toastify({
+            text: 'An error occurred. Please try again later.',
+            duration: 4000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            style: { background: "#C0392B" }
+          }).showToast();
+          btn.innerText = 'Submit Application ✓';
+          btn.disabled = false;
+        });
     }
   </script>
 </body>

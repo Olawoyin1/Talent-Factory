@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Factory — Admin Dashboard</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Syne:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Toastify -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <!-- Tailwind CSS v3 via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        syne: ['Syne', 'sans-serif'],
+                        fraunces: ['Fraunces', 'serif'],
+                    },
+                    colors: {
+                        tf: {
+                            black: '#0A0A0A',
+                            off: '#F5F0E8',
+                            warm: '#EDE4D4',
+                            gold: '#D4A017',
+                            goldL: '#F0C040',
+                            green: '#1B4D3E',
+                            greenL: '#2A7A5E',
+                            muted: '#6B6050',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-syne bg-tf-off text-tf-black min-h-screen">
+
+    <!-- Login Section -->
+    <div id="login-section" class="flex min-h-screen items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-lg border border-tf-gold/20 p-8 w-full max-w-md">
+            <div class="text-center mb-8">
+                <div
+                    class="w-12 h-12 bg-tf-black text-tf-gold flex items-center justify-center font-fraunces font-black text-xl rounded shadow m-auto mb-4 tracking-tighter">
+                    TF</div>
+                <h1 class="font-fraunces text-2xl font-bold">Admin Portal</h1>
+                <p class="text-tf-muted text-sm mt-2">Sign in to manage applications</p>
+            </div>
+
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold mb-1">Email Address</label>
+                    <input type="email" id="login-email"
+                        class="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:border-tf-gold focus:ring-2 focus:ring-tf-gold/20"
+                        required>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold mb-1">Password</label>
+                    <input type="password" id="login-password"
+                        class="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:border-tf-gold focus:ring-2 focus:ring-tf-gold/20"
+                        required>
+                </div>
+                <button type="submit"
+                    class="w-full py-3 bg-tf-black text-white rounded font-bold hover:bg-tf-gold hover:text-tf-black transition-colors">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard-section" class="hidden min-h-screen bg-tf-off">
+        <!-- Navbar -->
+        <nav class="bg-tf-black text-tf-off px-8 py-4 flex justify-between items-center sticky top-0 z-50">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-8 h-8 bg-tf-gold text-tf-black flex items-center justify-center font-fraunces font-black rounded text-sm tracking-tighter">
+                    TF</div>
+                <div class="font-fraunces font-bold text-lg">Talent<span class="text-tf-gold">Factory</span> Admin</div>
+            </div>
+            <div>
+                <button id="logout-btn"
+                    class="text-sm font-bold opacity-80 hover:opacity-100 hover:text-tf-gold transition">Log
+                    Out</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="max-w-7xl mx-auto px-8 py-8 flex flex-col md:flex-row gap-8">
+
+            <!-- Sidebar -->
+            <aside class="w-full md:w-64 shrink-0">
+                <div class="bg-white rounded-xl shadow-sm border border-tf-gold/10 overflow-hidden sticky top-24">
+                    <button data-tab="tab-overview"
+                        class="tab-btn w-full text-left px-6 py-4 font-bold border-b border-gray-100 bg-tf-green/5 text-tf-green border-l-4 border-l-tf-green transition">
+                        Overview
+                    </button>
+                    <button data-tab="tab-learners"
+                        class="tab-btn w-full text-left px-6 py-4 font-bold border-b border-gray-100 text-tf-muted hover:bg-gray-50 border-l-4 border-l-transparent transition">
+                        Learner Applications
+                    </button>
+                    <button data-tab="tab-instructors"
+                        class="tab-btn w-full text-left px-6 py-4 font-bold border-b border-gray-100 text-tf-muted hover:bg-gray-50 border-l-4 border-l-transparent transition">
+                        Instructor Applications
+                    </button>
+                    <button data-tab="tab-waitlist"
+                        class="tab-btn w-full text-left px-6 py-4 font-bold text-tf-muted hover:bg-gray-50 border-l-4 border-l-transparent transition">
+                        Waitlist
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="flex-1">
+
+                <!-- Tab: Overview -->
+                <div id="tab-overview" class="tab-content block pb-12">
+                    <h2 class="font-fraunces text-3xl font-bold mb-6">Dashboard Overview</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div
+                            class="bg-white p-6 rounded-xl shadow-sm border border-tf-gold/20 border-t-4 border-t-tf-gold">
+                            <div class="text-sm font-bold text-tf-muted tracking-wider uppercase mb-2">Total Learners
+                            </div>
+                            <div id="stat-learners" class="text-4xl font-black font-fraunces text-tf-black">-</div>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-xl shadow-sm border border-tf-green/20 border-t-4 border-t-tf-green">
+                            <div class="text-sm font-bold text-tf-muted tracking-wider uppercase mb-2">Total Instructors
+                            </div>
+                            <div id="stat-instructors" class="text-4xl font-black font-fraunces text-tf-black">-</div>
+                        </div>
+                        <div
+                            class="bg-white p-6 rounded-xl shadow-sm border border-tf-black/20 border-t-4 border-t-tf-black">
+                            <div class="text-sm font-bold text-tf-muted tracking-wider uppercase mb-2">Waitlist Signups
+                            </div>
+                            <div id="stat-waitlist" class="text-4xl font-black font-fraunces text-tf-black">-</div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity could go here -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                            <h3 class="font-bold text-lg">System Status</h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-tf-muted" id="dashboard-message">Loading data...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Learners -->
+                <div id="tab-learners" class="tab-content hidden pb-12">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="font-fraunces text-3xl font-bold">Learner Applications</h2>
+                        <button onclick="fetchLearners()"
+                            class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-200 text-sm">
+                                    <th class="p-4 font-bold text-tf-muted">Name</th>
+                                    <th class="p-4 font-bold text-tf-muted">Email</th>
+                                    <th class="p-4 font-bold text-tf-muted">Phone</th>
+                                    <th class="p-4 font-bold text-tf-muted">State</th>
+                                    <th class="p-4 font-bold text-tf-muted">Date</th>
+                                    <th class="p-4 font-bold text-tf-muted text-right">View</th>
+                                </tr>
+                            </thead>
+                            <tbody id="learners-table-body" class="text-sm">
+                                <tr>
+                                    <td colspan="6" class="p-8 text-center text-tf-muted">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab: Instructors -->
+                <div id="tab-instructors" class="tab-content hidden pb-12">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="font-fraunces text-3xl font-bold">Instructor Applications</h2>
+                        <button onclick="fetchInstructors()"
+                            class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-200 text-sm">
+                                    <th class="p-4 font-bold text-tf-muted">Name</th>
+                                    <th class="p-4 font-bold text-tf-muted">Email</th>
+                                    <th class="p-4 font-bold text-tf-muted">Title / Employer</th>
+                                    <th class="p-4 font-bold text-tf-muted">Time Slots</th>
+                                    <th class="p-4 font-bold text-tf-muted">Date</th>
+                                    <th class="p-4 font-bold text-tf-muted text-right">View</th>
+                                </tr>
+                            </thead>
+                            <tbody id="instructors-table-body" class="text-sm">
+                                <tr>
+                                    <td colspan="6" class="p-8 text-center text-tf-muted">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab: Waitlist -->
+                <div id="tab-waitlist" class="tab-content hidden pb-12">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="font-fraunces text-3xl font-bold">Waitlist Signups</h2>
+                        <button onclick="fetchWaitlist()"
+                            class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-200 text-sm">
+                                    <th class="p-4 font-bold text-tf-muted">Email</th>
+                                    <th class="p-4 font-bold text-tf-muted">Source</th>
+                                    <th class="p-4 font-bold text-tf-muted">Date Joined</th>
+                                </tr>
+                            </thead>
+                            <tbody id="waitlist-table-body" class="text-sm">
+                                <tr>
+                                    <td colspan="3" class="p-8 text-center text-tf-muted">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        const API_BASE = 'https://genzform.onrender.com/api';
+        let token = localStorage.getItem('tf_admin_token') || null;
+
+        // UI Elements
+        const loginSection = document.getElementById('login-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+
+        function showToast(text, isError = false) {
+            Toastify({
+                text,
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: { background: isError ? "#C0392B" : "#1B4D3E" }
+            }).showToast();
+        }
+
+        // Auth flows
+        function checkAuth() {
+            if (token) {
+                loginSection.classList.add('hidden');
+                dashboardSection.classList.remove('hidden');
+                fetchDashboardData();
+                fetchLearners();
+                fetchInstructors();
+                fetchWaitlist();
+            } else {
+                loginSection.classList.remove('hidden');
+                dashboardSection.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            fetch(`${API_BASE}/admin/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.token) {
+                        token = data.token;
+                        localStorage.setItem('tf_admin_token', token);
+                        showToast('Login successful!');
+                        checkAuth();
+                    } else {
+                        showToast(data.message || 'Invalid credentials', true);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    showToast('Server error. Try again.', true);
+                });
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            token = null;
+            localStorage.removeItem('tf_admin_token');
+            showToast('Logged out successfully');
+            checkAuth();
+        });
+
+        // Dashboard Data
+        function fetchDashboardData() {
+            fetch(`${API_BASE}/admin/dashboard`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('stat-learners').innerText = data.data.totalLearners || 0;
+                        document.getElementById('stat-instructors').innerText = data.data.totalInstructors || 0;
+                        document.getElementById('stat-waitlist').innerText = data.data.totalWaitlist || 0;
+                        document.getElementById('dashboard-message').innerText = "Live tracking active. Select a tab on the left to view detailed logs.";
+                    } else {
+                        if (data.message === 'Unauthorized') logoutAndPrompt();
+                    }
+                })
+                .catch(console.error);
+        }
+
+        function fetchLearners() {
+            fetch(`${API_BASE}/admin/learners?limit=100`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.getElementById('learners-table-body');
+                    if (data.success && data.data && data.data.records) {
+                        if (data.data.records.length === 0) {
+                            tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
+                            return;
+                        }
+                        tbody.innerHTML = data.data.records.map(rec => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+              <td class="p-4 font-bold text-tf-black">${rec.firstName} ${rec.lastName}</td>
+              <td class="p-4 text-tf-muted">${rec.email}</td>
+              <td class="p-4 text-tf-muted">${rec.phone || '-'}</td>
+              <td class="p-4 text-tf-muted">${rec.state || '-'}</td>
+              <td class="p-4 text-tf-muted" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
+              <td class="p-4 text-right"><button class="text-tf-gold hover:underline font-bold text-xs uppercase" onclick="alert('Full profile view not implemented yet.')">View</button></td>
+            </tr>
+          `).join('');
+                    }
+                })
+                .catch(console.error);
+        }
+
+        function fetchInstructors() {
+            fetch(`${API_BASE}/admin/instructors?limit=100`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.getElementById('instructors-table-body');
+                    if (data.success && data.data && data.data.records) {
+                        if (data.data.records.length === 0) {
+                            tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
+                            return;
+                        }
+                        tbody.innerHTML = data.data.records.map(rec => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+              <td class="p-4 font-bold text-tf-black">${rec.firstName} ${rec.lastName}</td>
+              <td class="p-4 text-tf-muted">${rec.email}</td>
+              <td class="p-4 text-tf-muted font-medium">${rec.proTitle}<br><span class="text-xs font-normal opacity-70">${rec.employer}</span></td>
+              <td class="p-4 text-tf-muted">${Array.isArray(rec.timeSlots) ? rec.timeSlots.join(', ') : '-'}</td>
+              <td class="p-4 text-tf-muted" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
+              <td class="p-4 text-right"><button class="text-tf-gold hover:underline font-bold text-xs uppercase" onclick="alert('Full profile view not implemented yet.')">View</button></td>
+            </tr>
+          `).join('');
+                    }
+                })
+                .catch(console.error);
+        }
+
+        function fetchWaitlist() {
+            fetch(`${API_BASE}/admin/waitlist?limit=100`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.getElementById('waitlist-table-body');
+                    if (data.success && data.data && data.data.records) {
+                        if (data.data.records.length === 0) {
+                            tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
+                            return;
+                        }
+                        tbody.innerHTML = data.data.records.map(rec => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+              <td class="p-4 font-bold text-tf-black">${rec.email}</td>
+              <td class="p-4 text-tf-muted">${rec.source || "Website Waitlist"}</td>
+              <td class="p-4 text-tf-muted" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
+            </tr>
+          `).join('');
+                    }
+                })
+                .catch(console.error);
+        }
+
+        function logoutAndPrompt() {
+            token = null;
+            localStorage.removeItem('tf_admin_token');
+            showToast('Session expired. Please log in again.', true);
+            checkAuth();
+        }
+
+        // Tabs functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Reset all buttons
+                tabBtns.forEach(b => {
+                    b.classList.remove('bg-tf-green/5', 'text-tf-green', 'border-l-tf-green');
+                    b.classList.add('text-tf-muted', 'border-l-transparent');
+                });
+                // Activate clicked button
+                btn.classList.add('bg-tf-green/5', 'text-tf-green', 'border-l-tf-green');
+                btn.classList.remove('text-tf-muted', 'border-l-transparent');
+
+                // Hide all contents
+                tabContents.forEach(c => c.classList.add('hidden'));
+                // Show target content
+                document.getElementById(btn.dataset.tab).classList.remove('hidden');
+            });
+        });
+
+        // Init
+        checkAuth();
+    </script>
+</body>
+
+</html>

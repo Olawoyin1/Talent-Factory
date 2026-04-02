@@ -8,6 +8,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;500;600;700&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <style>
     *,
     *::before,
@@ -1365,6 +1366,7 @@
 
   </div>
 
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script>
     let currentStep = 1;
     const totalSteps = 5;
@@ -1461,18 +1463,82 @@
       btn.innerText = 'Submitting...';
       btn.disabled = true;
 
-      // Pure frontend: Simulate total submission success
-      setTimeout(() => {
-        document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-        for (let i = 1; i <= totalSteps; i++) {
-          document.getElementById('ps' + i).classList.remove('active');
-          document.getElementById('ps' + i).classList.add('done');
-          const l = document.getElementById('pl' + i);
-          if (l) l.classList.add('done');
-        }
-        document.getElementById('successScreen').classList.add('active');
-        window.scrollTo({ top: document.querySelector('.form-hero').offsetTop, behavior: 'smooth' });
-      }, 800);
+      const payload = {
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        proTitle: document.getElementById('proTitle').value.trim(),
+        employer: document.getElementById('employer').value.trim(),
+        industry: document.getElementById('industry').value,
+        linkedin: document.getElementById('linkedin').value.trim(),
+        state: document.getElementById('state').value,
+        referral: document.getElementById('referral').value,
+        totalYears: getRadioVal('totalYears'),
+        hrYears: getRadioVal('hrYears'),
+        seniority: getRadioVal('seniority'),
+        notableOrgs: document.getElementById('notableOrgs').value.trim(),
+        certs: getCBVals('certs'),
+        achievement: document.getElementById('achievement').value.trim(),
+        teachModules: getCBVals('teachModules'),
+        topModule: document.getElementById('topModule').value.trim(),
+        taughtBefore: getRadioVal('taughtBefore'),
+        teachingApproach: document.getElementById('teachingApproach').value.trim(),
+        confidence: getRatingVal('confidence'),
+        timeSlots: getCBVals('timeSlots'),
+        sessionCount: getRadioVal('sessionCount'),
+        bankName: document.getElementById('bankName').value.trim(),
+        accountName: document.getElementById('accountName').value.trim(),
+        accountNumber: document.getElementById('accountNumber').value.trim(),
+        whyTeach: document.getElementById('whyTeach').value.trim(),
+        wishKnown: document.getElementById('wishKnown').value.trim(),
+        bio: document.getElementById('bio').value.trim(),
+        additionalInfo: document.getElementById('additionalInfo').value.trim()
+      };
+
+      fetch('https://genzform.onrender.com/api/instructors', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            Toastify({
+              text: 'Submission failed: ' + (data.message || 'Please review your inputs.'),
+              duration: 4000,
+              close: true,
+              gravity: "top",
+              position: "right",
+              style: { background: "#C0392B" }
+            }).showToast();
+            btn.innerText = 'Submit Instructor Application ✓';
+            btn.disabled = false;
+          } else {
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            for (let i = 1; i <= totalSteps; i++) {
+              document.getElementById('ps' + i).classList.remove('active');
+              document.getElementById('ps' + i).classList.add('done');
+              const l = document.getElementById('pl' + i);
+              if (l) l.classList.add('done');
+            }
+            document.getElementById('successScreen').classList.add('active');
+            window.scrollTo({ top: document.querySelector('.form-hero').offsetTop, behavior: 'smooth' });
+          }
+        })
+        .catch(err => {
+          console.error('Submission error:', err);
+          Toastify({
+            text: 'An error occurred. Please try again later.',
+            duration: 4000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            style: { background: "#C0392B" }
+          }).showToast();
+          btn.innerText = 'Submit Instructor Application ✓';
+          btn.disabled = false;
+        });
     }
   </script>
 </body>
