@@ -75,6 +75,17 @@
                     Sign In
                 </button>
             </form>
+            <div class="mt-6 text-center">
+                <a href="index.html"
+                    class="text-sm font-bold text-tf-muted hover:text-tf-gold transition flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to Home
+                </a>
+            </div>
         </div>
     </div>
 
@@ -96,7 +107,7 @@
         </nav>
 
         <!-- Main Content -->
-        <div class="max-w-7xl mx-auto px-8 py-8 flex flex-col md:flex-row gap-8">
+        <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
 
             <!-- Sidebar -->
             <aside class="w-full md:w-64 shrink-0">
@@ -167,20 +178,19 @@
                             class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
+                        <table class="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
                             <thead>
                                 <tr class="bg-gray-50 border-b border-gray-200 text-sm">
                                     <th class="p-4 font-bold text-tf-muted">Name</th>
                                     <th class="p-4 font-bold text-tf-muted">Email</th>
                                     <th class="p-4 font-bold text-tf-muted">Phone</th>
                                     <th class="p-4 font-bold text-tf-muted">State</th>
-                                    <th class="p-4 font-bold text-tf-muted">Date</th>
-                                    <th class="p-4 font-bold text-tf-muted text-right">View</th>
+                                    <th class="p-4 font-bold text-tf-muted text-right">Date</th>
                                 </tr>
                             </thead>
                             <tbody id="learners-table-body" class="text-sm">
                                 <tr>
-                                    <td colspan="6" class="p-8 text-center text-tf-muted">Loading...</td>
+                                    <td colspan="5" class="p-8 text-center text-tf-muted">Loading...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -195,20 +205,19 @@
                             class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
+                        <table class="w-full text-left border-collapse min-w-[700px] whitespace-nowrap">
                             <thead>
                                 <tr class="bg-gray-50 border-b border-gray-200 text-sm">
                                     <th class="p-4 font-bold text-tf-muted">Name</th>
                                     <th class="p-4 font-bold text-tf-muted">Email</th>
                                     <th class="p-4 font-bold text-tf-muted">Title / Employer</th>
                                     <th class="p-4 font-bold text-tf-muted">Time Slots</th>
-                                    <th class="p-4 font-bold text-tf-muted">Date</th>
-                                    <th class="p-4 font-bold text-tf-muted text-right">View</th>
+                                    <th class="p-4 font-bold text-tf-muted text-right">Date</th>
                                 </tr>
                             </thead>
                             <tbody id="instructors-table-body" class="text-sm">
                                 <tr>
-                                    <td colspan="6" class="p-8 text-center text-tf-muted">Loading...</td>
+                                    <td colspan="5" class="p-8 text-center text-tf-muted">Loading...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -223,12 +232,12 @@
                             class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
+                        <table class="w-full text-left border-collapse min-w-[500px] whitespace-nowrap">
                             <thead>
                                 <tr class="bg-gray-50 border-b border-gray-200 text-sm">
                                     <th class="p-4 font-bold text-tf-muted">Email</th>
                                     <th class="p-4 font-bold text-tf-muted">Source</th>
-                                    <th class="p-4 font-bold text-tf-muted">Date Joined</th>
+                                    <th class="p-4 font-bold text-tf-muted text-right">Date Joined</th>
                                 </tr>
                             </thead>
                             <tbody id="waitlist-table-body" class="text-sm">
@@ -284,6 +293,12 @@
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value.trim();
 
+            const submitBtn = document.querySelector('#login-form button[type="submit"]');
+            const oldText = submitBtn.innerText;
+            submitBtn.innerText = 'Signing In...';
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
             fetch(`${API_BASE}/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -291,6 +306,10 @@
             })
                 .then(res => res.json())
                 .then(data => {
+                    submitBtn.innerText = oldText;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+
                     if (data.success && data.token) {
                         token = data.token;
                         localStorage.setItem('tf_admin_token', token);
@@ -302,6 +321,9 @@
                 })
                 .catch(err => {
                     console.error(err);
+                    submitBtn.innerText = oldText;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
                     showToast('Server error. Try again.', true);
                 });
         });
@@ -333,6 +355,7 @@
         }
 
         function fetchLearners() {
+            showToast('Refreshing learners data...');
             fetch(`${API_BASE}/admin/learners?limit=100`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
@@ -341,7 +364,7 @@
                     const tbody = document.getElementById('learners-table-body');
                     if (data.success && data.data && data.data.records) {
                         if (data.data.records.length === 0) {
-                            tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
+                            tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
                             return;
                         }
                         tbody.innerHTML = data.data.records.map(rec => `
@@ -350,16 +373,22 @@
               <td class="p-4 text-tf-muted">${rec.email}</td>
               <td class="p-4 text-tf-muted">${rec.phone || '-'}</td>
               <td class="p-4 text-tf-muted">${rec.state || '-'}</td>
-              <td class="p-4 text-tf-muted" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
-              <td class="p-4 text-right"><button class="text-tf-gold hover:underline font-bold text-xs uppercase" onclick="alert('Full profile view not implemented yet.')">View</button></td>
+              <td class="p-4 text-tf-muted text-right" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
             </tr>
           `).join('');
+                        showToast('Learners refreshed!');
+                    } else {
+                        throw new Error(data.message);
                     }
                 })
-                .catch(console.error);
+                .catch(err => {
+                    console.error(err);
+                    showToast('Failed to refresh learners.', true);
+                });
         }
 
         function fetchInstructors() {
+            showToast('Refreshing instructors data...');
             fetch(`${API_BASE}/admin/instructors?limit=100`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
@@ -368,7 +397,7 @@
                     const tbody = document.getElementById('instructors-table-body');
                     if (data.success && data.data && data.data.records) {
                         if (data.data.records.length === 0) {
-                            tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
+                            tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
                             return;
                         }
                         tbody.innerHTML = data.data.records.map(rec => `
@@ -377,16 +406,22 @@
               <td class="p-4 text-tf-muted">${rec.email}</td>
               <td class="p-4 text-tf-muted font-medium">${rec.proTitle}<br><span class="text-xs font-normal opacity-70">${rec.employer}</span></td>
               <td class="p-4 text-tf-muted">${Array.isArray(rec.timeSlots) ? rec.timeSlots.join(', ') : '-'}</td>
-              <td class="p-4 text-tf-muted" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
-              <td class="p-4 text-right"><button class="text-tf-gold hover:underline font-bold text-xs uppercase" onclick="alert('Full profile view not implemented yet.')">View</button></td>
+              <td class="p-4 text-tf-muted text-right" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
             </tr>
           `).join('');
+                        showToast('Instructors refreshed!');
+                    } else {
+                        throw new Error(data.message);
                     }
                 })
-                .catch(console.error);
+                .catch(err => {
+                    console.error(err);
+                    showToast('Failed to refresh instructors', true);
+                });
         }
 
         function fetchWaitlist() {
+            showToast('Refreshing waitlist...');
             fetch(`${API_BASE}/admin/waitlist?limit=100`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
@@ -402,12 +437,18 @@
             <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
               <td class="p-4 font-bold text-tf-black">${rec.email}</td>
               <td class="p-4 text-tf-muted">${rec.source || "Website Waitlist"}</td>
-              <td class="p-4 text-tf-muted" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
+              <td class="p-4 text-tf-muted text-right" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
             </tr>
           `).join('');
+                        showToast('Waitlist refreshed!');
+                    } else {
+                        throw new Error(data.message);
                     }
                 })
-                .catch(console.error);
+                .catch(err => {
+                    console.error(err);
+                    showToast('Failed to refresh waitlist', true);
+                });
         }
 
         function logoutAndPrompt() {
