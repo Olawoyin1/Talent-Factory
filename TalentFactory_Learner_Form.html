@@ -1328,6 +1328,7 @@
   </div>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     let currentStep = 1;
     const totalSteps = 5;
@@ -1485,40 +1486,35 @@
         type: "Learner Application"
       };
 
-      fetch('https://genzform.onrender.com/api/learners', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (!data.success) {
-            Toastify({
-              text: 'Submission failed: ' + (data.message || 'Please review your inputs.'),
-              duration: 4000,
-              close: true,
-              gravity: "top",
-              position: "right",
-              style: { background: "#C0392B" }
-            }).showToast();
-            btn.innerText = 'Submit Application ✓';
-            btn.disabled = false;
-          } else {
-            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-            for (let i = 1; i <= totalSteps; i++) {
-              document.getElementById('ps' + i).classList.remove('active');
-              document.getElementById('ps' + i).classList.add('done');
-              const l = document.getElementById('pl' + i);
-              if (l) l.classList.add('done');
-            }
-            document.getElementById('successScreen').classList.add('active');
-            window.scrollTo({ top: document.querySelector('.form-hero').offsetTop, behavior: 'smooth' });
+      axios.post('https://genzform.onrender.com/api/learners', payload)
+        .then(response => {
+          Toastify({
+            text: 'Success: ' + (response.data.message || 'Application submitted!'),
+            duration: 4000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            style: { background: "#1B4D3E" }
+          }).showToast();
+
+          document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+          for (let i = 1; i <= totalSteps; i++) {
+            document.getElementById('ps' + i).classList.remove('active');
+            document.getElementById('ps' + i).classList.add('done');
+            const l = document.getElementById('pl' + i);
+            if (l) l.classList.add('done');
           }
+          document.getElementById('successScreen').classList.add('active');
+          window.scrollTo({ top: document.querySelector('.form-hero').offsetTop, behavior: 'smooth' });
         })
         .catch(err => {
           console.error('Submission error:', err);
+          const errorMsg = err.response && err.response.data && err.response.data.message
+            ? err.response.data.message
+            : 'An error occurred. Please try again later.';
+
           Toastify({
-            text: 'An error occurred. Please try again later.',
+            text: 'Submission failed: ' + errorMsg,
             duration: 4000,
             close: true,
             gravity: "top",

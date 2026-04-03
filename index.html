@@ -3069,6 +3069,7 @@
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     // Custom cursor
     const cur = document.getElementById('cur');
@@ -3121,37 +3122,32 @@
       btn.innerText = 'Joining...';
       btn.disabled = true;
 
-      fetch('https://genzform.onrender.com/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, source: 'Talent Factory Waitlist' })
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (!data.success) {
-            Toastify({
-              text: 'Error joining waitlist: ' + (data.message || 'Please try again.'),
-              duration: 4000,
-              close: true,
-              gravity: "top",
-              position: "right",
-              style: { background: "#C0392B" }
-            }).showToast();
-            btn.innerText = oldText;
-            btn.disabled = false;
-          } else {
-            document.querySelector('.apply-form').innerHTML = `
+      axios.post('https://genzform.onrender.com/api/waitlist', { email: email, source: 'Talent Factory Waitlist' })
+        .then(response => {
+          Toastify({
+            text: 'Success: ' + (response.data.message || "You're on the waitlist!"),
+            duration: 4000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            style: { background: "#1B4D3E" }
+          }).showToast();
+
+          document.querySelector('.apply-form').innerHTML = `
             <div style="background:var(--black); color:var(--white); padding:24px; border-radius:8px; text-align:center; width:100%; max-width:480px; margin:0 auto;">
               <h3 style="font-family:'Fraunces', serif; font-size:24px; margin-bottom:12px;">You're on the list! ✓</h3>
               <p style="font-size:14px; opacity:0.8;">We've received your email. We'll be in touch with updates on Cohort 1 very soon.</p>
             </div>
           `;
-          }
         })
         .catch(err => {
           console.error('Waitlist error:', err);
+          const errorMsg = err.response && err.response.data && err.response.data.message
+            ? err.response.data.message
+            : 'An error occurred. Please try again later.';
+
           Toastify({
-            text: 'An error occurred. Please try again later.',
+            text: 'Error joining waitlist: ' + errorMsg,
             duration: 4000,
             close: true,
             gravity: "top",
