@@ -236,6 +236,7 @@
                             <thead>
                                 <tr class="bg-gray-50 border-b border-gray-200 text-sm">
                                     <th class="p-4 font-bold text-tf-muted">Email</th>
+                                    <th class="p-4 font-bold text-tf-muted">Role</th>
                                     <th class="p-4 font-bold text-tf-muted">Source</th>
                                     <th class="p-4 font-bold text-tf-muted text-right">Date Joined</th>
                                 </tr>
@@ -430,12 +431,13 @@
                     const tbody = document.getElementById('waitlist-table-body');
                     if (data.success && data.data && data.data.records) {
                         if (data.data.records.length === 0) {
-                            tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
+                            tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
                             return;
                         }
                         tbody.innerHTML = data.data.records.map(rec => `
             <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
               <td class="p-4 font-bold text-tf-black">${rec.email}</td>
+              <td class="p-4 text-tf-muted">${rec.role ? `<span style="text-transform:capitalize">${rec.role}</span>` : '<span style="opacity:0.4">—</span>'}</td>
               <td class="p-4 text-tf-muted">${rec.source || "Website Waitlist"}</td>
               <td class="p-4 text-tf-muted text-right" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
             </tr>
