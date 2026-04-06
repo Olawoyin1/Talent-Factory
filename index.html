@@ -483,13 +483,56 @@ let count = 247;
 setInterval(()=>{ if(Math.random()>0.7){ count+=Math.floor(Math.random()*3)+1; document.getElementById('waitlistCount').textContent=count; }},8000);
 
 // Form submit
-function joinWaitlist(){
-  const email = document.getElementById('wl-email').value.trim();
-  const type = document.getElementById('wl-type').value;
-  if(!email || !email.includes('@')){ document.getElementById('wl-email').style.borderColor='rgba(200,75,42,0.6)'; document.getElementById('wl-email').placeholder='Please enter a valid email'; return; }
-  document.getElementById('formWrap').style.display='none';
-  document.getElementById('successMsg').classList.add('show');
-  count += 1; document.getElementById('waitlistCount').textContent=count;
+async function joinWaitlist(){
+  const emailEl = document.getElementById('wl-email');
+  const email = emailEl.value.trim();
+  const role = document.getElementById('wl-type').value;
+  const btn = document.querySelector('.form-btn');
+
+  if(!email || !email.includes('@')){
+    emailEl.style.borderColor='rgba(200,75,42,0.6)';
+    emailEl.placeholder='Please enter a valid email';
+    return;
+  }
+
+  // loading state
+  btn.disabled = true;
+  btn.textContent = 'Joining...';
+
+  try {
+    const res = await fetch('http://localhost:3000/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        role,
+        source: 'Talent Factory Waitlist'
+      })
+    });
+
+    const data = await res.json();
+
+    if(res.status === 409){
+      // already on the list — still show success, no need to alarm them
+      document.getElementById('formWrap').style.display='none';
+      document.getElementById('successMsg').classList.add('show');
+      return;
+    }
+
+    if(!res.ok) throw new Error(data.message || 'Something went wrong');
+
+    document.getElementById('formWrap').style.display='none';
+    document.getElementById('successMsg').classList.add('show');
+    count += 1;
+    document.getElementById('waitlistCount').textContent = count;
+
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = 'Join Waitlist →';
+    emailEl.style.borderColor = 'rgba(200,75,42,0.6)';
+    emailEl.placeholder = err.message || 'Something went wrong — try again';
+    emailEl.value = '';
+  }
 }
 
 // Particles
