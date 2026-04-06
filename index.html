@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Talent Factory — Join the Waitlist</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700;1,9..144,900&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -451,6 +452,8 @@ footer{position:relative;z-index:5;background:var(--black);padding:80px 56px 40p
   </div>
 </footer>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 // Countdown — target date: 60 days from now
 const target = new Date();
@@ -492,46 +495,59 @@ async function joinWaitlist(){
   if(!email || !email.includes('@')){
     emailEl.style.borderColor='rgba(200,75,42,0.6)';
     emailEl.placeholder='Please enter a valid email';
+    Toastify({
+      text: "Please enter a valid email address.",
+      duration: 3000, close: true, gravity: "top", position: "right",
+      style: { background: "#C0392B" }
+    }).showToast();
     return;
   }
 
-  // loading state
+  const oldText = btn.textContent;
   btn.disabled = true;
   btn.textContent = 'Joining...';
 
   try {
-    const res = await fetch('http://localhost:3000/api/waitlist', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email,
-        role,
-        source: 'Talent Factory Waitlist'
-      })
+    const res = await axios.post('https://genzform.onrender.com/api/waitlist', {
+      email,
+      role,
+      source: 'Talent Factory Waitlist'
     });
 
-    const data = await res.json();
+    Toastify({
+      text: 'Success: ' + (res.data.message || "You're on the waitlist!"),
+      duration: 4000, close: true, gravity: "top", position: "right",
+      style: { background: "#1B4D3E" }
+    }).showToast();
 
-    if(res.status === 409){
-      // already on the list — still show success, no need to alarm them
-      document.getElementById('formWrap').style.display='none';
-      document.getElementById('successMsg').classList.add('show');
-      return;
-    }
-
-    if(!res.ok) throw new Error(data.message || 'Something went wrong');
-
-    document.getElementById('formWrap').style.display='none';
+    document.getElementById('formWrap').style.display = 'none';
     document.getElementById('successMsg').classList.add('show');
     count += 1;
     document.getElementById('waitlistCount').textContent = count;
 
   } catch(err) {
+    const msg = err.response?.data?.message || 'Something went wrong. Please try again.';
+
+    // 409 = already on list, treat as soft success
+    if(err.response?.status === 409){
+      document.getElementById('formWrap').style.display = 'none';
+      document.getElementById('successMsg').classList.add('show');
+      Toastify({
+        text: "You're already on the waitlist — we've got you!",
+        duration: 4000, close: true, gravity: "top", position: "right",
+        style: { background: "#1B4D3E" }
+      }).showToast();
+      return;
+    }
+
+    Toastify({
+      text: 'Error: ' + msg,
+      duration: 4000, close: true, gravity: "top", position: "right",
+      style: { background: "#C0392B" }
+    }).showToast();
+
     btn.disabled = false;
-    btn.textContent = 'Join Waitlist →';
-    emailEl.style.borderColor = 'rgba(200,75,42,0.6)';
-    emailEl.placeholder = err.message || 'Something went wrong — try again';
-    emailEl.value = '';
+    btn.textContent = oldText;
   }
 }
 
