@@ -201,7 +201,29 @@ nav{position:relative;z-index:10;padding:24px 56px;display:flex;align-items:cent
 .as-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:6px}
 .as-desc{font-size:13px;line-height:1.7;color:rgba(255,255,255,0.45)}
 
-/* ── FOOTER ── */
+/* ── FAQ ── */
+.faq{background:var(--warm);padding:120px 56px;position:relative;z-index:5}
+.faq .sec-h{color:var(--black)}
+.faq .sec-h em{color:var(--gold)}
+.faq .sec-p{color:var(--muted)}
+.faq-inner{display:grid;grid-template-columns:1fr 1.4fr;gap:100px;align-items:start}
+.faq-left-sticky{position:sticky;top:100px}
+.faq-list{display:flex;flex-direction:column;gap:0}
+.faq-item{border-bottom:1.5px solid rgba(10,10,10,0.1);overflow:hidden}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:24px 0;cursor:pointer;font-size:16px;font-weight:600;color:var(--black);transition:color .2s}
+.faq-q:hover{color:var(--gold)}
+.faq-icon{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(10,10,10,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);flex-shrink:0;transition:all .3s}
+.faq-item.open .faq-icon{background:var(--gold);border-color:var(--gold);color:var(--black);transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .45s ease;font-size:14px;line-height:1.8;color:var(--muted)}
+.faq-a-inner{padding-bottom:24px}
+.faq-item.open .faq-a{max-height:300px}
+.btn-A{background:var(--black);color:var(--off);padding:14px 32px;border-radius:3px;font-size:14px;font-weight:700;text-decoration:none;border:2px solid var(--black);transition:all .25s;display:inline-block}
+.btn-A:hover{background:var(--gold);color:var(--black);border-color:var(--gold)}
+@media(max-width:640px){
+  .faq{padding:80px 24px}
+  .faq-inner{grid-template-columns:1fr;gap:48px}
+  .faq-left-sticky{position:static}
+}
 footer{position:relative;z-index:5;background:var(--black);padding:80px 56px 40px;border-top:1px solid rgba(255,255,255,0.05)}
 .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:60px}
 .footer-brand .logo-name{color:var(--white);font-size:22px;font-family:'Fraunces',serif;font-weight:700}
@@ -411,6 +433,52 @@ footer{position:relative;z-index:5;background:var(--black);padding:80px 56px 40p
   </div>
 </section>
 
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div class="faq-left-sticky">
+      <div class="eyebrow">FAQ</div>
+      <h2 class="sec-h">Questions We<br />Hear <em>Most Often.</em></h2>
+      <p class="sec-p" style="margin-bottom:32px">We've tried to answer everything that matters below. If you have a question that isn't here, reach out directly. We respond to everyone.</p>
+      <a href="mailto:hello@talentfactory.ng" class="btn-A">Email Us →</a>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q">Do I need HR experience to apply? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Not at all. Talent Factory is designed to welcome people at every stage — from total beginners to those with a few years of experience looking to level up. Our curriculum starts from the fundamentals and builds through to strategic, advanced practice. If you're motivated and committed, you're qualified to apply.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">When and how are the classes held? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Classes are held on weekday evenings (7PM–9PM) and Saturday mornings — so you can attend without leaving your current job or pausing your degree. Every session is recorded and available in your resource folder within 24 hours. The schedule is designed for real working people, not full-time students.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is the internship placement really guaranteed? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Before every cohort opens, we secure internship slots from our partner companies — enough for every student who completes the learning phase in good standing. We match you based on your background, location, and goals. The only way you don't get placed is if you don't complete the learning phase.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Will the internship be paid? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">We advocate for paid internships and prioritise partners who provide at least a monthly stipend. However, we cannot uniformly guarantee payment across all placements — this varies by company. What we can guarantee is a structured, high-quality learning environment with a real role, a real supervisor, and real HR work to do.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What makes the certificate valuable? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Two things: the curriculum it represents, and the network behind it. Your Talent Factory certificate signifies that you completed a rigorous, practitioner-taught program aligned with PHRi learning objectives — and that you have 12 weeks of supervised internship experience to back it up.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I apply to become an instructor? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. If you are a senior HR or business professional with 7+ years of experience at a reputable organisation, we'd love to hear from you. Instructors are compensated per session, gain visibility within a growing HR community, and contribute to shaping the next generation of practitioners. Apply via the Instructor Application link in the footer.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens if I miss a class? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Every live session is recorded and uploaded to your cohort resource folder within 24 hours. Missing a session is not a failure. You'll have access to the recording and the materials. What matters is that you catch up, submit your assignments, and stay engaged with your cohort.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How many students are in a cohort? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">We keep cohorts intentionally small — 30 to 50 students per cohort. A smaller group means more meaningful interactions with instructors, better peer relationships, more personalised internship matching, and a tighter community that actually supports each other. Quality over volume, always.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
@@ -550,6 +618,15 @@ async function joinWaitlist(){
     btn.textContent = oldText;
   }
 }
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    document.querySelectorAll('.faq-item').forEach(i => { if(i !== item) i.classList.remove('open') });
+    item.classList.toggle('open');
+  });
+});
 
 // Particles
 function makeParticle(){
