@@ -521,7 +521,6 @@ footer{position:relative;z-index:5;background:var(--black);padding:80px 56px 40p
 </footer>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 // Countdown — target date: 60 days from now
 const target = new Date();
@@ -576,28 +575,15 @@ async function joinWaitlist(){
   btn.textContent = 'Joining...';
 
   try {
-    const res = await axios.post('https://genzform.onrender.com/api/waitlist', {
-      email,
-      role,
-      source: 'Talent Factory Waitlist'
+    const res = await fetch('https://genzform.onrender.com/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, role, source: 'Talent Factory Waitlist' })
     });
 
-    Toastify({
-      text: 'Success: ' + (res.data.message || "You're on the waitlist!"),
-      duration: 4000, close: true, gravity: "top", position: "right",
-      style: { background: "#1B4D3E" }
-    }).showToast();
+    const data = await res.json();
 
-    document.getElementById('formWrap').style.display = 'none';
-    document.getElementById('successMsg').classList.add('show');
-    count += 1;
-    document.getElementById('waitlistCount').textContent = count;
-
-  } catch(err) {
-    const msg = err.response?.data?.message || 'Something went wrong. Please try again.';
-
-    // 409 = already on list, treat as soft success
-    if(err.response?.status === 409){
+    if(res.status === 409){
       document.getElementById('formWrap').style.display = 'none';
       document.getElementById('successMsg').classList.add('show');
       Toastify({
@@ -608,12 +594,25 @@ async function joinWaitlist(){
       return;
     }
 
+    if(!res.ok) throw new Error(data.message || 'Something went wrong.');
+
     Toastify({
-      text: 'Error: ' + msg,
+      text: 'Success: ' + (data.message || "You're on the waitlist!"),
+      duration: 4000, close: true, gravity: "top", position: "right",
+      style: { background: "#1B4D3E" }
+    }).showToast();
+
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('successMsg').classList.add('show');
+    count += 1;
+    document.getElementById('waitlistCount').textContent = count;
+
+  } catch(err) {
+    Toastify({
+      text: 'Error: ' + (err.message || 'Please try again.'),
       duration: 4000, close: true, gravity: "top", position: "right",
       style: { background: "#C0392B" }
     }).showToast();
-
     btn.disabled = false;
     btn.textContent = oldText;
   }
