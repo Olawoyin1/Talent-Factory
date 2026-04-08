@@ -9,6 +9,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700;1,9..144,900&family=Syne:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     *,
     *::before,
@@ -162,9 +163,9 @@
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 1.5px;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.8);
       text-transform: uppercase;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       padding: 6px 14px;
       border-radius: 100px
     }
@@ -324,14 +325,14 @@
 
     .hero-h .line2 {
       display: block;
-      color: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.7);
       font-size: 0.75em
     }
 
     .hero-sub {
       font-size: 18px;
       line-height: 1.8;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255);
       max-width: 560px;
       margin: 0 auto 52px;
       animation: fadeUp 0.8s 0.2s ease both;
@@ -388,6 +389,8 @@
       outline: none;
       transition: all .25s;
       -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
       cursor: pointer;
     }
 
@@ -576,7 +579,17 @@
 
     .ti-icon {
       font-size: 40px;
-      margin-bottom: 16px
+      margin-bottom: 20px;
+      color: var(--gold);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .ti-icon svg {
+      width: 48px;
+      height: 48px;
+      stroke-width: 1.5;
     }
 
     .ti-num {
@@ -826,7 +839,7 @@
 
     .footer-top {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
+      grid-template-columns: 2fr 1fr 1fr;
       gap: 60px;
       margin-bottom: 60px
     }
@@ -1026,7 +1039,7 @@
   <nav>
     <a href="#" class="logo">
       <div class="logo-box">TF</div>
-      <div class="logo-name">Talent<span>Factory</span></div>
+      <!-- <div class="logo-name">Talent<span>Factory</span></div> -->
     </a>
     <div class="nav-tag">Coming Soon</div>
   </nav>
@@ -1062,7 +1075,7 @@
 
     <div class="hero-eyebrow">
       <span class="pulse-dot"></span>
-      Nigeria's HR Academy · Launching 2025
+      Nigeria's First HR Academy · Launching 2026
     </div>
 
     <h1 class="hero-h">
@@ -1095,7 +1108,8 @@
         </div>
       </div>
       <div class="success-msg" id="successMsg">
-        <div class="success-icon">🎉</div>
+        <div class="success-icon"><i data-lucide="check-circle-2"
+            style="width:48px;height:48px;color:#2ecc71;margin:0 auto"></i></div>
         <div class="success-text">You're on the waitlist!</div>
         <div class="success-sub">We'll email you the moment Cohort 1 applications open.<br />Tell a friend — they'll
           thank you later.</div>
@@ -1127,19 +1141,19 @@
   <section class="tease">
     <div class="tease-inner">
       <div class="ti">
-        <div class="ti-icon">📚</div>
+        <div class="ti-icon"><i data-lucide="book-open"></i></div>
         <div class="ti-num">12</div>
-        <div class="ti-label">Live modules taught by Nigeria's top HR practitioners — one expert per topic</div>
+        <div class="ti-label">Live modules taught by Nigeria's top HR practitioners, one expert per topic</div>
       </div>
       <div class="ti">
-        <div class="ti-icon">🏢</div>
+        <div class="ti-icon"><i data-lucide="briefcase"></i></div>
         <div class="ti-num">100%</div>
         <div class="ti-label">Guaranteed internship placement at a real Nigerian company after learning</div>
       </div>
       <div class="ti">
-        <div class="ti-icon">🎓</div>
+        <div class="ti-icon"><i data-lucide="award"></i></div>
         <div class="ti-num">6 mo</div>
-        <div class="ti-label">From complete beginner to certified, experienced HR professional — in six months</div>
+        <div class="ti-label">From complete beginner to certified, experienced HR professional in six months</div>
       </div>
     </div>
   </section>
@@ -1191,7 +1205,7 @@
         <h2 class="sec-h">Questions We<br />Hear <em>Most Often.</em></h2>
         <p class="sec-p" style="margin-bottom:32px">We've tried to answer everything that matters below. If you have a
           question that isn't here, reach out directly. We respond to everyone.</p>
-        <a href="mailto:hello@talentfactory.ng" class="btn-A">Email Us →</a>
+        <a href="mailto:factoryhqt@gmail.com" class="btn-A">Email Us →</a>
       </div>
       <div class="faq-list">
         <div class="faq-item open">
@@ -1282,13 +1296,7 @@
           <a href="https://www.tiktok.com/@talentfactory.hq" target="_blank" class="fsoc">tk</a>
         </div>
       </div>
-      <div class="footer-col">
-        <h4>Program</h4>
-        <a href="index.html#program">The Curriculum</a>
-        <a href="index.html#who">Who It's For</a>
-        <a href="index.html#faculty">Faculty</a>
-        <a href="index.html#pricing">Tuition</a>
-      </div>
+      <!-- Footer columns -->
       <div class="footer-col">
         <h4>Apply</h4>
         <a href="TalentFactory_Learner_Form.html">Student Application</a>
@@ -1297,7 +1305,7 @@
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
-        <a href="mailto:hello@talentfactory.ng">hello@talentfactory.ng</a>
+        <a href="mailto:factoryhqt@gmail.com">factoryhqt@gmail.com</a>
         <a href="https://www.instagram.com/talentfactory.hq/" target="_blank">Instagram</a>
         <a href="https://x.com/TalentFactoryHQ" target="_blank">Twitter / X</a>
         <a href="https://www.tiktok.com/@talentfactory.hq" target="_blank">TikTok</a>
@@ -1314,29 +1322,45 @@
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script>
-    // Countdown — target date: 7 days from now
-    const target = new Date();
-    target.setDate(target.getDate() + 7);
-    target.setHours(0, 0, 0, 0);
+    // Countdown — target date: April 19, 2026 at 11:59:59 PM
+    const targetDate = new Date('2026-04-19T23:59:59').getTime();
 
     function updateCountdown() {
-      const now = new Date();
-      const diff = target - now;
-      if (diff <= 0) { document.querySelector('.countdown-wrap').innerHTML = '<div style="font-size:20px;font-weight:700;color:var(--gold)">🔥 Applications Are Now Open!</div>'; return; }
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        const wrap = document.querySelector('.countdown-wrap');
+        if (wrap) wrap.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:12px;font-size:24px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:2px"><i data-lucide="flame"></i> Applications Open Now!</div>';
+        lucide.createIcons();
+        return;
+      }
+
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff % 86400000) / 3600000);
       const m = Math.floor((diff % 3600000) / 60000);
       const s = Math.floor((diff % 60000) / 1000);
-      const prev = { d: document.getElementById('cd-days').textContent, s: document.getElementById('cd-secs').textContent };
-      document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
-      document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
-      document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
-      document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
-      if (prev.s !== String(s).padStart(2, '0')) {
-        const el = document.getElementById('cd-secs');
-        el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick');
+
+      const dEl = document.getElementById('cd-days');
+      const hEl = document.getElementById('cd-hours');
+      const mEl = document.getElementById('cd-mins');
+      const sEl = document.getElementById('cd-secs');
+
+      if (dEl) dEl.textContent = String(d).padStart(2, '0');
+      if (hEl) hEl.textContent = String(h).padStart(2, '0');
+      if (mEl) mEl.textContent = String(m).padStart(2, '0');
+
+      if (sEl) {
+        const currentSecs = String(s).padStart(2, '0');
+        if (sEl.textContent !== currentSecs) {
+          sEl.textContent = currentSecs;
+          sEl.classList.remove('tick');
+          void sEl.offsetWidth; // force reflow
+          sEl.classList.add('tick');
+        }
       }
     }
+
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
@@ -1429,6 +1453,9 @@
       setTimeout(() => p.remove(), 20000);
     }
     setInterval(makeParticle, 800);
+
+    // Initialize Lucide
+    lucide.createIcons();
   </script>
 </body>
 
