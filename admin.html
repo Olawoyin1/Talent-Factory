@@ -16,7 +16,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
     <!-- Tailwind CSS v3 via CDN -->
+    <!-- Tailwind CSS v3 via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- XLSX Library -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -226,10 +230,52 @@
 
                 <!-- Tab: Waitlist -->
                 <div id="tab-waitlist" class="tab-content hidden pb-12">
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                         <h2 class="font-fraunces text-3xl font-bold">Waitlist Signups</h2>
-                        <button onclick="fetchWaitlist()"
-                            class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="downloadWaitlist('all')"
+                                class="text-sm font-bold bg-tf-black text-white px-4 py-2 rounded shadow-sm hover:bg-tf-gold hover:text-tf-black transition flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Download All
+                            </button>
+                            <button onclick="fetchWaitlist()"
+                                class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
+                        </div>
+                    </div>
+
+                    <!-- Waitlist Role Summary -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-[10px] font-bold text-tf-muted tracking-wider uppercase mb-1">Learners
+                            </div>
+                            <div id="count-learner" class="text-2xl font-black font-fraunces text-tf-black">0</div>
+                            <button onclick="downloadWaitlist('learner')"
+                                class="mt-2 text-[10px] font-bold text-tf-gold hover:underline">Download Excel</button>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-[10px] font-bold text-tf-muted tracking-wider uppercase mb-1">Instructors
+                            </div>
+                            <div id="count-tutor" class="text-2xl font-black font-fraunces text-tf-black">0</div>
+                            <button onclick="downloadWaitlist('tutor')"
+                                class="mt-2 text-[10px] font-bold text-tf-gold hover:underline">Download Excel</button>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-[10px] font-bold text-tf-muted tracking-wider uppercase mb-1">Companies
+                            </div>
+                            <div id="count-company" class="text-2xl font-black font-fraunces text-tf-black">0</div>
+                            <button onclick="downloadWaitlist('company')"
+                                class="mt-2 text-[10px] font-bold text-tf-gold hover:underline">Download Excel</button>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <div class="text-[10px] font-bold text-tf-muted tracking-wider uppercase mb-1">Others</div>
+                            <div id="count-other" class="text-2xl font-black font-fraunces text-tf-black">0</div>
+                            <button onclick="downloadWaitlist('other')"
+                                class="mt-2 text-[10px] font-bold text-tf-gold hover:underline">Download Excel</button>
+                        </div>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
                         <table class="w-full text-left border-collapse min-w-[500px] whitespace-nowrap">
@@ -258,6 +304,7 @@
     <script>
         const API_BASE = 'https://genzform.onrender.com/api';
         let token = localStorage.getItem('tf_admin_token') || null;
+        let waitlistData = []; // Store waitlist records for download
 
         // UI Elements
         const loginSection = document.getElementById('login-section');
@@ -423,18 +470,34 @@
 
         function fetchWaitlist() {
             showToast('Refreshing waitlist...');
-            fetch(`${API_BASE}/admin/waitlist?limit=100`, {
+            fetch(`${API_BASE}/admin/waitlist?limit=1000`, { // Increased limit to get more for counting/download
                 headers: { 'Authorization': `Bearer ${token}` }
             })
                 .then(res => res.json())
                 .then(data => {
                     const tbody = document.getElementById('waitlist-table-body');
                     if (data.success && data.data && data.data.records) {
-                        if (data.data.records.length === 0) {
+                        waitlistData = data.data.records;
+
+                        // Count roles
+                        const counts = { learner: 0, tutor: 0, company: 0, other: 0 };
+                        waitlistData.forEach(rec => {
+                            if (rec.role && counts.hasOwnProperty(rec.role)) {
+                                counts[rec.role]++;
+                            }
+                        });
+
+                        // Update summary UI
+                        document.getElementById('count-learner').innerText = counts.learner;
+                        document.getElementById('count-tutor').innerText = counts.tutor;
+                        document.getElementById('count-company').innerText = counts.company;
+                        document.getElementById('count-other').innerText = counts.other;
+
+                        if (waitlistData.length === 0) {
                             tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
                             return;
                         }
-                        tbody.innerHTML = data.data.records.map(rec => `
+                        tbody.innerHTML = waitlistData.slice(0, 100).map(rec => `
             <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
               <td class="p-4 font-bold text-tf-black">${rec.email}</td>
               <td class="p-4 text-tf-muted">${rec.role ? `<span style="text-transform:capitalize">${rec.role}</span>` : '<span style="opacity:0.4">—</span>'}</td>
@@ -451,6 +514,43 @@
                     console.error(err);
                     showToast('Failed to refresh waitlist', true);
                 });
+        }
+
+        function downloadWaitlist(roleFilter = 'all') {
+            if (!waitlistData || waitlistData.length === 0) {
+                showToast('No data to download.', true);
+                return;
+            }
+
+            let filtered = waitlistData;
+            let filename = 'TF_Waitlist_All.xlsx';
+
+            if (roleFilter !== 'all') {
+                filtered = waitlistData.filter(r => r.role === roleFilter);
+                filename = `TF_Waitlist_${roleFilter.charAt(0).toUpperCase() + roleFilter.slice(1)}s.xlsx`;
+            }
+
+            if (filtered.length === 0) {
+                showToast(`No records found for ${roleFilter}`, true);
+                return;
+            }
+
+            // Prepare data for Excel
+            const excelData = filtered.map(r => ({
+                'Email': r.email,
+                'Role': r.role || 'N/A',
+                'Source': r.source || 'Website Waitlist',
+                'Date Joined': new Date(r.createdAt).toLocaleString()
+            }));
+
+            // Create workbook and worksheet
+            const worksheet = XLSX.utils.json_to_sheet(excelData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Waitlist");
+
+            // Download
+            XLSX.writeFile(workbook, filename);
+            showToast(`Downloading ${filename}...`);
         }
 
         function logoutAndPrompt() {
