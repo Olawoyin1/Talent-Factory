@@ -136,7 +136,7 @@
             </aside>
 
             <!-- Content Area -->
-            <main class="flex-1">
+            <main class="flex-1 min-w-0">
 
                 <!-- Tab: Overview -->
                 <div id="tab-overview" class="tab-content block pb-12">
@@ -176,25 +176,41 @@
 
                 <!-- Tab: Learners -->
                 <div id="tab-learners" class="tab-content hidden pb-12">
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                         <h2 class="font-fraunces text-3xl font-bold">Learner Applications</h2>
-                        <button onclick="fetchLearners()"
-                            class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="downloadLearners()"
+                                class="text-sm font-bold bg-tf-black text-white px-4 py-2 rounded shadow-sm hover:bg-tf-gold hover:text-tf-black transition flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Download Excel
+                            </button>
+                            <button onclick="fetchLearners()"
+                                class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
+                        </div>
                     </div>
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
-                        <table class="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
+                    <div
+                        class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse min-w-[1000px] whitespace-nowrap">
                             <thead>
                                 <tr class="bg-gray-50 border-b border-gray-200 text-sm">
                                     <th class="p-4 font-bold text-tf-muted">Name</th>
                                     <th class="p-4 font-bold text-tf-muted">Email</th>
                                     <th class="p-4 font-bold text-tf-muted">Phone</th>
                                     <th class="p-4 font-bold text-tf-muted">State</th>
+                                    <th class="p-4 font-bold text-tf-muted">Education</th>
+                                    <th class="p-4 font-bold text-tf-muted">Employment</th>
+                                    <th class="p-4 font-bold text-tf-muted">Referral</th>
+                                    <th class="p-4 font-bold text-tf-muted">Payment</th>
                                     <th class="p-4 font-bold text-tf-muted text-right">Date</th>
                                 </tr>
                             </thead>
                             <tbody id="learners-table-body" class="text-sm">
                                 <tr>
-                                    <td colspan="5" class="p-8 text-center text-tf-muted">Loading...</td>
+                                    <td colspan="9" class="p-8 text-center text-tf-muted">Loading...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -203,25 +219,39 @@
 
                 <!-- Tab: Instructors -->
                 <div id="tab-instructors" class="tab-content hidden pb-12">
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                         <h2 class="font-fraunces text-3xl font-bold">Instructor Applications</h2>
-                        <button onclick="fetchInstructors()"
-                            class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="downloadInstructors()"
+                                class="text-sm font-bold bg-tf-black text-white px-4 py-2 rounded shadow-sm hover:bg-tf-gold hover:text-tf-black transition flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Download Excel
+                            </button>
+                            <button onclick="fetchInstructors()"
+                                class="text-sm font-bold bg-white border border-gray-300 px-4 py-2 rounded shadow-sm hover:bg-gray-50">Refresh</button>
+                        </div>
                     </div>
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
-                        <table class="w-full text-left border-collapse min-w-[700px] whitespace-nowrap">
+                    <div
+                        class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse min-w-[1000px] whitespace-nowrap">
                             <thead>
                                 <tr class="bg-gray-50 border-b border-gray-200 text-sm">
                                     <th class="p-4 font-bold text-tf-muted">Name</th>
                                     <th class="p-4 font-bold text-tf-muted">Email</th>
                                     <th class="p-4 font-bold text-tf-muted">Title / Employer</th>
-                                    <th class="p-4 font-bold text-tf-muted">Time Slots</th>
+                                    <th class="p-4 font-bold text-tf-muted">Seniority</th>
+                                    <th class="p-4 font-bold text-tf-muted">Experience</th>
+                                    <th class="p-4 font-bold text-tf-muted">LinkedIn</th>
                                     <th class="p-4 font-bold text-tf-muted text-right">Date</th>
                                 </tr>
                             </thead>
                             <tbody id="instructors-table-body" class="text-sm">
                                 <tr>
-                                    <td colspan="5" class="p-8 text-center text-tf-muted">Loading...</td>
+                                    <td colspan="7" class="p-8 text-center text-tf-muted">Loading...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -277,7 +307,8 @@
                                 class="mt-2 text-[10px] font-bold text-tf-gold hover:underline">Download Excel</button>
                         </div>
                     </div>
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
+                    <div
+                        class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto w-full">
                         <table class="w-full text-left border-collapse min-w-[500px] whitespace-nowrap">
                             <thead>
                                 <tr class="bg-gray-50 border-b border-gray-200 text-sm">
@@ -304,7 +335,9 @@
     <script>
         const API_BASE = 'https://genzform.onrender.com/api';
         let token = localStorage.getItem('tf_admin_token') || null;
-        let waitlistData = []; // Store waitlist records for download
+        let waitlistData = [];
+        let learnersData = [];
+        let instructorsData = [];
 
         // UI Elements
         const loginSection = document.getElementById('login-section');
@@ -404,23 +437,28 @@
 
         function fetchLearners() {
             showToast('Refreshing learners data...');
-            fetch(`${API_BASE}/admin/learners?limit=100`, {
+            fetch(`${API_BASE}/admin/learners?limit=1000`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
                 .then(res => res.json())
                 .then(data => {
                     const tbody = document.getElementById('learners-table-body');
                     if (data.success && data.data && data.data.records) {
-                        if (data.data.records.length === 0) {
-                            tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
+                        learnersData = data.data.records;
+                        if (learnersData.length === 0) {
+                            tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
                             return;
                         }
-                        tbody.innerHTML = data.data.records.map(rec => `
+                        tbody.innerHTML = learnersData.slice(0, 100).map(rec => `
             <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
               <td class="p-4 font-bold text-tf-black">${rec.firstName} ${rec.lastName}</td>
               <td class="p-4 text-tf-muted">${rec.email}</td>
               <td class="p-4 text-tf-muted">${rec.phone || '-'}</td>
               <td class="p-4 text-tf-muted">${rec.state || '-'}</td>
+              <td class="p-4 text-tf-muted truncate max-w-[150px]" title="${rec.education || '-'}">${rec.education || '-'}</td>
+              <td class="p-4 text-tf-muted">${rec.employment || '-'}</td>
+              <td class="p-4 text-tf-muted">${rec.referral || '-'}</td>
+              <td class="p-4 text-tf-muted">${rec.payment || '-'}</td>
               <td class="p-4 text-tf-muted text-right" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
             </tr>
           `).join('');
@@ -435,25 +473,73 @@
                 });
         }
 
+        function downloadLearners() {
+            if (!learnersData || learnersData.length === 0) {
+                showToast('No data to download.', true);
+                return;
+            }
+
+            // Prepare ALL data for Excel
+            const excelData = learnersData.map(rec => ({
+                'First Name': rec.firstName,
+                'Last Name': rec.lastName,
+                'Email': rec.email,
+                'Phone': rec.phone,
+                'State': rec.state,
+                'Gender': rec.gender,
+                'Age Range': rec.ageRange,
+                'Education': rec.education,
+                'Field of Study': rec.fieldOfStudy,
+                'Employment Status': rec.employment,
+                'Job Title': rec.jobTitle,
+                'Industry': rec.industry,
+                'HR Experience': rec.hrExp,
+                'HR Knowledge (1-5)': rec.hrKnowledge,
+                'LinkedIn': rec.linkedin,
+                'Modules Interested': Array.isArray(rec.modules) ? rec.modules.join(', ') : rec.modules,
+                'Schedule Preference': rec.schedule,
+                'Internship Industry': rec.internIndustry,
+                'Payment Plan': rec.payment,
+                'Tech Access': rec.techAccess,
+                'Referral Source': rec.referral,
+                'Referred By': rec.referredBy,
+                'Reason for Applying': rec.applyReason,
+                'Why Join TF': rec.whyJoin,
+                '2 Year Plan': rec.twoYears,
+                'Biggest Challenge': rec.biggestChallenge,
+                'Additional Info': rec.additionalInfo,
+                'Date Submitted': new Date(rec.createdAt).toLocaleString()
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(excelData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Learner Applications");
+            XLSX.writeFile(workbook, "TF_Learner_Applications.xlsx");
+            showToast("Downloading Learner Applications...");
+        }
+
         function fetchInstructors() {
             showToast('Refreshing instructors data...');
-            fetch(`${API_BASE}/admin/instructors?limit=100`, {
+            fetch(`${API_BASE}/admin/instructors?limit=1000`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
                 .then(res => res.json())
                 .then(data => {
                     const tbody = document.getElementById('instructors-table-body');
                     if (data.success && data.data && data.data.records) {
-                        if (data.data.records.length === 0) {
-                            tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
+                        instructorsData = data.data.records;
+                        if (instructorsData.length === 0) {
+                            tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-tf-muted">No applications found.</td></tr>`;
                             return;
                         }
-                        tbody.innerHTML = data.data.records.map(rec => `
+                        tbody.innerHTML = instructorsData.slice(0, 100).map(rec => `
             <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
               <td class="p-4 font-bold text-tf-black">${rec.firstName} ${rec.lastName}</td>
               <td class="p-4 text-tf-muted">${rec.email}</td>
               <td class="p-4 text-tf-muted font-medium">${rec.proTitle}<br><span class="text-xs font-normal opacity-70">${rec.employer}</span></td>
-              <td class="p-4 text-tf-muted">${Array.isArray(rec.timeSlots) ? rec.timeSlots.join(', ') : '-'}</td>
+              <td class="p-4 text-tf-muted">${rec.seniority || '-'}</td>
+              <td class="p-4 text-tf-muted">${rec.hrYears || rec.totalYears || '-'}</td>
+              <td class="p-4 text-tf-muted"><a href="${rec.linkedin}" target="_blank" class="text-tf-gold hover:underline">Link</a></td>
               <td class="p-4 text-tf-muted text-right" title="${new Date(rec.createdAt).toLocaleString()}">${new Date(rec.createdAt).toLocaleDateString()}</td>
             </tr>
           `).join('');
@@ -466,6 +552,54 @@
                     console.error(err);
                     showToast('Failed to refresh instructors', true);
                 });
+        }
+
+        function downloadInstructors() {
+            if (!instructorsData || instructorsData.length === 0) {
+                showToast('No data to download.', true);
+                return;
+            }
+
+            // Prepare ALL data for Excel
+            const excelData = instructorsData.map(rec => ({
+                'First Name': rec.firstName,
+                'Last Name': rec.lastName,
+                'Email': rec.email,
+                'Phone': rec.phone,
+                'Professional Title': rec.proTitle,
+                'Employer': rec.employer,
+                'Industry': rec.industry,
+                'LinkedIn': rec.linkedin,
+                'State': rec.state,
+                'Referral Source': rec.referral,
+                'Total Experience': rec.totalYears,
+                'HR Experience': rec.hrYears,
+                'Seniority Level': rec.seniority,
+                'Notable Organizations': rec.notableOrgs,
+                'Certifications': Array.isArray(rec.certs) ? rec.certs.join(', ') : rec.certs,
+                'Top Achievement': rec.achievement,
+                'Modules to Teach': Array.isArray(rec.teachModules) ? rec.teachModules.join(', ') : rec.teachModules,
+                'Preferred Module': rec.topModule,
+                'Taught Before': rec.taughtBefore,
+                'Teaching Approach': rec.teachingApproach,
+                'Teaching Confidence (1-10)': rec.confidence,
+                'Availability': Array.isArray(rec.timeSlots) ? rec.timeSlots.join(', ') : rec.timeSlots,
+                'Sessions Count': rec.sessionCount,
+                'Bank Name': rec.bankName,
+                'Account Name': rec.accountName,
+                'Account Number': rec.accountNumber,
+                'Why Teach': rec.whyTeach,
+                'Wish You Knew': rec.wishKnown,
+                'Bio': rec.bio,
+                'Additional Info': rec.additionalInfo,
+                'Date Submitted': new Date(rec.createdAt).toLocaleString()
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(excelData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Instructor Applications");
+            XLSX.writeFile(workbook, "TF_Instructor_Applications.xlsx");
+            showToast("Downloading Instructor Applications...");
         }
 
         function fetchWaitlist() {
