@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Talent Factory — Complete Operations Pack</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0A0A0A;--gold:#D4A017;--gl:#F0C040;--gp:#FBF5E0;--green:#1B4D3E;--cream:#F5F0E8;--warm:#EDE4D4;--muted:#6B6050;--white:#fff}
+body{font-family:'Syne',sans-serif;background:#EDEBE4;color:var(--ink);line-height:1.6;padding-bottom:80px}
+.hdr{background:var(--ink);padding:56px;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:-120px;right:-120px;width:600px;height:600px;background:radial-gradient(circle,rgba(212,160,23,.14),transparent 65%);pointer-events:none}
+.hdr-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.hdr-m{width:36px;height:36px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:14px;font-weight:900;color:var(--ink)}
+.hdr-n{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--white)}.hdr-n span{color:var(--gold)}
+.hdr h1{font-family:'Fraunces',serif;font-size:clamp(30px,4vw,52px);font-weight:900;color:var(--white);line-height:1.05;margin-bottom:12px}
+.hdr h1 em{font-style:italic;color:var(--gold)}
+.hdr p{font-size:15px;color:rgba(255,255,255,.4);max-width:560px;line-height:1.7}
+.pills{display:flex;gap:8px;margin-top:24px;flex-wrap:wrap}
+.pill{padding:5px 14px;border-radius:100px;font-size:11px;font-weight:700;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.45);background:rgba(255,255,255,.05)}
+.toc{background:var(--gp);border-bottom:2px solid rgba(212,160,23,.2);padding:14px 56px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;position:sticky;top:0;z-index:100}
+.toc-l{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-right:8px;white-space:nowrap}
+.toc a{font-size:11px;font-weight:600;color:var(--muted);text-decoration:none;padding:5px 12px;border-radius:100px;border:1px solid rgba(10,10,10,.1);background:var(--white);transition:all .2s;white-space:nowrap}
+.toc a:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.sec{margin:44px 56px 0;scroll-margin-top:60px}
+.sec-hdr{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:18px;border-bottom:2px solid rgba(10,10,10,.07)}
+.si{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ey{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.sec-hdr h2{font-family:'Fraunces',serif;font-size:24px;font-weight:700;color:var(--ink)}
+.card{background:var(--white);border-radius:14px;border:1.5px solid rgba(10,10,10,.07);overflow:hidden;margin-bottom:16px}
+.card-hd{padding:12px 20px;background:var(--cream);border-bottom:1px solid rgba(10,10,10,.06);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.card-lbl{font-size:12px;font-weight:700;color:var(--ink)}
+.tag{font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px}
+.t1{background:#FAECE7;color:#712B13}.t2{background:#FBF5E0;color:#633806}.t3{background:#E6F1FB;color:#0C447C}.t4{background:#EAF3DE;color:#27500A}.t5{background:#EEEDFE;color:#3C3489}.t6{background:#E1F5EE;color:#085041}
+.card-body{padding:22px}
+.note{padding:12px 20px;background:var(--gp);border-top:1px solid rgba(212,160,23,.15);font-size:12px;color:var(--muted);line-height:1.6}.note strong{color:var(--ink)}
+.tf-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.tf-table th{background:var(--ink);color:var(--white);padding:10px 14px;text-align:left;font-weight:700}
+.tf-table th:first-child{border-radius:8px 0 0 0}.tf-table th:last-child{border-radius:0 8px 0 0}
+.tf-table td{padding:10px 14px;border-bottom:1px solid rgba(10,10,10,.06);color:var(--ink);vertical-align:top}
+.tf-table tr:nth-child(even) td{background:rgba(245,240,232,.5)}.tf-table tr:last-child td{border-bottom:none}
+.gold-row td{background:rgba(212,160,23,.08)!important;font-weight:700}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.info-box{padding:20px;border-radius:12px;border:1.5px solid rgba(10,10,10,.07);background:var(--white)}
+.info-box h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.info-box p,.info-box li{font-size:12px;line-height:1.7;color:var(--muted)}.info-box ul{padding-left:18px}
+.info-box.gold{background:var(--gp);border-color:rgba(212,160,23,.2)}
+.info-box.dark{background:var(--ink);border-color:var(--ink)}.info-box.dark h4{color:var(--gold)}.info-box.dark p{color:rgba(255,255,255,.55)}
+.bh{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--ink);margin:0 0 10px}
+.bp{font-size:14px;line-height:1.8;color:var(--muted);margin-bottom:14px}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.fi{padding:16px;border-radius:10px;border:1.5px solid rgba(10,10,10,.07)}
+.fi-h{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.fi-p{font-size:12px;line-height:1.6;color:var(--muted)}
+.urg{background:var(--ink);border-radius:12px;padding:26px;text-align:center;margin:22px 0}
+.urg h3{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:8px}
+.urg p{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:18px;line-height:1.65}
+.urg a{display:inline-block;background:var(--gold);color:var(--ink);font-size:13px;font-weight:800;padding:12px 32px;border-radius:6px;text-decoration:none}
+.pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0}
+.pr-item{background:var(--white);border-radius:12px;padding:20px;border:1.5px solid rgba(10,10,10,.07);text-align:center;transition:all .3s}
+.pr-item:hover{border-color:var(--gold);transform:translateY(-3px)}
+.pr-icon{font-size:36px;margin-bottom:10px}.pr-h{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px}.pr-p{font-size:11px;color:var(--muted);line-height:1.55}
+.week-row{display:flex;gap:0;margin-bottom:12px;border-radius:12px;overflow:hidden}
+.wk-num{width:80px;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 8px;flex-shrink:0}
+.wk-num .n{font-family:'Fraunces',serif;font-size:24px;font-weight:900;color:var(--gold);line-height:1}
+.wk-num .lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:3px}
+.wk-body{background:var(--white);border:1.5px solid rgba(10,10,10,.07);border-left:none;padding:16px 20px;flex:1}
+.wk-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.wk-sub{font-size:12px;color:var(--gold);font-weight:600;margin-bottom:6px}
+.wk-desc{font-size:13px;color:var(--muted);line-height:1.6}
+.wk-outcomes{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.wk-tag{font-size:10px;font-weight:600;padding:2px 9px;border-radius:100px;background:var(--warm);color:var(--muted);border:1px solid rgba(10,10,10,.08)}
+.wk-physical{background:rgba(212,160,23,.08);border-color:rgba(212,160,23,.25);position:relative}
+.wk-physical::after{content:'PHYSICAL CLASS';position:absolute;top:8px;right:12px;font-size:8px;font-weight:800;letter-spacing:1.5px;background:var(--gold);color:var(--ink);padding:2px 8px;border-radius:100px}
+.em-block{background:var(--white);border-radius:14px;border:1.5px solid rgba(10,10,10,.07);overflow:hidden;margin-bottom:16px}
+.em-meta{background:var(--warm);padding:14px 24px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px}
+.em-l{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.em-v{font-size:13px;font-weight:500;color:var(--ink)}
+.em-content{padding:32px 36px}
+.em-logo-row{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+.em-lm{width:28px;height:28px;background:var(--ink);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:11px;font-weight:900;color:var(--gold)}
+.em-ln{font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--ink)}.em-ln span{color:var(--gold)}
+.em-hero-b{background:var(--ink);border-radius:12px;padding:36px;margin-bottom:24px;position:relative;overflow:hidden}
+.em-hero-b::before{content:'';position:absolute;top:-50px;right:-50px;width:240px;height:240px;background:radial-gradient(circle,rgba(212,160,23,.17),transparent 65%);pointer-events:none}
+.em-tag-s{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(212,160,23,.6);margin-bottom:12px}
+.em-head{font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:var(--white);line-height:1.1;margin-bottom:12px}
+.em-head em{font-style:italic;color:var(--gold)}
+.em-subp{font-size:14px;line-height:1.75;color:rgba(255,255,255,.5);margin-bottom:22px}
+.em-btn{display:inline-block;background:var(--gold);color:var(--ink);font-size:13px;font-weight:800;padding:13px 34px;border-radius:6px;text-decoration:none}
+.em-footer{background:var(--ink);padding:20px 36px;text-align:center}
+.ef-br{font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--white);margin-bottom:5px}.ef-br span{color:var(--gold)}
+.ef-p{font-size:11px;color:rgba(255,255,255,.3);line-height:1.6}
+@media(max-width:700px){.sec,.toc{margin-left:20px;margin-right:20px;padding-left:0;padding-right:0}.toc{padding:12px 20px}.hdr{padding:40px 20px}.info-grid,.feat-grid,.pr-grid{grid-template-columns:1fr}.em-content{padding:22px 20px}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-top"><div class="hdr-m">TF</div><div class="hdr-n">Talent<span>Factory</span></div></div>
+  <h1>Nigeria's First HR Academy.<br/><em>Complete Operations Pack.</em></h1>
+  <p>Corrected throughout: "Nigeria's First HR Academy". Fee structure: ₦250k. Hybrid format: 3 physical classes + virtual. Tutor model, responsibilities, PR box, emails, and full 12-week curriculum.</p>
+  <div class="pills">
+    <span class="pill">Fee Structure</span><span class="pill">Tutor Model & Pay</span><span class="pill">Tutor Responsibilities</span>
+    <span class="pill">Tutor Invite Email</span><span class="pill">PR Gift Box</span><span class="pill">Student Invite Email</span>
+    <span class="pill">12-Week Curriculum</span>
+  </div>
+</div>
+
+<div class="toc">
+  <span class="toc-l">Jump to</span>
+  <a href="#fees">Fees</a><a href="#tutor-pay">Tutor Pay Model</a><a href="#tutor-resp">Responsibilities</a>
+  <a href="#tutor-email">Tutor Email</a><a href="#pr">PR Box</a><a href="#student-email">Student Email</a>
+  <a href="#curriculum">Curriculum</a>
+</div>
+
+
+<!-- ======== FEES ======== -->
+<div class="sec" id="fees">
+  <div class="sec-hdr">
+    <div class="si" style="background:var(--gp);border:1.5px solid rgba(212,160,23,.2)">💰</div>
+    <div><div class="ey">Participant Investment</div><h2>Fee Structure — ₦250,000 Per Head</h2></div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><span class="card-lbl">Payment Options</span><span class="tag t2">₦250,000 per participant</span></div>
+    <div class="card-body">
+      <table class="tf-table">
+        <thead><tr><th>Option</th><th>Amount</th><th>Schedule</th><th>Total Paid</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr class="gold-row"><td>Full Payment (Best Value)</td><td>₦250,000</td><td>Due on admission offer acceptance</td><td>₦250,000</td><td>No interest. Spot secured immediately on payment.</td></tr>
+          <tr><td>3-Part Instalment</td><td>₦87,500 × 3 months</td><td>Month 1, 2, 3</td><td>₦262,500</td><td>5% interest applied (₦12,500 surcharge on base fee). Same full access throughout.</td></tr>
+          <tr><td>Corporate / Sponsored</td><td>Custom invoice</td><td>Per agreement</td><td>₦250,000+</td><td>Invoice to employer. Group discounts for 3+ from same organisation.</td></tr>
+        </tbody>
+      </table>
+      <div class="info-grid">
+        <div class="info-box gold">
+          <h4>📋 3-Part Instalment Breakdown</h4>
+          <ul>
+            <li>Base fee: ₦250,000</li>
+            <li>Interest (5%): ₦12,500</li>
+            <li>Total payable: ₦262,500</li>
+            <li><strong>Payment 1:</strong> ₦87,500 — on acceptance (Month 1)</li>
+            <li><strong>Payment 2:</strong> ₦87,500 — 30 days later (Month 2)</li>
+            <li><strong>Payment 3:</strong> ₦87,500 — 60 days later (Month 3)</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <h4>✅ What the Fee Covers</h4>
+          <ul>
+            <li>All 12 live weekly online sessions</li>
+            <li>3 monthly physical classes (Lagos venue)</li>
+            <li>Session recordings — lifetime replay access</li>
+            <li>HR templates, toolkits, and playbook library</li>
+            <li>Guaranteed internship placement (Phase 2)</li>
+            <li>Dedicated mentor throughout internship</li>
+            <li>PHRi-aligned Learning Phase Certificate</li>
+            <li>PHRi-aligned Internship Completion Certificate</li>
+            <li>Cohort community and alumni access</li>
+          </ul>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--muted)">All payments processed via Paystack. Students on instalments must complete all three payments before Phase 2 (internship) begins. Failure to complete instalments by start of Month 4 requires payment of outstanding balance in full before placement.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ======== TUTOR PAY ======== -->
+<div class="sec" id="tutor-pay">
+  <div class="sec-hdr">
+    <div class="si" style="background:#EEEDFE">👩‍🏫</div>
+    <div><div class="ey">Faculty Compensation</div><h2>Tutor & Mentor Payment Model</h2></div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><span class="card-lbl">Payment Philosophy</span><span class="tag t5">Paid. Fairly. Always.</span></div>
+    <div class="card-body">
+      <p class="bp">Talent Factory pays every instructor fairly for every session they deliver. No "exposure" arrangements. No deferred payments. Every faculty member receives payment within 5 working days of their session. Session fees are agreed individually before any commitment is made.</p>
+      <table class="tf-table">
+        <thead><tr><th>Role</th><th>Scope</th><th>Rate Range</th><th>Per Cohort Earning</th><th>Payment Timing</th></tr></thead>
+        <tbody>
+          <tr class="gold-row"><td>Lead Instructor (1 module)</td><td>1–2 sessions × 2 hrs each</td><td>₦80,000 – ₦150,000/session</td><td>₦80k – ₦300k</td><td>Within 5 working days of session</td></tr>
+          <tr><td>Guest Expert (single session)</td><td>1 session × 2 hrs</td><td>₦50,000 – ₦80,000</td><td>₦50k – ₦80k</td><td>Within 5 working days of session</td></tr>
+          <tr><td>Internship Mentor</td><td>Weekly 30-min check-ins × 12 weeks</td><td>₦30,000 – ₦50,000/month</td><td>₦90k – ₦150k</td><td>1st of each internship month</td></tr>
+          <tr class="gold-row"><td>Tutor + Mentor (combined)</td><td>Full engagement both phases</td><td>Negotiated bundle</td><td>₦200k – ₦450k+</td><td>Session fee + monthly mentor payment</td></tr>
+          <tr><td>Physical Class Premium</td><td>Per physical session only</td><td>+₦20,000 – ₦40,000</td><td>Additive</td><td>Covers travel + time for in-person delivery</td></tr>
+        </tbody>
+      </table>
+      <div class="info-grid" style="margin-top:20px">
+        <div class="info-box dark">
+          <h4>💳 How Payment Works</h4>
+          <p style="margin-bottom:8px">All fees are paid by bank transfer to the instructor's registered account. Before any commitment is finalised:</p>
+          <p>1. TF issues a formal Letter of Engagement (scope, dates, agreed fee)</p>
+          <p>2. Instructor confirms via signed letter or email acceptance</p>
+          <p>3. Bank details collected securely via TF Operations</p>
+          <p>4. Payment released within 5 working days of session delivery</p>
+          <p>5. Payment receipt and confirmation sent by email</p>
+          <p style="margin-top:10px">Mentors are paid on the 1st of each internship month (months 4, 5, 6).</p>
+        </div>
+        <div class="info-box">
+          <h4>📌 Rate Factors Considered</h4>
+          <ul>
+            <li>Years of experience (7–10 yrs vs 15+ yrs)</li>
+            <li>Seniority (Manager vs Director vs CHRO)</li>
+            <li>Module complexity and preparation required</li>
+            <li>Physical vs virtual delivery (physical earns premium)</li>
+            <li>Whether new content or existing material is used</li>
+            <li>Combined tutor + mentor role (bundle premium)</li>
+          </ul>
+          <p style="margin-top:10px;font-size:11px;color:var(--gold)">Rates are agreed privately. No published rate card. This protects flexibility and treats each instructor as an individual, not a line item.</p>
+        </div>
+      </div>
+    </div>
+    <div class="note"><strong>Cohort 1 Faculty Budget Estimate:</strong> 12 modules × avg ₦100k/session = ₦1.2M (teaching) + 12 mentors × ₦40k/month × 3 months = ₦1.44M (mentoring). Total faculty cost ≈ ₦2.64M. Funded from ₦7.5M gross tuition (30 students × ₦250,000).</div>
+  </div>
+</div>
+
+
+<!-- ======== RESPONSIBILITIES ======== -->
+<div class="sec" id="tutor-resp">
+  <div class="sec-hdr">
+    <div class="si" style="background:#E1F5EE">📋</div>
+    <div><div class="ey">Faculty Framework</div><h2>Tutor & Mentor Responsibilities</h2></div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><span class="card-lbl">Teaching Phase Responsibilities (Months 1–3)</span><span class="tag t6">Per Session</span></div>
+    <div class="card-body">
+      <table class="tf-table">
+        <thead><tr><th>#</th><th>Responsibility</th><th>Details</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Attend onboarding call</td><td>30-minute call with TF team — understand cohort profile, curriculum position, and session expectations</td><td>2 weeks before session</td></tr>
+          <tr><td>2</td><td>Prepare session content</td><td>Develop slides, exercises, and case studies aligned to TF curriculum brief. 70% practical, 30% conceptual. Real Nigerian examples required.</td><td>1 week before session</td></tr>
+          <tr><td>3</td><td>Upload materials</td><td>Final slides, handouts, templates, and resource links submitted to TF shared Google Drive folder</td><td>48 hours before session</td></tr>
+          <tr><td>4</td><td>Deliver 2-hour session</td><td>Via Zoom (virtual sessions) or at Lagos venue (physical class months). Engage with Q&A, case studies, real examples.</td><td>On scheduled date</td></tr>
+          <tr><td>5</td><td>Host Q&A (30 min)</td><td>Final 30 minutes reserved for student questions. This is one of the highest-rated parts of each session — do not skip it.</td><td>Final 30 min of session</td></tr>
+          <tr><td>6</td><td>Sign off recording</td><td>Sessions recorded for student replay. Instructor notified when recording is uploaded — may review before it goes live to cohort.</td><td>24–48 hrs after session</td></tr>
+          <tr><td>7</td><td>14-day cancellation notice</td><td>If session cannot be delivered, notify TF Operations at least 14 calendar days in advance to allow rescheduling without disrupting the cohort</td><td>If cancellation needed</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><span class="card-lbl">Mentoring Phase Responsibilities (Months 4–6)</span><span class="tag t4">Internship Duration</span></div>
+    <div class="card-body">
+      <p class="bp">All tutors are invited to continue as internship mentors. Mentoring is optional but strongly preferred — it creates deeper student outcomes and is separately compensated monthly. Each mentor is assigned 2–4 interns from the cohort.</p>
+      <table class="tf-table">
+        <thead><tr><th>#</th><th>Responsibility</th><th>Details</th><th>Frequency</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Weekly 30-minute check-in</td><td>Virtual 1-on-1 or small group with assigned interns. Discuss internship experience, challenges, wins. Provide career guidance and workplace navigation support.</td><td>Every week (12 sessions)</td></tr>
+          <tr><td>2</td><td>Availability between sessions</td><td>Accessible via WhatsApp or email for urgent workplace questions. Target response: within 24–48 hours. Emergencies: same day where possible.</td><td>Ongoing</td></tr>
+          <tr><td>3</td><td>Mid-internship progress review</td><td>Submit a structured 1-page progress assessment per mentee — strengths, areas for growth, any concerns. Submitted to TF team only, not host company.</td><td>Month 5 (Week 8)</td></tr>
+          <tr><td>4</td><td>Final internship evaluation</td><td>Complete a structured performance evaluation form for each mentee at end of Month 6. Results inform the internship certificate and TF alumni records.</td><td>End of Month 6</td></tr>
+          <tr><td>5</td><td>Host company liaison (if needed)</td><td>If a mentee is struggling at their host company, the mentor supports resolution — facilitating a conversation with TF coordination. Not a frequent responsibility, but critical when needed.</td><td>As required</td></tr>
+          <tr><td>6</td><td>Graduation attendance (optional)</td><td>Mentors are warmly invited to the Cohort graduation ceremony. Not mandatory, but deeply meaningful to students who have been supported throughout.</td><td>End of Cohort</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><strong>Combined Tutor + Mentor is our ideal.</strong> When the same person teaches AND mentors, the student experience is more cohesive, the relationship is deeper, and the impact is significantly greater. We compensate this combination at a premium and actively encourage it.</div>
+  </div>
+</div>
+
+
+<!-- ======== TUTOR EMAIL ======== -->
+<div class="sec" id="tutor-email">
+  <div class="sec-hdr">
+    <div class="si" style="background:#EEEDFE">✉️</div>
+    <div><div class="ey">Outreach Email</div><h2>Invitation to Potential Tutors/Faculty</h2></div>
+  </div>
+  <div class="em-block">
+    <div class="em-meta">
+      <span class="em-l">Subject</span><span class="em-v">An invitation to shape Nigeria's next generation of HR professionals — personally, from Felix Bissong</span>
+      <span class="em-l">Preview text</span><span class="em-v">We're building Nigeria's First HR Academy. We want you on the faculty. Here's what that actually means.</span>
+      <span class="em-l">From</span><span class="em-v">Felix Bissong · Talent Factory &lt;hello@talentfactory.ng&gt;</span>
+      <span class="em-l">Target</span><span class="em-v">Senior HR professionals · Heads of People · HR Directors · CHROs · 7+ years experience</span>
+    </div>
+    <div class="em-content">
+      <div class="em-logo-row"><div class="em-lm">TF</div><div class="em-ln">Talent<span>Factory</span></div></div>
+      <div class="em-hero-b">
+        <div class="em-tag-s">Faculty Invitation · Cohort 1 · 2025</div>
+        <h1 class="em-head">You've Built the<br/>Knowledge. Now<br/><em>Pass It Forward.</em></h1>
+        <p class="em-subp">We're building Nigeria's First HR Academy — and we need the country's finest HR practitioners to teach it. We believe you're one of them.</p>
+        <a href="#" class="em-btn">Explore the Faculty Role →</a>
+      </div>
+
+      <h2 class="bh">Dear [Name],</h2>
+      <p class="bp">My name is Felix Bissong. I'm the Founder and CEO of Talent Factory — Nigeria's First Cohort-Based HR Academy — built under the umbrella of The GenZ HR Consult.</p>
+      <p class="bp">I'm writing to you personally because of what you've built in the Nigerian HR profession. The teams you've led, the systems you've built, and the expertise you've accumulated is exactly what the next generation of HR professionals in this country needs — and doesn't have access to.</p>
+      <p class="bp">I'd like to invite you to join our founding faculty for Cohort 1.</p>
+
+      <h2 class="bh" style="margin-top:24px">About Talent Factory</h2>
+      <p class="bp">Talent Factory is Nigeria's first cohort-based HR Academy — a 6-month hybrid program combining live expert-led training with guaranteed internship placement. Here's how it works:</p>
+      <div class="feat-grid">
+        <div class="fi"><div class="fi-h">📚 Phase 1 — Learning (Months 1–3)</div><div class="fi-p">Weekly live online sessions + one physical class per month in Lagos. Taught by senior Nigerian HR practitioners — one expert per module. All sessions recorded. 30–40 students per cohort.</div></div>
+        <div class="fi"><div class="fi-h">🏢 Phase 2 — Internship (Months 4–6)</div><div class="fi-p">Every student is placed at a real Nigerian company for 3 months. We match, place, and support. Our faculty members serve as mentors during this phase — an optional but separately compensated role.</div></div>
+        <div class="fi"><div class="fi-h">🎓 What Students Receive</div><div class="fi-p">Two PHRi-aligned certificates, practical tools, a peer cohort community, and a career trajectory that's actually been earned. Built for transitioners, HRM students, and junior HR professionals.</div></div>
+        <div class="fi"><div class="fi-h">🇳🇬 Why This Matters</div><div class="fi-p">There is no structured, practical pathway into HR in Nigeria. No guaranteed experience. No practitioner-taught curriculum. Talent Factory is the permanent fix for all three gaps.</div></div>
+      </div>
+
+      <h2 class="bh" style="margin-top:24px">The Faculty Role — Designed Around Your Life</h2>
+      <table class="tf-table">
+        <thead><tr><th>Element</th><th>What it involves</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Time commitment</strong></td><td>1–2 sessions of 2 hours each per cohort (teaching). Optional: 30-minute weekly mentor check-ins × 12 weeks during internship phase.</td></tr>
+          <tr><td><strong>Delivery format</strong></td><td>Online via Zoom for most sessions. One session per month is physical at our Lagos venue (travel premium applies). You choose your preference.</td></tr>
+          <tr><td><strong>What you teach</strong></td><td>We match you to the module you know best. We send you a curriculum brief and a session framework — you bring the expertise and the real-world stories.</td></tr>
+          <tr><td><strong>What you earn</strong></td><td>A competitive session fee agreed before any commitment — paid within 5 working days of session delivery. Mentoring is separately compensated monthly. No "exposure" arrangements, ever.</td></tr>
+          <tr><td><strong>Your profile</strong></td><td>A public instructor profile on the Talent Factory platform — visible to our growing community of HR professionals, companies, and students across Nigeria.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="urg">
+        <h3>The founding faculty of Nigeria's First HR Academy.</h3>
+        <p>We are finalising Cohort 1 faculty now. The people in this first group will be remembered by every student who goes through the program — and every HR professional they impact. We want the best people in this role, and we believe you are one of them.</p>
+        <a href="mailto:hello@talentfactory.ng">Reply to Express Interest →</a>
+      </div>
+
+      <h2 class="bh">We'd Also Like to Visit You</h2>
+      <p class="bp">Beyond this email, we're making personal visits to potential faculty members — bringing a small gift that captures what we're building. If you'd welcome a brief in-person conversation, let us know when works for you and we'll come to you.</p>
+      <p class="bp">To express interest, reply to this email or call +234 816 854 5860 directly. We'll schedule a 20-minute call — you'll hear the full picture, decide if it's right for you, and we'll agree a fee before you commit to anything.</p>
+      <p class="bp" style="margin-top:20px">Thank you for what you've done for this profession. We hope to build on it together. 🇳🇬</p>
+      <p class="bp"><strong>Felix Bissong</strong><br/>Founder & CEO, Talent Factory · The GenZ HR Consult<br/>felix@talentfactory.ng · +234 816 854 5860<br/>talentfactory.ng</p>
+    </div>
+    <div class="em-footer">
+      <div class="ef-br">Talent<span>Factory</span></div>
+      <div class="ef-p">Nigeria's First HR Academy · Lagos, Nigeria · hello@talentfactory.ng · talentfactory.ng</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ======== PR BOX ======== -->
+<div class="sec" id="pr">
+  <div class="sec-hdr">
+    <div class="si" style="background:var(--gp);border:1.5px solid rgba(212,160,23,.2)">🎁</div>
+    <div><div class="ey">Faculty Outreach Gift</div><h2>The Tutor PR Gift Box</h2></div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><span class="card-lbl">Box Concept</span><span class="tag t2">Premium · Branded · Memorable · Personal</span></div>
+    <div class="card-body">
+      <p class="bp">When Felix and the team visit potential faculty members, they bring a beautifully packaged gift box that communicates Talent Factory's brand, ambition, and respect for the recipient — before a word is spoken. The box should feel premium, deliberate, and make the recipient feel genuinely seen. It tells a story before it's even opened.</p>
+      <p class="bp"><strong>The box message:</strong> "You've built something remarkable. We're building something important. We want you to be part of it."</p>
+      <div class="pr-grid">
+        <div class="pr-item"><div class="pr-icon">📦</div><div class="pr-h">The Gift Box</div><div class="pr-p">Rigid ink-black gift box with gold foil "TF" mark embossed on lid. Gold satin ribbon. Interior: black tissue paper with gold Talent Factory stamp. Approx. 30×22×12cm. This is the first impression — it must earn attention before it's opened.</div></div>
+        <div class="pr-item"><div class="pr-icon">✍️</div><div class="pr-h">Handwritten Note Card</div><div class="pr-p">A5 premium cream card, TF logo header. Handwritten by Felix — personally, specifically for this recipient. Acknowledges their work by name. Ends: "We would be honoured to have you shape what comes next." Signed in ink. Not printed, not typed.</div></div>
+        <div class="pr-item"><div class="pr-icon">💳</div><div class="pr-h">Faculty Invitation Card</div><div class="pr-p">Premium A6 card. Dark background, gold type. "You have been personally invited to join the founding faculty of Nigeria's First HR Academy." Recipient's name printed on the front. Feels like an award, not a brochure.</div></div>
+        <div class="pr-item"><div class="pr-icon">📋</div><div class="pr-h">Program Overview Booklet</div><div class="pr-p">A6 saddle-stitched booklet, 8 pages. Program overview, their specific module, time commitment, what they earn, and a direct call to action. Beautiful design — not a printed email. This is what converts interest into commitment.</div></div>
+        <div class="pr-item"><div class="pr-icon">☕</div><div class="pr-h">Branded Mug</div><div class="pr-p">Premium ceramic mug. Black with gold TF mark + "Where Great HR Careers Begin." Heavy, quality feel — the kind that ends up on the desk for years. Not a cheap giveaway. A usable, beautiful object with the brand on it.</div></div>
+        <div class="pr-item"><div class="pr-icon">📓</div><div class="pr-h">Branded Jotter / Notebook</div><div class="pr-p">A5 hardcover notebook. Black cover, gold spine stripe, TF mark on front. Inside cover: "This is where the next chapter begins." The notebook they'll use for their session notes — and everything else.</div></div>
+        <div class="pr-item"><div class="pr-icon">🖊️</div><div class="pr-h">Gold-Finish Pen</div><div class="pr-p">Quality metal pen, gold finish, "Talent Factory" laser-engraved. Given alongside the notebook. The pen + notebook combination signals: "We see you as someone who creates things." Small detail, large meaning.</div></div>
+        <div class="pr-item"><div class="pr-icon">🎀</div><div class="pr-h">Branded Wristband</div><div class="pr-p">Black silicone wristband. Gold lettering: "TALENT FACTORY · COHORT 1 · 2025." A small, casual item that creates conversations. Wearing it is a small act of belonging — even before they've said yes.</div></div>
+        <div class="pr-item"><div class="pr-icon">👜</div><div class="pr-h">Branded Canvas Tote</div><div class="pr-p">Heavy canvas tote bag, ink black, gold TF logo. The entire gift box is placed inside the tote for delivery. Functions as a standalone item they'll reuse — the brand becomes mobile, visible, and useful.</div></div>
+      </div>
+      <div style="background:var(--ink);border-radius:12px;padding:22px;margin-top:20px">
+        <p style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px">📦 Box Assembly Order (bottom to top)</p>
+        <p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.9">
+          Layer 1: Black tissue paper base<br/>
+          Layer 2: Jotter (bottom-left) + pen laid diagonally across it<br/>
+          Layer 3: Mug (centre, wrapped in gold tissue)<br/>
+          Layer 4: Program booklet (right side, standing upright)<br/>
+          Layer 5: Wristband (coiled in top-right corner)<br/>
+          Layer 6: Handwritten note card (face-up, on top)<br/>
+          Layer 7: Faculty invitation card (propped against note card — first thing they see on opening)<br/>
+          Layer 8: Final black tissue fold over everything<br/>
+          Seal: Gold TF sticker seal on lid. Box placed inside branded canvas tote.
+        </p>
+      </div>
+      <div class="info-grid" style="margin-top:20px">
+        <div class="info-box">
+          <h4>💰 Estimated Cost Per Box</h4>
+          <ul>
+            <li>Box + ribbon + tissue: ₦2,500–₦4,000</li>
+            <li>Premium mug: ₦3,500–₦5,000</li>
+            <li>Branded notebook: ₦2,500–₦3,500</li>
+            <li>Gold pen (engraved): ₦2,000–₦4,000</li>
+            <li>Faculty invitation card (printed): ₦500–₦800</li>
+            <li>Program booklet (designed + printed): ₦800–₦1,200</li>
+            <li>Wristband: ₦500–₦800</li>
+            <li>Canvas tote: ₦2,000–₦3,000</li>
+            <li><strong>Total per box: ≈ ₦14,300–₦22,300</strong></li>
+            <li><strong>20 boxes budget: ≈ ₦286,000–₦446,000</strong></li>
+          </ul>
+        </div>
+        <div class="info-box gold">
+          <h4>🎯 Delivery Strategy</h4>
+          <ul>
+            <li><strong>Preferred:</strong> Felix delivers in person. The visit itself is the pitch — the box opens the conversation.</li>
+            <li><strong>Alternative:</strong> Same-day courier + personal phone call same afternoon</li>
+            <li><strong>Follow-up (48 hrs):</strong> WhatsApp: "Hope the box arrived. I meant every word in that note. Whenever you're ready — 20 minutes is all I need."</li>
+            <li>First 12 boxes: confirmed priority instructors</li>
+            <li>Produce 20 total for Cohort 1 outreach</li>
+            <li>Remaining 8: secondary targets and warm referrals</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ======== STUDENT EMAIL ======== -->
+<div class="sec" id="student-email">
+  <div class="sec-hdr">
+    <div class="si" style="background:#E1F5EE">🎓</div>
+    <div><div class="ey">Student Outreach</div><h2>Email Invitation to Potential Students</h2></div>
+  </div>
+  <div class="em-block">
+    <div class="em-meta">
+      <span class="em-l">Subject A</span><span class="em-v">Your HR career was always real. Now there's a real pathway to build it. 🇳🇬</span>
+      <span class="em-l">Subject B</span><span class="em-v">Nigeria's First HR Academy just opened — and this seat might be yours.</span>
+      <span class="em-l">Preview</span><span class="em-v">6 months. Live learning. Guaranteed internship. A mentor. Dual certificate. Here's everything.</span>
+      <span class="em-l">From</span><span class="em-v">Elizabeth Odetokun, PHRi · Talent Factory &lt;hello@talentfactory.ng&gt;</span>
+      <span class="em-l">Send to</span><span class="em-v">HR professionals (0–5 yrs) · HRM/IPM students · Career transitioners · Warm leads from waitlist</span>
+    </div>
+    <div class="em-content">
+      <div class="em-logo-row"><div class="em-lm">TF</div><div class="em-ln">Talent<span>Factory</span></div></div>
+      <div class="em-hero-b">
+        <div class="em-tag-s">Cohort 1 · Nigeria's First HR Academy · 2025</div>
+        <h1 class="em-head">Your HR Career<br/>Deserves More<br/><em>Than a Course.</em></h1>
+        <p class="em-subp">It deserves live classes, a real mentor, an actual guaranteed internship, and two certificates that mean something. It deserves Talent Factory.</p>
+        <a href="https://talentfactory.ng" class="em-btn">See What's Inside →</a>
+      </div>
+
+      <h2 class="bh">Hi [First Name],</h2>
+      <p class="bp">I'm Elizabeth Odetokun — HR & Operations professional and one of the lead instructors at Talent Factory, Nigeria's First HR Academy.</p>
+      <p class="bp">I'm reaching out because I believe you're someone serious about a career in HR. And I want to make sure you know that something new just opened in Nigeria — a different kind of pathway. Not a course. Not a certification program. A 6-month career development experience built around the realities of the Nigerian workplace.</p>
+
+      <h2 class="bh" style="margin-top:24px">Here's What You Get in 6 Months</h2>
+      <div class="feat-grid">
+        <div class="fi"><div class="fi-h">📚 12 Live Weekly Classes</div><div class="fi-p">Taught by active, senior Nigerian HR practitioners. One expert per module. Evenings and weekends so you keep your current life. All recorded for replay within 24 hours. One physical class held in Lagos per month — meet your cohort in person.</div></div>
+        <div class="fi"><div class="fi-h">🏢 Guaranteed Internship</div><div class="fi-p">In Month 4, we place you at a real Nigerian company for 3 months. We match you. We place you. We check in every week. You do real HR work — not admin dressed as HR, not observation. Actual people operations work.</div></div>
+        <div class="fi"><div class="fi-h">👩‍🏫 A Dedicated Mentor</div><div class="fi-p">Every student is assigned a senior HR mentor for the internship phase. Weekly 30-minute check-ins. Accessible between sessions. Real guidance, real accountability, from someone who's actually done the job.</div></div>
+        <div class="fi"><div class="fi-h">🎓 Two PHRi-Aligned Certificates</div><div class="fi-p">A Learning Phase Certificate when you complete Months 1–3. An Internship Completion Certificate at the end of Month 6. Both PHRi-aligned. Both yours to share on LinkedIn and use throughout your career.</div></div>
+      </div>
+
+      <h2 class="bh" style="margin-top:24px">Is This For You?</h2>
+      <table class="tf-table">
+        <thead><tr><th>If you are...</th><th>What Talent Factory does for you</th></tr></thead>
+        <tbody>
+          <tr><td>In marketing, ops, admin, or customer success — and HR is where you actually want to be</td><td>Provides a credible, structured pathway into HR with real, verifiable experience to back it up</td></tr>
+          <tr><td>Studying HRM or IPM and feeling your degree isn't preparing you for the real job</td><td>Adds 12 weeks of live practical learning + a guaranteed internship to your academic foundation</td></tr>
+          <tr><td>0–3 years in HR and still figuring it out without a mentor or clear framework</td><td>Builds the foundation, provides the mentorship, and fills every knowledge gap you didn't know existed</td></tr>
+          <tr><td>Passionate about people and strategy, wanting to make a real career of it</td><td>Turns your passion into credentials, experience, and a community that supports your long-term growth</td></tr>
+        </tbody>
+      </table>
+
+      <h2 class="bh" style="margin-top:24px">The Investment</h2>
+      <p class="bp"><strong>₦250,000</strong> for the full 6-month program — paid once on admission. Or <strong>₦87,500 per month for 3 months</strong> (5% interest surcharge applies; total ₦262,500).</p>
+      <p class="bp">For everything included — 12 expert-taught sessions, 3 physical classes in Lagos, a guaranteed 3-month internship, a dedicated mentor, and two industry-recognised certificates — this is the most comprehensive and honest HR development program in Nigeria today.</p>
+
+      <div class="urg">
+        <h3>Cohort 1 has 30–40 spots. That's it.</h3>
+        <p>We keep cohorts small because every student gets personalised internship matching, genuine mentor attention, and a tight peer community. When the spots are filled, they're filled. Applications are reviewed in order of receipt.</p>
+        <a href="https://talentfactory.ng">Apply for Cohort 1 — 15 Minutes →</a>
+      </div>
+
+      <p class="bp">Questions before applying? Reply to this email — I read every message personally.</p>
+      <p class="bp" style="margin-top:20px">See you in Cohort 1. 🇳🇬<br/><br/><strong>Elizabeth Odetokun, PHRi</strong><br/>Lead Instructor · Talent Factory<br/>elizabeth@talentfactory.ng · talentfactory.ng</p>
+      <p class="bp" style="font-size:12px;border-top:1px solid rgba(10,10,10,.07);padding-top:14px;margin-top:18px;color:var(--muted)">P.S. — If this isn't for you, forward it to one person you know who's trying to build an HR career in Nigeria. You might change their life today.</p>
+    </div>
+    <div class="em-footer">
+      <div class="ef-br">Talent<span>Factory</span></div>
+      <div class="ef-p">Nigeria's First HR Academy · Lagos, Nigeria · hello@talentfactory.ng · talentfactory.ng</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ======== CURRICULUM ======== -->
+<div class="sec" id="curriculum">
+  <div class="sec-hdr">
+    <div class="si" style="background:var(--ink)">📚</div>
+    <div><div class="ey">Learning Plan</div><h2>The 12-Week Curriculum — Learning Phase</h2></div>
+  </div>
+  <div class="card">
+    <div class="card-hd"><span class="card-lbl">Cohort 1 Curriculum · Months 1–3 · Hybrid Format</span><span class="tag t2">12 Modules · 1 Physical Class Per Month · All Else Virtual</span></div>
+    <div class="card-body">
+      <p class="bp" style="margin-bottom:20px">The Talent Factory curriculum covers the full HR function — designed specifically for the Nigerian context. Each module is taught by an active practitioner who is the most qualified person available for that topic. Physical classes (held on the last Saturday of each month at our Lagos venue) are marked below — these are workshop-format sessions with peer exercises, networking, and deeper engagement. All other sessions are live on Zoom.</p>
+
+      <p style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin:8px 0 14px">Month 1 — Foundations</p>
+
+      <div class="week-row">
+        <div class="wk-num"><div class="n">01</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Introduction & Orientation · Virtual</div>
+          <div class="wk-title">The HR Landscape in Nigeria — Then, Now & Next</div>
+          <div class="wk-desc">Overview of Nigeria's HR profession: how it has evolved, how it differs from Western HR, the regulatory environment (Labour Act, NSITF, ITF, NHF, pension compliance), and the career paths available. Students map their own starting position and create a personal learning plan for the cohort.</div>
+          <div class="wk-outcomes"><span class="wk-tag">HR in Nigeria context</span><span class="wk-tag">Career mapping</span><span class="wk-tag">Regulatory overview</span><span class="wk-tag">Cohort orientation</span></div>
+        </div>
+      </div>
+
+      <div class="week-row">
+        <div class="wk-num"><div class="n">02</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Talent Acquisition · Virtual</div>
+          <div class="wk-title">Recruitment Mastery — From Brief to First Day</div>
+          <div class="wk-desc">End-to-end recruitment: writing compelling JDs, multi-channel sourcing (including Nigerian platforms), CV screening frameworks, competency-based interview design, assessment tools, offer management, and onboarding coordination. Nigeria-specific sourcing channels and candidate expectations covered in depth.</div>
+          <div class="wk-outcomes"><span class="wk-tag">JD writing</span><span class="wk-tag">Sourcing channels</span><span class="wk-tag">Interview design</span><span class="wk-tag">Offer management</span><span class="wk-tag">Onboarding</span></div>
+        </div>
+      </div>
+
+      <div class="week-row">
+        <div class="wk-num"><div class="n">03</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Employee Experience · Virtual</div>
+          <div class="wk-title">Onboarding, EVP & Employee Experience Design</div>
+          <div class="wk-desc">Designing onboarding that reduces attrition and accelerates time-to-productivity. Building an Employer Value Proposition relevant to Nigerian talent. Mapping the employee journey — identifying moments that matter from offer acceptance through to first 90 days and beyond.</div>
+          <div class="wk-outcomes"><span class="wk-tag">Onboarding design</span><span class="wk-tag">EVP building</span><span class="wk-tag">Employee journey</span><span class="wk-tag">Engagement design</span></div>
+        </div>
+      </div>
+
+      <div class="week-row wk-physical">
+        <div class="wk-num"><div class="n">04</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">HR Operations · PHYSICAL CLASS — Lagos Venue (Last Saturday of Month 1)</div>
+          <div class="wk-title">HR Operations, Policies & Labour Law Compliance</div>
+          <div class="wk-desc">Teams work on real policy development exercises in this in-person session. Covers employee handbooks, HR SOPs, disciplinary procedures, grievance handling, employment contract types (permanent, contract, casual, remote), and full Nigerian Labour Act compliance. Includes a structured policy-writing workshop with peer feedback.</div>
+          <div class="wk-outcomes"><span class="wk-tag">Policy writing</span><span class="wk-tag">Labour law</span><span class="wk-tag">Contract types</span><span class="wk-tag">Disciplinary process</span><span class="wk-tag">Workshop</span></div>
+        </div>
+      </div>
+
+      <p style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin:28px 0 14px">Month 2 — Core Practice</p>
+
+      <div class="week-row">
+        <div class="wk-num"><div class="n">05</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Performance Management · Virtual</div>
+          <div class="wk-title">Performance Frameworks — Goals, Reviews & Feedback Culture</div>
+          <div class="wk-desc">Building performance systems that improve performance — not just document it. KPI setting, OKRs in an African business context, mid-year and annual review structures, calibration meetings, PIPs (Performance Improvement Plans), and how to give feedback that people can actually use and act on.</div>
+          <div class="wk-outcomes"><span class="wk-tag">KPI frameworks</span><span class="wk-tag">OKRs</span><span class="wk-tag">Performance reviews</span><span class="wk-tag">Feedback models</span><span class="wk-tag">PIPs</span></div>
+        </div>
+      </div>
+
+      <div class="week-row">
+        <div class="wk-num"><div class="n">06</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Compensation & Benefits · Virtual</div>
+          <div class="wk-title">Total Rewards Design — Pay, Benefits & Equity</div>
+          <div class="wk-desc">Designing compensation structures for Nigerian organisations: pay bands, grade structures, benefits benchmarking, HMO management, and full payroll compliance (PAYE, pension, NSITF, ITF deductions). Building a total rewards philosophy that attracts and retains talent in a market where pay transparency is growing.</div>
+          <div class="wk-outcomes"><span class="wk-tag">Pay banding</span><span class="wk-tag">Benefits design</span><span class="wk-tag">Payroll compliance</span><span class="wk-tag">PAYE · NSITF · ITF</span></div>
+        </div>
+      </div>
+
+      <div class="week-row">
+        <div class="wk-num"><div class="n">07</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Learning & Development · Virtual</div>
+          <div class="wk-title">L&D Strategy — Building Capability at Scale</div>
+          <div class="wk-desc">Training needs analysis, blended learning design, internal capability frameworks, L&D budget management, vendor evaluation, and measuring training ROI. Includes a practical session on building a 90-day new hire development plan — one of the most immediately usable deliverables in the curriculum.</div>
+          <div class="wk-outcomes"><span class="wk-tag">TNA methodology</span><span class="wk-tag">Learning design</span><span class="wk-tag">Capability frameworks</span><span class="wk-tag">L&D ROI</span><span class="wk-tag">90-day plan</span></div>
+        </div>
+      </div>
+
+      <div class="week-row wk-physical">
+        <div class="wk-num"><div class="n">08</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Employee Relations · PHYSICAL CLASS — Lagos Venue (Last Saturday of Month 2)</div>
+          <div class="wk-title">Employee Relations, Conflict & Difficult Conversations</div>
+          <div class="wk-desc">A skills-based in-person session entirely dedicated to practice. Students role-play disciplinary conversations, terminations, grievance hearings, and difficult manager conversations. This is the most hands-on session in the program — consistently the highest-rated. Taught by an ER specialist with real-case scenarios from Nigerian companies.</div>
+          <div class="wk-outcomes"><span class="wk-tag">Disciplinary process</span><span class="wk-tag">Conflict resolution</span><span class="wk-tag">Termination practice</span><span class="wk-tag">Grievance handling</span><span class="wk-tag">Role play format</span></div>
+        </div>
+      </div>
+
+      <p style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin:28px 0 14px">Month 3 — Strategy & Graduation</p>
+
+      <div class="week-row">
+        <div class="wk-num"><div class="n">09</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">People Analytics · Virtual</div>
+          <div class="wk-title">HR Metrics, Data & People Analytics for Nigerian Organisations</div>
+          <div class="wk-desc">The HR metrics that matter in Nigerian businesses: headcount analysis, attrition rates, time-to-hire, cost-per-hire, engagement scores, revenue-per-employee. Building a simple HR dashboard in Excel. Introduction to people analytics without coding. Includes a practical metric audit exercise.</div>
+          <div class="wk-outcomes"><span class="wk-tag">Key HR metrics</span><span class="wk-tag">Attrition analysis</span><span class="wk-tag">HR dashboard</span><span class="wk-tag">Excel analytics</span><span class="wk-tag">Data storytelling</span></div>
+        </div>
+      </div>
+
+      <div class="week-row">
+        <div class="wk-num"><div class="n">10</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Strategic HR · Virtual</div>
+          <div class="wk-title">HR Business Partnering — Being Strategic, Not Just Operational</div>
+          <div class="wk-desc">The shift from HR generalist to strategic HRBP. How to partner with business leaders, build executive credibility, align people strategy to business strategy, use data in leadership conversations, and earn a seat at the table. Nigeria-specific context: how HRBPs operate in startups, scaling SMEs, and large corporates.</div>
+          <div class="wk-outcomes"><span class="wk-tag">HRBP model</span><span class="wk-tag">Executive partnership</span><span class="wk-tag">People strategy</span><span class="wk-tag">Influence skills</span></div>
+        </div>
+      </div>
+
+      <div class="week-row">
+        <div class="wk-num"><div class="n">11</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Scaling HR · Virtual</div>
+          <div class="wk-title">Building HR in Startups & Growing Companies — From Zero to Function</div>
+          <div class="wk-desc">What it looks like to be the first HR hire. The first 30/60/90 days: what to do, what to prioritise, what to document first. How to choose an HRIS, build culture in a fast-growing team, and design the minimal viable HR function. How to know when to hire your second HR person. Brutally practical.</div>
+          <div class="wk-outcomes"><span class="wk-tag">First 90 days framework</span><span class="wk-tag">HRIS selection</span><span class="wk-tag">Startup HR</span><span class="wk-tag">Culture design</span><span class="wk-tag">HR function building</span></div>
+        </div>
+      </div>
+
+      <div class="week-row wk-physical">
+        <div class="wk-num"><div class="n">12</div><div class="lbl">Week</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Capstone · PHYSICAL CLASS — Lagos Venue (Last Saturday of Month 3)</div>
+          <div class="wk-title">Capstone Presentations & Cohort 1 Learning Phase Graduation 🎓</div>
+          <div class="wk-desc">Students present their capstone HR strategy document — a complete people strategy for a fictional or real organisation, incorporating all 11 prior modules. Presentations are assessed by a faculty panel. Followed by the formal Learning Phase Graduation Ceremony — certificates issued, cohort celebrated. Faculty, mentors, and families welcome.</div>
+          <div class="wk-outcomes"><span class="wk-tag">Capstone presentation</span><span class="wk-tag">Panel assessment</span><span class="wk-tag">Peer celebration</span><span class="wk-tag">Learning certificates issued</span><span class="wk-tag">Phase 2 brief</span></div>
+        </div>
+      </div>
+
+      <p style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--green);margin:32px 0 14px">Months 4–6 — Internship Phase</p>
+
+      <div class="week-row">
+        <div class="wk-num" style="background:var(--green)"><div class="n" style="font-size:15px;line-height:1.2">Months<br/>4–6</div></div>
+        <div class="wk-body">
+          <div class="wk-sub">Guaranteed Internship Placement</div>
+          <div class="wk-title">3 Months of Real HR Work at a Vetted Nigerian Organisation</div>
+          <div class="wk-desc">Every student completing the learning phase is matched and placed at a vetted Nigerian partner company for a structured 3-month internship. Students undertake real HR tasks aligned to their career goals and the host company's needs. Weekly 30-minute mentor check-ins. Monthly TF team support calls. Mid-point and final assessments completed by host company and assigned mentor. Internship completion triggers the PHRi-aligned Internship Completion Certificate.</div>
+          <div class="wk-outcomes"><span class="wk-tag">Real HR work</span><span class="wk-tag">Host company evaluation</span><span class="wk-tag">Weekly mentor support</span><span class="wk-tag">Internship certificate</span><span class="wk-tag">Alumni status</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Assessment Methods:</strong> Weekly reflection journals (submitted digitally) · Module assignments (1/week, TF team reviewed) · Mid-cohort assessment (Week 6) · Capstone HR strategy project (Week 12) · Internship performance evaluation (Month 6) · Peer participation score. All assessments are pass/proceed — students must achieve satisfactory performance to receive their certificates. All grading is supportive and developmental, not competitive.
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
