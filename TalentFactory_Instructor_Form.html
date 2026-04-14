@@ -1270,26 +1270,6 @@
         <div class="err-msg" id="err-cancelPolicy">Please indicate your agreement to our cancellation policy.</div>
       </div>
 
-      <div class="field">
-        <label>Bank Name (for payment processing) <span class="req">*</span></label>
-        <div class="hint">Instructors are paid per session via bank transfer. We'll confirm exact rates upon acceptance.
-        </div>
-        <input type="text" id="bankName" placeholder="e.g. GTBank, Zenith Bank, Access Bank" />
-        <div class="err-msg" id="err-bankName">Please enter your bank name.</div>
-      </div>
-
-      <div class="field">
-        <label>Account Name <span class="req">*</span></label>
-        <input type="text" id="accountName" placeholder="Name on your bank account" />
-        <div class="err-msg" id="err-accountName">Please enter your account name.</div>
-      </div>
-
-      <div class="field">
-        <label>Account Number <span class="req">*</span></label>
-        <input type="text" id="accountNumber" placeholder="10-digit account number" />
-        <div class="err-msg" id="err-accountNumber">Please enter your account number.</div>
-      </div>
-
       <div class="btn-row">
         <button class="btn-back" onclick="goTo(3)">← Back</button>
         <button class="btn-next" onclick="goTo(5)">Next: Final Step →</button>
@@ -1429,7 +1409,6 @@
       if (n === 3) { reqCB('teachModules'); req('topModule'); reqR('taughtBefore'); req('teachingApproach'); reqRating('confidence'); }
       if (n === 4) {
         reqCB('timeSlots'); reqR('sessionCount'); reqR('cancelPolicy');
-        req('bankName'); req('accountName'); req('accountNumber');
       }
       if (n === 5) {
         req('whyTeach');
@@ -1491,9 +1470,6 @@
         confidence: getRatingVal('confidence'),
         timeSlots: getCBVals('timeSlots'),
         sessionCount: getRadioVal('sessionCount'),
-        bankName: document.getElementById('bankName').value.trim(),
-        accountName: document.getElementById('accountName').value.trim(),
-        accountNumber: document.getElementById('accountNumber').value.trim(),
         whyTeach: document.getElementById('whyTeach').value.trim(),
         wishKnown: document.getElementById('wishKnown').value.trim(),
         bio: document.getElementById('bio').value.trim(),
