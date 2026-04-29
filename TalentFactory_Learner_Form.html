@@ -1482,7 +1482,7 @@
         type: "Learner Application"
       };
 
-      axios.post('https://genzform.onrender.com/api/learners', payload)
+      axios.post('https://genzform-production.up.railway.app/api/learners', payload)
         .then(response => {
           Toastify({
             text: 'Success: ' + (response.data.message || 'Application submitted!'),

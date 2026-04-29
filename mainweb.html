@@ -3294,7 +3294,7 @@
       btn.innerText = 'Joining...';
       btn.disabled = true;
 
-      axios.post('https://genzform.onrender.com/api/waitlist', { email: email, source: 'Talent Factory Waitlist' })
+      axios.post('https://genzform-production.up.railway.app/api/waitlist', { email: email, source: 'Talent Factory Waitlist' })
         .then(response => {
           Toastify({
             text: 'Success: ' + (response.data.message || "You're on the waitlist!"),

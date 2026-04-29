@@ -575,7 +575,7 @@
 
     .ti:hover {
       border-color: rgba(212, 160, 23, 0.2)
-    }
+    }u
 
     .ti-icon {
       font-size: 40px;
@@ -1391,7 +1391,7 @@
       btn.textContent = 'Joining...';
 
       try {
-        const res = await fetch('https://genzform.onrender.com/api/waitlist', {
+        const res = await fetch('https://genzform-production.up.railway.app/api/waitlist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, role, source: 'Talent Factory Waitlist' })

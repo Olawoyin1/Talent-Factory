@@ -1476,7 +1476,7 @@
         additionalInfo: document.getElementById('additionalInfo').value.trim()
       };
 
-      axios.post('https://genzform.onrender.com/api/instructors', payload)
+      axios.post('https://genzform-production.up.railway.app/api/instructors', payload)
         .then(response => {
           Toastify({
             text: 'Success: ' + (response.data.message || 'Instructor application submitted!'),
