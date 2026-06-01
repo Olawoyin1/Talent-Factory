@@ -1391,7 +1391,7 @@
       btn.textContent = 'Joining...';
 
       try {
-        const res = await fetch('https://genzform-production.up.railway.app/api/waitlist', {
+        const res = await fetch('https://genzform.onrender.com/api/waitlist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, role, source: 'Talent Factory Waitlist' })
