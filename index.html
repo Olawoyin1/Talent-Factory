@@ -1041,92 +1041,51 @@
       <div class="logo-box">TF</div>
       <!-- <div class="logo-name">Talent<span>Factory</span></div> -->
     </a>
-    <div class="nav-tag">Coming Soon</div>
+    <div class="nav-tag">Applications Open</div>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
 
-    <!-- COUNTDOWN -->
+    <!-- COUNTDOWN / STATUS -->
     <div class="countdown-wrap">
-      <div class="countdown-label">Cohort 1 Applications Open In</div>
-      <div class="countdown">
-        <div class="cd-unit">
-          <div class="cd-box" id="cd-days">00</div>
-          <div class="cd-lbl">Days</div>
-        </div>
-        <div class="cd-sep">:</div>
-        <div class="cd-unit">
-          <div class="cd-box" id="cd-hours">00</div>
-          <div class="cd-lbl">Hours</div>
-        </div>
-        <div class="cd-sep">:</div>
-        <div class="cd-unit">
-          <div class="cd-box" id="cd-mins">00</div>
-          <div class="cd-lbl">Minutes</div>
-        </div>
-        <div class="cd-sep">:</div>
-        <div class="cd-unit">
-          <div class="cd-box" id="cd-secs">00</div>
-          <div class="cd-lbl">Seconds</div>
-        </div>
+      <div class="countdown-label">Cohort 1 Applications Are Now Open!</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;font-size:24px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:2px">
+        <i data-lucide="flame"></i> Apply Now
       </div>
     </div>
 
     <div class="hero-eyebrow">
       <span class="pulse-dot"></span>
-      Nigeria's First HR Academy · Launching 2026
+      Nigeria's First HR Academy · Applications Open
     </div>
 
     <h1 class="hero-h">
-      Be First.<br />
-      <em>Get In.</em>
-      <span class="line2">Before Everyone Else.</span>
+      Applications Are Open.<br />
+      <em>Join Cohort 1</em>
+      <span class="line2">Now.</span>
     </h1>
 
     <p class="hero-sub">
-      Talent Factory is launching Cohort 1 — Nigeria's first 6-month HR program with live learning and guaranteed
-      internship placement. Join the waitlist and be the first to know when applications open.
+      Talent Factory is now accepting applications for Cohort 1 — Nigeria's first 6-month HR program with live learning and guaranteed internship placement. Apply now to secure your spot!
     </p>
 
-    <!-- FORM -->
+    <!-- CTA BUTTON -->
     <div class="waitlist-form">
-      <div id="formWrap">
-        <div class="form-row">
-          <input class="form-input" type="email" id="wl-email" placeholder="Your email address" autocomplete="email" />
-          <select class="form-select" id="wl-type">
-            <option value="">I am a...</option>
-            <option value="learner">Prospective Learner</option>
-            <option value="tutor">Potential Instructor</option>
-            <option value="company">Partner Company</option>
-            <option value="other">Just Curious</option>
-          </select>
-          <button class="form-btn" onclick="joinWaitlist()">Join Waitlist →</button>
-        </div>
-        <div class="form-note">
-          <strong>0 spam. Ever.</strong> We'll only email you when applications open. Unsubscribe any time.
-        </div>
+      <div class="form-row" style="justify-content:center">
+        <a href="https://talent.thegenzhr.com" target="_blank" class="form-btn" style="text-decoration:none;text-align:center;display:inline-block">
+          Apply Now at talent.thegenzhr.com →
+        </a>
       </div>
-      <div class="success-msg" id="successMsg">
-        <div class="success-icon"><i data-lucide="check-circle-2"
-            style="width:48px;height:48px;color:#2ecc71;margin:0 auto"></i></div>
-        <div class="success-text">You're on the waitlist!</div>
-        <div class="success-sub">We'll email you the moment Cohort 1 applications open.<br />Tell a friend — they'll
-          thank you later.</div>
+      <div class="form-note" style="margin-top:16px">
+        <strong>Click the button above</strong> to visit our main website and submit your application.
       </div>
     </div>
 
     <!-- SOCIAL PROOF -->
     <div class="social-proof">
       <div class="sp-inner">
-        <div class="sp-avatars">
-          <div class="sp-av" style="background:#1B4D3E">AO</div>
-          <div class="sp-av" style="background:#8A4A15">TF</div>
-          <div class="sp-av" style="background:#1A3D6B">CU</div>
-          <div class="sp-av" style="background:#5A1B6B">NK</div>
-          <div class="sp-av" style="background:#6B1B1B">AM</div>
-        </div>
-        <div class="sp-text"><strong id="waitlistCount">247</strong> people already on the waitlist</div>
+        <div class="sp-text">Applications are open — apply now to join Cohort 1!</div>
       </div>
     </div>
 
@@ -1320,120 +1279,7 @@
     </div>
   </footer>
 
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script>
-    // Countdown — target date: April 26, 2026 at 11:59:59 PM
-    const targetDate = new Date('2026-04-26T23:59:59').getTime();
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const diff = targetDate - now;
-
-      if (diff <= 0) {
-        const wrap = document.querySelector('.countdown-wrap');
-        if (wrap) wrap.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:12px;font-size:24px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:2px"><i data-lucide="flame"></i> Applications Open Now!</div>';
-        lucide.createIcons();
-        return;
-      }
-
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-
-      const dEl = document.getElementById('cd-days');
-      const hEl = document.getElementById('cd-hours');
-      const mEl = document.getElementById('cd-mins');
-      const sEl = document.getElementById('cd-secs');
-
-      if (dEl) dEl.textContent = String(d).padStart(2, '0');
-      if (hEl) hEl.textContent = String(h).padStart(2, '0');
-      if (mEl) mEl.textContent = String(m).padStart(2, '0');
-
-      if (sEl) {
-        const currentSecs = String(s).padStart(2, '0');
-        if (sEl.textContent !== currentSecs) {
-          sEl.textContent = currentSecs;
-          sEl.classList.remove('tick');
-          void sEl.offsetWidth; // force reflow
-          sEl.classList.add('tick');
-        }
-      }
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // Waitlist counter animation
-    let count = 247;
-    setInterval(() => { if (Math.random() > 0.7) { count += Math.floor(Math.random() * 3) + 1; document.getElementById('waitlistCount').textContent = count; } }, 8000);
-
-    // Form submit
-    async function joinWaitlist() {
-      const emailEl = document.getElementById('wl-email');
-      const email = emailEl.value.trim();
-      const role = document.getElementById('wl-type').value;
-      const btn = document.querySelector('.form-btn');
-
-      if (!email || !email.includes('@')) {
-        emailEl.style.borderColor = 'rgba(200,75,42,0.6)';
-        emailEl.placeholder = 'Please enter a valid email';
-        Toastify({
-          text: "Please enter a valid email address.",
-          duration: 3000, close: true, gravity: "top", position: "right",
-          style: { background: "#C0392B" }
-        }).showToast();
-        return;
-      }
-
-      const oldText = btn.textContent;
-      btn.disabled = true;
-      btn.textContent = 'Joining...';
-
-      try {
-        const res = await fetch('https://genzform.onrender.com/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, role, source: 'Talent Factory Waitlist' })
-        });
-
-        const data = await res.json();
-
-        if (res.status === 409) {
-          document.getElementById('formWrap').style.display = 'none';
-          document.getElementById('successMsg').classList.add('show');
-          Toastify({
-            text: "You're already on the waitlist — we've got you!",
-            duration: 4000, close: true, gravity: "top", position: "right",
-            style: { background: "#1B4D3E" }
-          }).showToast();
-          return;
-        }
-
-        if (!res.ok) throw new Error(data.message || 'Something went wrong.');
-
-        Toastify({
-          text: 'Success: ' + (data.message || "You're on the waitlist!"),
-          duration: 4000, close: true, gravity: "top", position: "right",
-          style: { background: "#1B4D3E" }
-        }).showToast();
-
-        document.getElementById('formWrap').style.display = 'none';
-        document.getElementById('successMsg').classList.add('show');
-        count += 1;
-        document.getElementById('waitlistCount').textContent = count;
-
-      } catch (err) {
-        Toastify({
-          text: 'Error: ' + (err.message || 'Please try again.'),
-          duration: 4000, close: true, gravity: "top", position: "right",
-          style: { background: "#C0392B" }
-        }).showToast();
-        btn.disabled = false;
-        btn.textContent = oldText;
-      }
-    }
-
     // FAQ accordion
     document.querySelectorAll('.faq-q').forEach(q => {
       q.addEventListener('click', () => {
